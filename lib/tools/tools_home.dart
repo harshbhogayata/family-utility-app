@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../app/theme.dart';
 import '../app/tool_registry.dart';
+import '../engines/platform/first_run.dart';
 import '../engines/privacy/on_device_mode.dart';
+import 'app_lock/app_lock_settings_screen.dart';
 import 'app_lock/lock_screen.dart';
 import 'privacy/privacy_screen.dart';
 
@@ -60,6 +62,10 @@ class ToolsHome extends StatelessWidget {
               ),
             ),
           ),
+          const SliverPadding(
+            padding: EdgeInsets.fromLTRB(16, 10, 16, 0),
+            sliver: SliverToBoxAdapter(child: WelcomeCard()),
+          ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
             sliver: SliverToBoxAdapter(
@@ -97,6 +103,65 @@ class ToolsHome extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// Feature 111 — one-time card on first run: there is no account to make.
+/// Dismissed once, never shown again. Never blocks the grid below it.
+class WelcomeCard extends StatelessWidget {
+  const WelcomeCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme text = Theme.of(context).textTheme;
+    return ValueListenableBuilder<bool>(
+      valueListenable: FirstRun.instance,
+      builder: (BuildContext context, bool show, Widget? _) {
+        if (!show) {
+          return const SizedBox.shrink();
+        }
+        return Card(
+          key: const Key('welcome-card'),
+          color: AppColors.accentTint,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('No sign-up, no account', style: text.titleMedium),
+                const SizedBox(height: 4),
+                Text(
+                  'Everything runs on this phone and stays here. If you want, set a PIN so only '
+                  'you can open the app.',
+                  style: text.bodyMedium,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: <Widget>[
+                    TextButton(
+                      key: const Key('welcome-set-pin'),
+                      onPressed: () {
+                        FirstRun.instance.dismiss();
+                        Navigator.of(context).push<void>(
+                          MaterialPageRoute<void>(builder: (BuildContext _) => const AppLockSettingsScreen()),
+                        );
+                      },
+                      child: const Text('Set a PIN'),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      key: const Key('welcome-dismiss'),
+                      onPressed: FirstRun.instance.dismiss,
+                      child: const Text('Got it'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

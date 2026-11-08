@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../engines/platform/first_run.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
 import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
+import '../platform/first_run_store.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
@@ -31,6 +33,10 @@ void bootstrap() {
   final AppLock lock = AppLock(store: const SecureLockStore(), biometrics: PlatformBiometrics());
   AppLock.install(lock);
   unawaited(lock.load());
+
+  final FirstRun firstRun = FirstRun(const PrefsFirstRunStore());
+  FirstRun.install(firstRun);
+  unawaited(firstRun.load());
 
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),

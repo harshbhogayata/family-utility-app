@@ -110,7 +110,7 @@ abstract final class NoteTemplates {
     'ID card': <String>['Number', 'Name on card', 'Expiry'],
     'Wi-Fi': <String>['Network', 'Password'],
     'Card': <String>['Last four', 'Bank', 'Expiry'],
-    'Login': <String>['Username', 'Password'],
+    'Website login': <String>['Username', 'Password'],
   };
 }
 
