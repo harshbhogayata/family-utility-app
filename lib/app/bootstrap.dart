@@ -13,6 +13,7 @@ import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
+import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/secure_notes/secure_notes_screen.dart';
@@ -77,6 +78,15 @@ void bootstrap() {
       featureNumber: 57,
       touches: const <DataTouch>{DataTouch.files, DataTouch.clipboard},
       builder: (BuildContext context) => const SecureNotesScreen(),
+    ),
+    ToolEntry(
+      id: 'phone-to-laptop',
+      name: 'Phone to laptop',
+      section: ToolSection.share,
+      icon: Icons.laptop_outlined,
+      featureNumber: 62,
+      touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
+      builder: (BuildContext context) => const PhoneToLaptopScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',

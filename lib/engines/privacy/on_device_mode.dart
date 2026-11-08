@@ -18,6 +18,7 @@ enum DataTouch {
   clipboard('Clipboard', 'Only when you tap Copy, or paste into the app'),
   microphone('Microphone', 'Only while recording'),
   location('Location', 'Only for family features you turn on'),
+  lan('Home Wi-Fi', 'Talks only to devices on the same Wi-Fi; nothing goes to the internet'),
   network('Network', 'Needed for this tool; off in on-device mode');
 
   const DataTouch(this.label, this.explanation);

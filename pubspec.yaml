@@ -26,6 +26,9 @@ dependencies:
   local_auth: ^2.3.0
   # 057 Secure notes: AES-256-GCM, pure Dart.
   cryptography: ^2.7.0
+  # 062 Phone to laptop: QR for the link, picking files to offer.
+  qr_flutter: ^4.1.0
+  file_picker: ^8.0.0
 
 dev_dependencies:
   flutter_test:
