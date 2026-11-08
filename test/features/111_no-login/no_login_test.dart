@@ -88,11 +88,11 @@ void main() {
       expect(find.textContaining('Create account'), findsNothing);
 
       // The card does not block the grid: a tool opens with one tap.
-      await tester.tap(find.widgetWithText(ToolTile, 'Secure notes'));
+      await tester.tap(find.widgetWithText(ToolTile, 'App lock'));
       await tester.pumpAndSettle();
       sw.stop();
-      expect(find.text('Secure notes'), findsWidgets);
-      expect(find.text('No notes yet'), findsOneWidget);
+      expect(find.byType(AppLockSettingsScreen), findsOneWidget);
+      expect(find.text('Lock the app'), findsOneWidget);
       expect(sw.elapsed, lessThan(const Duration(seconds: 10)));
     });
 
@@ -109,6 +109,7 @@ void main() {
       final FirstRun second = FirstRun(MemoryFirstRunStore());
       FirstRun.install(second);
       await second.load();
+      await tester.pumpWidget(const SizedBox()); // fresh tree, so the card listens to the new instance
       await tester.pumpWidget(MaterialApp(theme: buildAppTheme(), home: const Scaffold(body: ToolsHome())));
       expect(find.byKey(const Key('welcome-card')), findsOneWidget);
       final Size gotIt = tester.getSize(find.byKey(const Key('welcome-dismiss')));
