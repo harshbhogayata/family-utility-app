@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../engines/privacy/on_device_mode.dart';
+
 /// Where a tool lives in the home grid.
 enum ToolSection {
   pdf('PDF'),
@@ -25,6 +27,8 @@ class ToolEntry {
     required this.icon,
     required this.builder,
     this.needsNetwork = false,
+    this.networkReason,
+    this.touches = const <DataTouch>{DataTouch.files},
     this.featureNumber,
   });
 
@@ -38,6 +42,13 @@ class ToolEntry {
   /// True only for the few tools that need the network (downloads, cloud).
   /// Offline-first rule: these carry a badge; everything else runs on device.
   final bool needsNetwork;
+
+  /// Plain-words reason a network tool needs the network, shown when
+  /// on-device mode keeps it closed.
+  final String? networkReason;
+
+  /// What the tool touches on the phone, listed on the privacy screen.
+  final Set<DataTouch> touches;
 
   /// Spec number in `features/`, for cross-reference.
   final int? featureNumber;

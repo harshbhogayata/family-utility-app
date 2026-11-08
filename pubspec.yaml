@@ -18,6 +18,8 @@ dependencies:
   flutter_contacts: ^1.1.9
   add_2_calendar: ^3.0.1
   wifi_iot: ^0.3.18
+  # 059 On-device mode: remembers the switch.
+  shared_preferences: ^2.3.0
 
 dev_dependencies:
   flutter_test:
