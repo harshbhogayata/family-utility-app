@@ -4,12 +4,12 @@ import 'package:add_2_calendar/add_2_calendar.dart' as cal;
 import 'package:flutter/services.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wifi_iot/wifi_iot.dart';
 
 import '../../engines/qr/qr_actions.dart';
 import '../../engines/qr/qr_payload.dart';
+import '../../engines/share/share_engine.dart';
 
 /// Real device actions. Every call stays on the phone: links open in the
 /// system browser or app, contacts and events go to the device's own apps.
@@ -94,7 +94,7 @@ class PlatformQrActions implements QrActions {
 
   @override
   Future<void> shareText(String text) async {
-    await Share.share(text);
+    await ShareEngine.instance.shareText(text);
   }
 
   @override

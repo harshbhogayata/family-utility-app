@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../engines/privacy/on_device_mode.dart';
+import '../engines/share/share_engine.dart';
 import '../platform/on_device_mode_store.dart';
+import '../platform/share_sheet.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import 'tool_registry.dart';
@@ -15,6 +17,10 @@ void bootstrap() {
   OnDeviceMode.install(mode);
   // Default is on; a saved "off" is applied once preferences load.
   unawaited(mode.load());
+
+  final ShareEngine share = ShareEngine(const SystemShareSheet(), const PrefsShareTargetStore());
+  ShareEngine.install(share);
+  unawaited(share.load());
 
   ToolRegistry.registerAll(<ToolEntry>[
     ToolEntry(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../engines/share/share_engine.dart';
 import '../theme.dart';
 
 /// The row every tool result ends with: Share, Save and Undo (DESIGN.md).
 /// Pinned at the bottom of the result screen, each target at least 44 px.
+/// Shows where the last shares went (feature 060) when there is a history.
 class ResultBar extends StatelessWidget {
   const ResultBar({
     super.key,
@@ -30,37 +32,72 @@ class ResultBar extends StatelessWidget {
           color: AppColors.surface,
           border: Border(top: BorderSide(color: AppColors.line)),
         ),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Expanded(
-              child: OutlinedButton.icon(
-                key: const Key('result-undo'),
-                onPressed: onUndo,
-                icon: const Icon(Icons.undo),
-                label: Text(undoLabel),
-              ),
-            ),
-            const SizedBox(width: AppRadius.gridGap),
-            Expanded(
-              child: OutlinedButton.icon(
-                key: const Key('result-share'),
-                onPressed: onShare,
-                icon: const Icon(Icons.ios_share),
-                label: const Text('Share'),
-              ),
-            ),
-            const SizedBox(width: AppRadius.gridGap),
-            Expanded(
-              child: FilledButton.icon(
-                key: const Key('result-save'),
-                onPressed: onSave,
-                icon: const Icon(Icons.save_alt),
-                label: Text(saveLabel),
-              ),
+            const RecentShareTargetsLine(),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: OutlinedButton.icon(
+                    key: const Key('result-undo'),
+                    onPressed: onUndo,
+                    icon: const Icon(Icons.undo),
+                    label: Text(undoLabel),
+                  ),
+                ),
+                const SizedBox(width: AppRadius.gridGap),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    key: const Key('result-share'),
+                    onPressed: onShare,
+                    icon: const Icon(Icons.ios_share),
+                    label: const Text('Share'),
+                  ),
+                ),
+                const SizedBox(width: AppRadius.gridGap),
+                Expanded(
+                  child: FilledButton.icon(
+                    key: const Key('result-save'),
+                    onPressed: onSave,
+                    icon: const Icon(Icons.save_alt),
+                    label: Text(saveLabel),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// "Last shared to WhatsApp, Gmail" above the bar, when there is a history.
+class RecentShareTargetsLine extends StatelessWidget {
+  const RecentShareTargetsLine({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<List<ShareTarget>>(
+      valueListenable: ShareEngine.instance.recents,
+      builder: (BuildContext context, List<ShareTarget> recents, Widget? _) {
+        if (recents.isEmpty) {
+          return const SizedBox.shrink();
+        }
+        final String names = recents.take(3).map((ShareTarget t) => t.label).join(', ');
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            'Last shared to $names',
+            key: const Key('recent-share-targets'),
+            style: Theme.of(context).textTheme.bodySmall,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        );
+      },
     );
   }
 }
