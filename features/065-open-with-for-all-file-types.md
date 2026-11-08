@@ -12,6 +12,8 @@ The app is registered for 50+ file types so tapping a file lands on the right to
 ## Acceptance criteria
 - [ ] Android intent filters and iOS document types for PDF, images, video, audio, archives, office files
 - [ ] Opening a file shows the tools that apply to it
+- [ ] Android: a one-time "Make this your PDF and image app?" prompt after the first successful open, with a button that deep-links to Settings > Apps > Default apps (or the app's Open-by-default page); never shown again once dismissed
+- [ ] iOS: document types (UTIs) registered so the app appears in Open in, the share sheet and Files > Open with; the spec accepts that iOS has no default-app setting for file types
 - [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
 - [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
