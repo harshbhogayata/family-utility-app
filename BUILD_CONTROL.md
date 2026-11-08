@@ -1,8 +1,9 @@
 # Build control
 
-The build session reads this file at the end of every run.
+Read by every build session at step 1 of the loop in CLAUDE.md.
 
-- Write STOP on its own line below to stop the chain and stop new features. Delete it to resume.
-- The daily 1:31 am IST run still happens regardless; disable the scheduled task in its settings to stop that too.
+- Last line GO: keep building and chaining runs until 130 / 130.
+- Last line STOP: the current run ends at its next clean commit and does not chain.
+- The daily 1:31 am IST run still fires regardless; disable the scheduled task to stop that too.
 
 GO
