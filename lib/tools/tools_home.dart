@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../app/theme.dart';
 import '../app/tool_registry.dart';
 import '../engines/privacy/on_device_mode.dart';
+import 'app_lock/lock_screen.dart';
 import 'privacy/privacy_screen.dart';
 
 /// Home / Tools: greeting, paste-or-pick box, tool grid.
@@ -134,8 +135,12 @@ class ToolTile extends StatelessWidget {
 
   final ToolEntry tool;
 
-  void _open(BuildContext context) {
-    Navigator.of(context).push<void>(MaterialPageRoute<void>(builder: tool.builder));
+  Future<void> _open(BuildContext context) async {
+    final bool ok = await ensureUnlockedFor(context, tool.id);
+    if (!ok || !context.mounted) {
+      return;
+    }
+    await Navigator.of(context).push<void>(MaterialPageRoute<void>(builder: tool.builder));
   }
 
   Future<void> _explain(BuildContext context) {

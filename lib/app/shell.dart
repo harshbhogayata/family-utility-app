@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../engines/security/app_lock.dart';
 import '../family/family_screen.dart';
 import '../platform/files_screen.dart';
 import '../records/records_screen.dart';
+import '../tools/app_lock/lock_screen.dart';
 import '../tools/tools_home.dart';
 
 /// The four-tab shell: Tools, Family, Records, Files.
@@ -21,7 +23,7 @@ class _AppShellState extends State<AppShell> {
   static const List<Widget> _pages = <Widget>[
     ToolsHome(),
     FamilyScreen(),
-    RecordsScreen(),
+    LockedSection(id: LockableIds.records, child: RecordsScreen()),
     FilesScreen(),
   ];
 

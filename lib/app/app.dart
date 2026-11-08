@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../tools/app_lock/lock_screen.dart';
 import 'shell.dart';
 import 'theme.dart';
 
@@ -12,7 +13,7 @@ class FamilyUtilityApp extends StatelessWidget {
       title: 'Family Utility',
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
-      home: const AppShell(),
+      home: const LockGate(child: AppShell()),
     );
   }
 }

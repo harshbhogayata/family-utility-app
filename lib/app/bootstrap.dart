@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../engines/privacy/on_device_mode.dart';
+import '../engines/security/app_lock.dart';
 import '../engines/share/share_engine.dart';
+import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/share_sheet.dart';
+import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import 'tool_registry.dart';
@@ -22,6 +25,10 @@ void bootstrap() {
   ShareEngine.install(share);
   unawaited(share.load());
 
+  final AppLock lock = AppLock(store: const SecureLockStore(), biometrics: PlatformBiometrics());
+  AppLock.install(lock);
+  unawaited(lock.load());
+
   ToolRegistry.registerAll(<ToolEntry>[
     ToolEntry(
       id: 'qr-scanner',
@@ -37,6 +44,15 @@ void bootstrap() {
         DataTouch.files,
       },
       builder: (BuildContext context) => const QrScannerScreen(),
+    ),
+    ToolEntry(
+      id: 'app-lock',
+      name: 'App lock',
+      section: ToolSection.security,
+      icon: Icons.lock_outline,
+      featureNumber: 55,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const AppLockSettingsScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',

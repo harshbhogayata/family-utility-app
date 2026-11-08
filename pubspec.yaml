@@ -20,6 +20,10 @@ dependencies:
   wifi_iot: ^0.3.18
   # 059 On-device mode: remembers the switch.
   shared_preferences: ^2.3.0
+  # 055 App lock: PIN hash in secure storage, biometrics on device.
+  crypto: ^3.0.3
+  flutter_secure_storage: ^9.2.2
+  local_auth: ^2.3.0
 
 dev_dependencies:
   flutter_test:
