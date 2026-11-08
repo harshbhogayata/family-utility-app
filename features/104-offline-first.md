@@ -3,7 +3,7 @@
 **Section:** 10. Platform
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [059 On-device mode](./059-on-device-mode.md)
 
 ## What the person gets
