@@ -115,8 +115,9 @@ void main() {
           continue;
         }
         final String rel = f.path.replaceAll(r'\', '/');
-        if (OfflinePolicy.networkSourceFolders.any(rel.startsWith)) {
-          continue;
+        if (OfflinePolicy.networkSourceFolders.any(rel.startsWith) ||
+            rel == 'lib/engines/privacy/offline_policy.dart') {
+          continue; // the policy file holds the marker list itself
         }
         final String src = f.readAsStringSync();
         for (final String marker in OfflinePolicy.networkMarkers) {
