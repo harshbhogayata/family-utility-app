@@ -13,11 +13,15 @@ Goal: 130 / 130 features in `MASTER_PLAN.md` marked done. Sessions run unattende
    - NONE     -> delete BUILD_LOCK.md, commit, push, report 130/130, end. Do not chain.
    - BLOCKED  -> delete the lock, commit, push, report the problem, end. Do not chain.
 5. Open the spec named in NEXT. Set its Status to `in progress`. Implement engine (lib/engines/), then UI (lib/tools/ or the matching folder), then the test (test/features/NNN_*/).
-6. flutter analyze && flutter test. Red = not done; fix before moving on.
-7. Tick every acceptance box in the spec. Set Status to `done <short hash of the commit you are about to make>` (use the hash after committing; amend once if needed).
-8. python3 tools/progress.py ; git add -A ; git commit -m "feat(NNN): <name>" ; git pull --rebase origin main ; git push origin main
-9. Touch the timestamp in BUILD_LOCK.md every feature (same commit is fine). Go to 4.
+6. Verify. The cloud sandbox cannot reach pub.dev, so `flutter` will usually not run here; CI is the judge:
+   git add -A ; git commit -m "feat(NNN): <name> (pending CI)" ; git pull --rebase origin main ; git push origin main
+   then poll:  gh run list -R harshbhogayata/family-utility-app --commit $(git rev-parse HEAD) --json status,conclusion
+   every 60 s until conclusion is set (allow 15 min). Red: read `gh run view <id> --log-failed`, fix, commit "fix(NNN): ...", push, poll again. Up to 4 fix rounds; after that leave the spec `in progress` with the failure summarised and move to the next eligible feature.
+   If `flutter` IS available locally, run `flutter analyze && flutter test` first and only then push.
+7. Green: tick every acceptance box in the spec, set Status to `done <short hash>` (the hash of the green commit), run python3 tools/progress.py, commit "docs(NNN): done", push.
+8. Touch the timestamp in BUILD_LOCK.md every feature (same commit is fine). Go to 4.
 ```
+Write code as if it will be compiled by a strict reviewer: pin package versions that exist on pub.dev, keep imports exact, prefer plain Dart over clever generics, and add the test in the same commit so CI covers it.
 When the session is near its limit: finish step 8 for the current feature if minutes remain, otherwise leave the spec `in progress` with one line under "## Implementation notes" saying what remains, run `tools/progress.py`, commit, push. Then delete `BUILD_LOCK.md`, commit "chore: unlock", push, and chain (below).
 
 ## Chain
