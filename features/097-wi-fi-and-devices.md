@@ -1,0 +1,23 @@
+# 097 — Wi-Fi and devices
+
+**Section:** 9. Personal records
+**Phase:** 3
+**Priority score:** 40 / 125 (often × matters × reach)
+**Status:** not started
+**Depends on:** [057 Secure notes](./057-secure-notes.md), [052 QR generator](./052-qr-generator.md)
+
+## What the person gets
+Router passwords, what is connected, serial numbers.
+
+## Acceptance criteria
+- [ ] Wi-Fi credentials as QR; device list with serials and purchase dates
+- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+
+## Implementation notes
+- Flutter; platform channels only where Dart packages fall short.
+- Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
+- Add a golden test or integration test under `test/features/097_wi-fi-and-devices/`.
+
+## Done when
+All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.
