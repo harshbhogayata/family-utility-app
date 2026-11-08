@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
+import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
+import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
+import '../tools/secure_notes/secure_notes_screen.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -28,6 +31,12 @@ void bootstrap() {
   final AppLock lock = AppLock(store: const SecureLockStore(), biometrics: PlatformBiometrics());
   AppLock.install(lock);
   unawaited(lock.load());
+
+  SecureNotes.install(SecureNotes(
+    keyStore: const SecureKeyStore(),
+    blobStore: const FileNoteBlobStore(),
+    clipboard: const SystemClipboard(),
+  ));
 
   ToolRegistry.registerAll(<ToolEntry>[
     ToolEntry(
@@ -53,6 +62,15 @@ void bootstrap() {
       featureNumber: 55,
       touches: const <DataTouch>{},
       builder: (BuildContext context) => const AppLockSettingsScreen(),
+    ),
+    ToolEntry(
+      id: LockableIds.secureNotes,
+      name: 'Secure notes',
+      section: ToolSection.security,
+      icon: Icons.sticky_note_2_outlined,
+      featureNumber: 57,
+      touches: const <DataTouch>{DataTouch.files, DataTouch.clipboard},
+      builder: (BuildContext context) => const SecureNotesScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',

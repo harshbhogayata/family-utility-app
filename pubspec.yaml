@@ -24,6 +24,8 @@ dependencies:
   crypto: ^3.0.3
   flutter_secure_storage: ^9.2.2
   local_auth: ^2.3.0
+  # 057 Secure notes: AES-256-GCM, pure Dart.
+  cryptography: ^2.7.0
 
 dev_dependencies:
   flutter_test:
