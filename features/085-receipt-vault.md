@@ -4,7 +4,7 @@
 **Phase:** 3
 **Priority score:** 64 / 125 (often × matters × reach)
 **Status:** not started
-**Depends on:** [050 Receipt scan into the receipt vault](./050-receipt-scan-into-the-receipt-vault.md), [114 One search](./114-one-search.md)
+**Depends on:** [114 One search](./114-one-search.md)
 
 ## What the person gets
 Scanned receipts tagged and searchable by shop or amount.
@@ -18,6 +18,8 @@ Scanned receipts tagged and searchable by shop or amount.
 - Flutter; platform channels only where Dart packages fall short.
 - Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
 - Add a golden test or integration test under `test/features/085_receipt-vault/`.
+
+- Dependency fix (build run 2026-11-08): dropped the link to 050, which depended back on this feature and made both unbuildable; 050 still depends on this one, so the order is unchanged.
 
 ## Done when
 All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.

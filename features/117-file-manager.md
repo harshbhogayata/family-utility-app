@@ -4,7 +4,7 @@
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
 **Status:** not started
-**Depends on:** [114 One search](./114-one-search.md), [118 Action history and trash](./118-action-history-and-trash.md)
+**Depends on:** [118 Action history and trash](./118-action-history-and-trash.md)
 
 ## What the person gets
 Recents, favourites, folders, and search by name or content.
@@ -18,6 +18,8 @@ Recents, favourites, folders, and search by name or content.
 - Flutter; platform channels only where Dart packages fall short.
 - Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
 - Add a golden test or integration test under `test/features/117_file-manager/`.
+
+- Dependency fix (build run 2026-11-08): dropped the link to 114, which depended back on this feature and made both unbuildable; 114 still depends on this one, so the order is unchanged.
 
 ## Done when
 All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.
