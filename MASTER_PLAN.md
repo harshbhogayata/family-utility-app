@@ -73,7 +73,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 021 | [Images to PDF](features/021-images-to-pdf.md) | 2. Convert | 125 | not started |
 | 034 | [Compress images](features/034-compress-images.md) | 3. Compress | 125 | not started |
 | 047 | [Document scanner](features/047-document-scanner.md) | 5. Scan and QR | 125 | not started |
-| 051 | [QR scanner](features/051-qr-scanner.md) | 5. Scan and QR | 125 | not started |
+| 051 | [QR scanner](features/051-qr-scanner.md) | 5. Scan and QR | 125 | done 012db23 |
 | 059 | [On-device mode](features/059-on-device-mode.md) | 6. Security | 125 | not started |
 | 060 | [Share to any app](features/060-share-to-any-app.md) | 7. Share and transfer | 125 | not started |
 | 065 | [Open-with for all file types](features/065-open-with-for-all-file-types.md) | 7. Share and transfer | 125 | not started |
