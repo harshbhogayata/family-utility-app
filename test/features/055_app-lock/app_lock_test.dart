@@ -291,6 +291,9 @@ void main() {
   group('settings screen', () {
     testWidgets('turning the lock on asks for a PIN twice, then shows timeout and tool locks',
         (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1200, 4000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
       await tester.pumpWidget(app(const AppLockSettingsScreen()));
       await tester.pumpAndSettle();
       expect(find.text('Lock again'), findsNothing);

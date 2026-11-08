@@ -119,10 +119,15 @@ class LockSettings {
 
   String encode() => jsonEncode(toJson());
 
+  /// Unreadable text gives the defaults (no lock) rather than a crash.
   static LockSettings decode(String text) {
-    final Object? parsed = jsonDecode(text);
-    if (parsed is Map<String, Object?>) {
-      return LockSettings.fromJson(parsed);
+    try {
+      final Object? parsed = jsonDecode(text);
+      if (parsed is Map<String, Object?>) {
+        return LockSettings.fromJson(parsed);
+      }
+    } on FormatException {
+      // fall through
     }
     return const LockSettings();
   }
