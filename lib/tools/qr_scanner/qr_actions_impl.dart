@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:add_2_calendar/add_2_calendar.dart' as cal;
 import 'package:flutter/services.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:path_provider/path_provider.dart';
@@ -76,8 +76,8 @@ class PlatformQrActions implements QrActions {
     final DateTime start = event.start ?? DateTime.now();
     final DateTime end = event.end ?? start.add(const Duration(hours: 1));
     try {
-      return await Add2Calendar.addEvent2Cal(
-        Event(
+      return await cal.Add2Calendar.addEvent2Cal(
+        cal.Event(
           title: event.title.isEmpty ? 'Event' : event.title,
           description: event.description ?? '',
           location: event.location ?? '',
