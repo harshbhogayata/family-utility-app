@@ -74,7 +74,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 034 | [Compress images](features/034-compress-images.md) | 3. Compress | 125 | not started |
 | 047 | [Document scanner](features/047-document-scanner.md) | 5. Scan and QR | 125 | not started |
 | 051 | [QR scanner](features/051-qr-scanner.md) | 5. Scan and QR | 125 | done 012db23 |
-| 059 | [On-device mode](features/059-on-device-mode.md) | 6. Security | 125 | not started |
+| 059 | [On-device mode](features/059-on-device-mode.md) | 6. Security | 125 | done 5fbcce5 |
 | 060 | [Share to any app](features/060-share-to-any-app.md) | 7. Share and transfer | 125 | not started |
 | 065 | [Open-with for all file types](features/065-open-with-for-all-file-types.md) | 7. Share and transfer | 125 | not started |
 | 104 | [Offline first](features/104-offline-first.md) | 10. Platform | 125 | not started |
