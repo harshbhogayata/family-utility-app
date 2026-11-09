@@ -1,12 +1,12 @@
 # Progress
 
-Done: 84 / 130  (64%)
-In progress: 017
-Updated: 2026-11-09 18:29 UTC
+Done: 85 / 130  (65%)
+In progress: none
+Updated: 2026-11-09 18:42 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 82 |
+| 1 — file chores and platform core | 86 | 83 |
 | 2 — family layer | 20 | 2 |
 | 3 — personal records | 24 | 0 |
 
@@ -26,6 +26,7 @@ Updated: 2026-11-09 18:29 UTC
 - 014 Page numbers — done e91dafa
 - 015 Remove blank pages and straighten — done fe57ee1
 - 016 Search inside PDFs — done 3e2b2f4
+- 017 Print to PDF — done b3d4547
 - 018 Word to PDF and back — done 6a5f2ee
 - 019 Excel to PDF and back — done 28e7f65
 - 020 PowerPoint to PDF and back — done cca7309
