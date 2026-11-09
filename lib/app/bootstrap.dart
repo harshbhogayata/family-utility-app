@@ -35,6 +35,7 @@ import '../tools/webp/webp_screen.dart';
 import '../tools/raster/raster_screen.dart';
 import '../tools/zip/zip_screen.dart';
 import '../tools/exif/exif_screen.dart';
+import '../tools/qr_generator/qr_generator_screen.dart';
 import '../engines/image/exif_strip.dart';
 import '../platform/strip_on_share_prefs.dart';
 import '../tools/status_saver/status_saver_screen.dart';
@@ -322,6 +323,14 @@ void bootstrap() {
       icon: Icons.location_off_outlined,
       featureNumber: 46,
       builder: (BuildContext context) => const ExifScreen(),
+    ),
+    ToolEntry(
+      id: 'qr-generator',
+      name: 'QR generator',
+      section: ToolSection.scan,
+      icon: Icons.qr_code_2,
+      featureNumber: 52,
+      builder: (BuildContext context) => const QrGeneratorScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',

@@ -28,6 +28,8 @@ dependencies:
   cryptography: ^2.7.0
   # 062 Phone to laptop: QR for the link, picking files to offer.
   qr_flutter: ^4.1.0
+  # 052 QR generator: the QR matrix for PNG, SVG and print sheets.
+  qr: ^3.0.1
   file_picker: ^8.0.0
   # 001 PDF viewer: PDFium on device, with text selection.
   pdfrx: ^2.0.0
