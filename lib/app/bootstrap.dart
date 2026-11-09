@@ -28,6 +28,7 @@ import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/word_pdf/word_pdf_screen.dart';
 import '../tools/resize/resize_screen.dart';
 import '../tools/passport_photo/passport_photo_screen.dart';
+import '../tools/id_card/id_card_screen.dart';
 import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
@@ -259,6 +260,14 @@ void bootstrap() {
       icon: Icons.portrait_outlined,
       featureNumber: 43,
       builder: (BuildContext context) => const PassportPhotoScreen(),
+    ),
+    ToolEntry(
+      id: 'id-card',
+      name: 'ID card to A4',
+      section: ToolSection.image,
+      icon: Icons.badge_outlined,
+      featureNumber: 44,
+      builder: (BuildContext context) => const IdCardScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',
