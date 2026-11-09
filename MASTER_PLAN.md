@@ -134,9 +134,9 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 108 | [Versions](features/108-versions.md) | 10. Platform | 48 | done d46302d |
 | 113 | [Job notifications](features/113-job-notifications.md) | 10. Platform | 48 | done 28fc557 |
 | 045 | [Blur faces, plates and Aadhaar numbers](features/045-blur-faces-plates-and-aadhaar-numbers.md) | 4. Image basics | 40 | not started |
-| 003 | [Split PDF](features/003-split-pdf.md) | 1. PDF basics | 36 | not started |
+| 003 | [Split PDF](features/003-split-pdf.md) | 1. PDF basics | 36 | done 75b311c |
 | 008 | [OCR a scan](features/008-ocr-a-scan.md) | 1. PDF basics | 36 | not started |
-| 011 | [Protect with password](features/011-protect-with-password.md) | 1. PDF basics | 36 | not started |
+| 011 | [Protect with password](features/011-protect-with-password.md) | 1. PDF basics | 36 | done 75b311c |
 | 015 | [Remove blank pages and straighten](features/015-remove-blank-pages-and-straighten.md) | 1. PDF basics | 36 | not started |
 | 016 | [Search inside PDFs](features/016-search-inside-pdfs.md) | 1. PDF basics | 36 | not started |
 | 019 | [Excel to PDF and back](features/019-excel-to-pdf-and-back.md) | 2. Convert | 36 | not started |

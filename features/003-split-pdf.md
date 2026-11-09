@@ -3,18 +3,18 @@
 **Section:** 1. PDF basics
 **Phase:** 1
 **Priority score:** 36 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 75b311c
 **Depends on:** [001 PDF viewer](./001-pdf-viewer.md)
 
 ## What the person gets
 Split by page range, every N pages, or by file size.
 
 ## Acceptance criteria
-- [ ] Range input accepts forms like 1-3, 5, 8-10
-- [ ] Every-N and by-size modes produce correctly numbered parts
-- [ ] Parts are saved as a set and offered as a zip
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Range input accepts forms like 1-3, 5, 8-10
+- [x] Every-N and by-size modes produce correctly numbered parts
+- [x] Parts are saved as a set and offered as a zip
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

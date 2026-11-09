@@ -3,17 +3,17 @@
 **Section:** 1. PDF basics
 **Phase:** 1
 **Priority score:** 36 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 75b311c
 **Depends on:** [001 PDF viewer](./001-pdf-viewer.md)
 
 ## What the person gets
 Encrypt a PDF with a user password and optional permissions.
 
 ## Acceptance criteria
-- [ ] AES-256 encryption; opening password and optional print/copy restrictions
-- [ ] Password strength indicator; no password stored anywhere
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] AES-256 encryption; opening password and optional print/copy restrictions
+- [x] Password strength indicator; no password stored anywhere
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
