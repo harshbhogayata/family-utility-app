@@ -106,7 +106,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 128 | [Send at original quality](features/128-send-at-original-quality.md) | 11. Links and WhatsApp essentials | 80 | done e65f4c8 |
 | 049 | [ID scan](features/049-id-scan.md) | 5. Scan and QR | 75 | not started |
 | 118 | [Action history and trash](features/118-action-history-and-trash.md) | 10. Platform | 75 | done bfeeaf5 |
-| 125 | [WhatsApp status saver](features/125-whatsapp-status-saver.md) | 11. Links and WhatsApp essentials | 75 | not started |
+| 125 | [WhatsApp status saver](features/125-whatsapp-status-saver.md) | 11. Links and WhatsApp essentials | 75 | done d1b57d3 |
 | 126 | [Clipboard link watch](features/126-clipboard-link-watch.md) | 11. Links and WhatsApp essentials | 75 | not started |
 | 002 | [Merge PDF](features/002-merge-pdf.md) | 1. PDF basics | 64 | not started |
 | 017 | [Print to PDF](features/017-print-to-pdf.md) | 1. PDF basics | 64 | not started |
