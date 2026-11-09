@@ -30,6 +30,7 @@ import '../tools/resize/resize_screen.dart';
 import '../tools/passport_photo/passport_photo_screen.dart';
 import '../tools/id_card/id_card_screen.dart';
 import '../tools/id_scan/id_scan_screen.dart';
+import '../tools/pdf_to_images/pdf_to_images_screen.dart';
 import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
@@ -279,6 +280,14 @@ void bootstrap() {
       featureNumber: 49,
       touches: const <DataTouch>{DataTouch.camera, DataTouch.files},
       builder: (BuildContext context) => const IdScanScreen(),
+    ),
+    ToolEntry(
+      id: 'pdf-to-images',
+      name: 'PDF to images',
+      section: ToolSection.pdf,
+      icon: Icons.collections_outlined,
+      featureNumber: 22,
+      builder: (BuildContext context) => const PdfToImagesScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',
