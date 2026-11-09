@@ -181,20 +181,21 @@ void main() {
     expect(find.text('Wrong password'), findsOneWidget);
     expect(files.written, isEmpty);
 
+    final Finder list = find.descendant(of: find.byType(ListView), matching: find.byType(Scrollable)).first;
     final Finder name = find.byKey(const Key('unlock-aadhaar-name'));
-    await tester.ensureVisible(name);
+    await tester.scrollUntilVisible(name, 200, scrollable: list);
     await tester.enterText(name, 'Suresh Kumar');
     await tester.enterText(find.byKey(const Key('unlock-aadhaar-year')), '1990');
     await tester.pump();
     final Finder use = find.byKey(const Key('unlock-aadhaar-use'));
-    await tester.ensureVisible(use);
+    await tester.scrollUntilVisible(use, 200, scrollable: list);
     expect(find.text('Use SURE1990'), findsOneWidget);
     expect(tester.getSize(use).height, greaterThanOrEqualTo(44));
     await tester.tap(use);
     await tester.pump();
     expect(tester.widget<TextField>(find.byKey(const Key('unlock-password'))).controller!.text, 'SURE1990');
 
-    await tester.ensureVisible(run);
+    await tester.scrollUntilVisible(run, -200, scrollable: list);
     await tester.tap(run);
     await tester.pumpAndSettle();
     expect(files.written.keys.single, '/unlocked/statement unlocked.pdf');
