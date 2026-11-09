@@ -181,8 +181,12 @@ void main() {
 
   group('screen', () {
     Future<void> settle(WidgetTester tester) async {
-      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));
-      await tester.pump();
+      // Real file I/O finishes outside the fake clock; each step's
+      // continuation then needs a pump, so alternate the two a few times.
+      for (int i = 0; i < 20; i++) {
+        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+        await tester.pump();
+      }
     }
 
     Widget app(Widget child) => MaterialApp(theme: buildAppTheme(), home: child);
