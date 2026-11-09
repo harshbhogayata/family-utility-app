@@ -87,7 +87,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 048 | [Scan filters](features/048-scan-filters.md) | 5. Scan and QR | 100 | not started |
 | 055 | [App lock](features/055-app-lock.md) | 6. Security | 100 | done d092d46 |
 | 057 | [Secure notes](features/057-secure-notes.md) | 6. Security | 100 | done e9c143f |
-| 064 | [Save anywhere](features/064-save-anywhere.md) | 7. Share and transfer | 100 | in progress |
+| 064 | [Save anywhere](features/064-save-anywhere.md) | 7. Share and transfer | 100 | done a9a7f75 |
 | 106 | [Smart suggestions](features/106-smart-suggestions.md) | 10. Platform | 100 | not started |
 | 111 | [No login](features/111-no-login.md) | 10. Platform | 100 | done 8507290 |
 | 115 | [Recents and favourites](features/115-recents-and-favourites.md) | 10. Platform | 100 | not started |

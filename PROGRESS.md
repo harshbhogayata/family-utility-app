@@ -1,12 +1,12 @@
 # Progress
 
-Done: 17 / 130  (13%)
-In progress: 064
-Updated: 2026-11-09 03:06 UTC
+Done: 18 / 130  (13%)
+In progress: none
+Updated: 2026-11-09 03:09 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 17 |
+| 1 — file chores and platform core | 86 | 18 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -22,6 +22,7 @@ Updated: 2026-11-09 03:06 UTC
 - 059 On-device mode — done 5fbcce5
 - 060 Share to any app — done 9fcace7
 - 062 Phone to laptop — done ddae934
+- 064 Save anywhere — done a9a7f75
 - 104 Offline first — done 12c34d3
 - 111 No login — done 8507290
 - 114 One search — done 02b6068
