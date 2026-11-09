@@ -41,6 +41,7 @@ dependencies:
   camera: ^0.11.0
   # 018 Word to PDF and back: reads and writes the XML inside DOCX.
   xml: ^6.5.0
+  pdf: ^3.11.0
 
 dev_dependencies:
   flutter_test:
