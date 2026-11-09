@@ -161,6 +161,7 @@ import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
+import '../engines/records/expense_tracker.dart';
 import '../engines/records/medicine_reminders.dart';
 import '../platform/medicine_alarm_platform.dart';
 import '../records/medicines/medicine_screen.dart';
@@ -365,6 +366,11 @@ void bootstrap() {
     alarms: NotificationMedicineAlarms(),
   );
   MedicineReminders.install(medicines);
+
+  // 080: expenses and receipt photos in the app's own folder.
+  final ExpenseTracker expenses = ExpenseTracker(store: FileExpenseStore(() => appFolder('expenses')));
+  ExpenseTracker.install(expenses);
+  unawaited(expenses.load());
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => medicines.reschedule()));
 
   // 071: shared calendar on the family store; reminders while the app runs.

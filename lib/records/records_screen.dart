@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'expenses/expense_screen.dart';
 import 'medicines/medicine_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
@@ -23,6 +24,20 @@ class RecordsScreen extends StatelessWidget {
               style: text.bodyMedium,
             ),
             const SizedBox(height: 16),
+            Text('Money', style: text.titleMedium),
+            // 080: expenses with receipt photos, month totals and CSV.
+            ListTile(
+              key: const Key('records-expenses'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.account_balance_wallet_outlined),
+              title: const Text('Expenses'),
+              subtitle: const Text('Quick-add, receipts, monthly totals, CSV'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const ExpenseScreen()),
+              ),
+            ),
+            const SizedBox(height: 8),
             Text('Health', style: text.titleMedium),
             // 088: dose reminders, taken / skipped log and pill stock.
             ListTile(
