@@ -160,7 +160,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 
 | # | Feature | Section | Score | Status |
 | --- | --- | --- | --- | --- |
-| 068 | [Family space](features/068-family-space.md) | 8. Family — shared live data | 125 | not started |
+| 068 | [Family space](features/068-family-space.md) | 8. Family — shared live data | 125 | done b41233b |
 | 069 | [Profile per member](features/069-profile-per-member.md) | 8. Family — shared live data | 125 | not started |
 | 071 | [Shared calendar](features/071-shared-calendar.md) | 8. Family — shared live data | 125 | not started |
 | 072 | [Shared shopping list](features/072-shared-shopping-list.md) | 8. Family — shared live data | 125 | not started |

@@ -3,18 +3,18 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done b41233b
 **Depends on:** [059 On-device mode](./059-on-device-mode.md)
 
 ## What the person gets
 One shared store; anything a member adds or edits shows on every other phone within seconds.
 
 ## Acceptance criteria
-- [ ] Local-first CRDT store (per-record last-writer-wins with vector clocks) so offline edits merge without conflicts
-- [ ] Change propagates over LAN in under 3 s and over own-cloud within a minute
-- [ ] Join a family by scanning a QR from an existing member
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Local-first CRDT store (per-record last-writer-wins with vector clocks) so offline edits merge without conflicts
+- [x] Change propagates over LAN in under 3 s and over own-cloud within a minute
+- [x] Join a family by scanning a QR from an existing member
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
