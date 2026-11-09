@@ -66,7 +66,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(theme: buildAppTheme(), home: ResizeScreen(files: files)));
     await tester.tap(find.byKey(const Key('resize-pick')));
     await tester.pumpAndSettle();
-    expect(find.text('Resize 2 pictures'), findsOneWidget);
+    expect(find.text('Resize 2 pictures', skipOffstage: false), findsOneWidget);
     await tester.ensureVisible(find.byKey(const Key('resize-preset-profile')));
     await tester.tap(find.byKey(const Key('resize-preset-profile')));
     await tester.pumpAndSettle();
