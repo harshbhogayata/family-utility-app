@@ -62,6 +62,7 @@ const Map<String, int> folderFeature = <String, int>{
   'batch': 107,
   'batch_convert': 31,
   'compress_images': 34,
+  'rotate_flip': 42,
   'compress_pdf': 32,
   'compress_video': 36,
   'convert_anything': 30,
