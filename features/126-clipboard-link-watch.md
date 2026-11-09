@@ -3,7 +3,7 @@
 **Section:** 11. Links and WhatsApp essentials
 **Phase:** 1
 **Priority score:** 75 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [123 Download video from a link](./123-download-video-from-a-link.md)
 
 ## What the person gets
@@ -18,6 +18,7 @@ Copy a link anywhere and the app offers to save it.
 - Flutter; platform channels only where Dart packages fall short.
 - Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
 - Add a golden test or integration test under `test/features/126_clipboard-link-watch/`.
+- Built in `lib/engines/download/clipboard_watch.dart`: opt-in switch (off by default, kept in shared_preferences); while on, the clipboard is read once each time the app comes to the front (AppLifecycleListener; Android 10+ only lets the foreground app read it) and only a link one of the 123 site plugins handles is offered, as a floating snack-bar bubble with Save that opens the 123 screen. Any other clipboard text is dropped immediately and never stored; the same copy is not offered twice. A background clipboard notification is not possible on Android 10+ or iOS without a keyboard/overlay service, so the bubble is in-app. Screen: `lib/tools/clipboard_watch/`.
 
 ## Done when
 All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.

@@ -46,6 +46,9 @@ import '../engines/download/shared_link.dart';
 import '../engines/download/video_link.dart';
 import '../platform/video_notice_prefs.dart';
 import '../tools/video_link/video_link_screen.dart';
+import '../engines/download/clipboard_watch.dart';
+import '../platform/clipboard_watch_platform.dart';
+import '../tools/clipboard_watch/clipboard_watch_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
@@ -76,6 +79,9 @@ import '../tools/background_jobs/background_jobs_screen.dart';
 import '../tools/compress_video/compress_video_screen.dart';
 import '../tools/shrink_to_send/shrink_to_send_screen.dart';
 import 'tool_registry.dart';
+
+/// 126: kept alive for the app's lifetime.
+AppLifecycleListener? clipboardLifecycleListener;
 
 /// Registers every tool with the registry and installs app-wide state.
 /// Each feature adds its entry here so the home grid is driven by one list.
@@ -191,6 +197,44 @@ void bootstrap() {
 
   inbox.onLink = (String _) => openShared(true);
   unawaited(inbox.attach());
+
+  // 126: opt-in; looks at the clipboard only when the app comes to the front.
+  final ClipboardLinkWatch watch = ClipboardLinkWatch(
+    source: const SystemClipboardTextSource(),
+    store: const PrefsClipboardWatchStore(),
+  );
+  ClipboardLinkWatch.install(watch);
+  unawaited(watch.load());
+  void openVideo(Uri url) {
+    final NavigatorState? nav = appNavigatorKey.currentState;
+    if (nav == null) {
+      return;
+    }
+    unawaited(nav.push<void>(MaterialPageRoute<void>(
+      builder: (BuildContext context) => VideoLinkScreen(initialText: url.toString()),
+    )));
+  }
+
+  Future<void> offerCopiedLink() async {
+    final LinkOffer? offer = await watch.check();
+    final BuildContext? ctx = appNavigatorKey.currentContext;
+    if (offer == null || ctx == null || !ctx.mounted) {
+      return;
+    }
+    final ScaffoldMessengerState? messenger = ScaffoldMessenger.maybeOf(ctx);
+    if (messenger == null) {
+      return;
+    }
+    showLinkOfferBubble(messenger, offer, () {
+      final LinkOffer? taken = watch.accept();
+      if (taken != null) {
+        openVideo(taken.url);
+      }
+    });
+  }
+
+  clipboardLifecycleListener?.dispose();
+  clipboardLifecycleListener = AppLifecycleListener(onResume: () => unawaited(offerCopiedLink()));
 
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),
@@ -533,6 +577,19 @@ void bootstrap() {
       networkReason: 'Reads the public page of the link you paste and fetches its video. Nothing of yours is uploaded.',
       touches: const <DataTouch>{DataTouch.files, DataTouch.network},
       builder: (BuildContext context) => const VideoLinkScreen(),
+    ),
+    ToolEntry(
+      id: 'clipboard-watch',
+      name: 'Clipboard link watch',
+      section: ToolSection.links,
+      icon: Icons.content_paste_go,
+      featureNumber: 126,
+      touches: const <DataTouch>{DataTouch.clipboard},
+      builder: (BuildContext context) => ClipboardWatchScreen(
+        onSave: (BuildContext c, Uri url) => unawaited(Navigator.of(c).push<void>(MaterialPageRoute<void>(
+          builder: (BuildContext _) => VideoLinkScreen(initialText: url.toString()),
+        ))),
+      ),
     ),
     ToolEntry(
       id: 'status-saver',
