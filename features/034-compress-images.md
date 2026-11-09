@@ -3,17 +3,17 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 494703f
 **Depends on:** [117 File manager](./117-file-manager.md)
 
 ## What the person gets
 JPG, PNG and WebP with a quality slider and live size readout.
 
 ## Acceptance criteria
-- [ ] Slider updates the estimated size live; batch mode for a gallery selection
-- [ ] Output never upscales; PNG keeps transparency
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Slider updates the estimated size live; batch mode for a gallery selection
+- [x] Output never upscales; PNG keeps transparency
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
