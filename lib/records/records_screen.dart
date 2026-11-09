@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'elderly_care/elderly_care_screen.dart';
 import 'expenses/expense_screen.dart';
 import 'health_log/health_log_screen.dart';
 import 'medicines/medicine_screen.dart';
@@ -101,6 +102,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Readings, trend chart, PDF for the doctor'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const HealthLogScreen()),
+              ),
+            ),
+            // 093: a care circle for a parent, shared with siblings.
+            ListTile(
+              key: const Key('records-elderly-care'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.elderly_outlined),
+              title: const Text('Elderly care'),
+              subtitle: const Text('Medicines, visits and notes, shared with siblings'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const ElderlyCareScreen()),
               ),
             ),
           ],

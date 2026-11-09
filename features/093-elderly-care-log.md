@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [088 Medicine reminders with pill stock](./088-medicine-reminders-with-pill-stock.md), [070 Family roles](./070-family-roles.md)
 
 ## What the person gets

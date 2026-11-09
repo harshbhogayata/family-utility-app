@@ -163,6 +163,7 @@ import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
+import '../engines/records/elderly_care.dart';
 import '../engines/records/expense_tracker.dart';
 import '../engines/records/health_readings.dart';
 import '../engines/records/shared_expenses.dart';
@@ -370,6 +371,9 @@ void bootstrap() {
     alarms: NotificationMedicineAlarms(),
   );
   MedicineReminders.install(medicines);
+
+  // 093: care circles for a parent, on the same store as the medicines.
+  ElderlyCare.install(ElderlyCare(space: family, soloStore: medicineSolo, medicines: medicines));
 
   // 080: expenses and receipt photos in the app's own folder.
   final ExpenseTracker expenses = ExpenseTracker(store: FileExpenseStore(() => appFolder('expenses')));
