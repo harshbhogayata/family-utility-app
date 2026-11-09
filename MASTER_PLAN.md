@@ -133,7 +133,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 107 | [Batch everywhere](features/107-batch-everywhere.md) | 10. Platform | 48 | done e56c777 |
 | 108 | [Versions](features/108-versions.md) | 10. Platform | 48 | done d46302d |
 | 113 | [Job notifications](features/113-job-notifications.md) | 10. Platform | 48 | done 28fc557 |
-| 045 | [Blur faces, plates and Aadhaar numbers](features/045-blur-faces-plates-and-aadhaar-numbers.md) | 4. Image basics | 40 | not started |
+| 045 | [Blur faces, plates and Aadhaar numbers](features/045-blur-faces-plates-and-aadhaar-numbers.md) | 4. Image basics | 40 | done 11ef7d0 |
 | 003 | [Split PDF](features/003-split-pdf.md) | 1. PDF basics | 36 | done 75b311c |
 | 008 | [OCR a scan](features/008-ocr-a-scan.md) | 1. PDF basics | 36 | done 2e732c5 |
 | 011 | [Protect with password](features/011-protect-with-password.md) | 1. PDF basics | 36 | done 75b311c |

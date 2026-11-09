@@ -1,12 +1,12 @@
 # Progress
 
-Done: 59 / 130  (45%)
+Done: 60 / 130  (46%)
 In progress: none
-Updated: 2026-11-09 11:38 UTC
+Updated: 2026-11-09 11:59 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 59 |
+| 1 — file chores and platform core | 86 | 60 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -39,6 +39,7 @@ Updated: 2026-11-09 11:38 UTC
 - 041 Crop with ratios — done 63f712a
 - 043 Passport photo maker — done d567b9f
 - 044 ID card to A4 — done ce3fade
+- 045 Blur faces, plates and Aadhaar numbers — done 11ef7d0
 - 046 View and strip EXIF — done 3717803
 - 047 Document scanner — done d7ded95
 - 048 Scan filters — done cb126a8

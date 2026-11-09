@@ -3,18 +3,18 @@
 **Section:** 4. Image basics
 **Phase:** 1
 **Priority score:** 40 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 11ef7d0
 **Depends on:** [008 OCR a scan](./008-ocr-a-scan.md), [117 File manager](./117-file-manager.md)
 
 ## What the person gets
 Hide sensitive parts before sharing, baked in.
 
 ## Acceptance criteria
-- [ ] Auto-detect faces and number plates on device; manual blur or black box
-- [ ] Aadhaar preset masks the first 8 digits found by OCR
-- [ ] Output has no recoverable original pixels
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Auto-detect faces and number plates on device; manual blur or black box
+- [x] Aadhaar preset masks the first 8 digits found by OCR
+- [x] Output has no recoverable original pixels
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
