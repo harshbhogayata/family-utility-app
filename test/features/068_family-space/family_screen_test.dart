@@ -58,6 +58,8 @@ void main() {
     expect(find.text('/storage/Drive/Family'), findsOneWidget);
 
     // Touch targets of the main actions are at least 44 px tall.
+    await tester.ensureVisible(find.widgetWithText(FilledButton, 'Invite a member', skipOffstage: false));
+    await tester.pumpAndSettle();
     expect(tester.getSize(find.widgetWithText(FilledButton, 'Invite a member')).height, greaterThanOrEqualTo(44));
 
     await tester.ensureVisible(find.text('Leave family on this phone', skipOffstage: false));
