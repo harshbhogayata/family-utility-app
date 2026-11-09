@@ -520,7 +520,7 @@ class WordPdfRenderer {
       });
     }
     int size = pageStart + pages.length * 2;
-    if (embed && uni != null) {
+    if (embed) {
       final int t0 = size;
       final List<int> glyphs = used.keys.toList()..sort();
       final String widths = glyphs.map((int g) => '$g [${uni.advance1000(g)}]').join(' ');
