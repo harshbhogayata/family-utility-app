@@ -3,16 +3,16 @@
 **Section:** 10. Platform
 **Phase:** 1
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 93c0972
 **Depends on:** [069 Profile per member](./069-profile-per-member.md)
 
 ## What the person gets
 Used tools float to the top; pin favourites.
 
 ## Acceptance criteria
-- [ ] Recents per profile; pin and unpin; order persists
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Recents per profile; pin and unpin; order persists
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
