@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../engines/platform/action_history.dart';
+import '../engines/platform/file_manager.dart';
 import '../engines/platform/first_run.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
@@ -55,6 +56,15 @@ void bootstrap() {
   );
   ActionHistory.install(history);
   unawaited(history.load());
+
+  final FileManager files = FileManager(
+    source: const LocalFileSource(),
+    history: history,
+    store: JsonFileManagerStore(() => appFolder('history')),
+  );
+  FileManager.install(files);
+  unawaited(files.load());
+  unawaited(_resolveRoots(files));
 
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),
@@ -131,4 +141,18 @@ void bootstrap() {
       builder: (BuildContext context) => const PrivacyScreen(),
     ),
   ]);
+}
+
+/// App files always; the phone's shared storage on Android when it exists.
+Future<void> _resolveRoots(FileManager files) async {
+  try {
+    final Directory docs = await getApplicationDocumentsDirectory();
+    final List<FileRoot> roots = <FileRoot>[FileRoot('App files', docs.path)];
+    if (Platform.isAndroid && Directory('/storage/emulated/0').existsSync()) {
+      roots.add(const FileRoot('Phone storage', '/storage/emulated/0'));
+    }
+    files.setRoots(roots);
+  } catch (_) {
+    // No platform folders (tests): the Files tab shows no roots.
+  }
 }
