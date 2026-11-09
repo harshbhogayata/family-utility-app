@@ -92,7 +92,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 111 | [No login](features/111-no-login.md) | 10. Platform | 100 | done 8507290 |
 | 115 | [Recents and favourites](features/115-recents-and-favourites.md) | 10. Platform | 100 | done 93c0972 |
 | 123 | [Download video from a link](features/123-download-video-from-a-link.md) | 11. Links and WhatsApp essentials | 100 | done 14d74f8 |
-| 130 | [Universal video player](features/130-universal-video-player.md) | 11. Links and WhatsApp essentials | 100 | not started |
+| 130 | [Universal video player](features/130-universal-video-player.md) | 11. Links and WhatsApp essentials | 100 | done 7b12cb8 |
 | 010 | [Sign PDF](features/010-sign-pdf.md) | 1. PDF basics | 80 | done 2fbb457 |
 | 018 | [Word to PDF and back](features/018-word-to-pdf-and-back.md) | 2. Convert | 80 | done 6a5f2ee |
 | 025 | [HEIC to JPG or PNG](features/025-heic-to-jpg-or-png.md) | 2. Convert | 80 | done 8a74947 |

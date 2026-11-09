@@ -1,12 +1,12 @@
 # Progress
 
-Done: 83 / 130  (63%)
+Done: 84 / 130  (64%)
 In progress: none
-Updated: 2026-11-09 17:47 UTC
+Updated: 2026-11-09 18:12 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 81 |
+| 1 — file chores and platform core | 86 | 82 |
 | 2 — family layer | 20 | 2 |
 | 3 — personal records | 24 | 0 |
 
@@ -94,3 +94,4 @@ Updated: 2026-11-09 17:47 UTC
 - 127 Download queue — done 7311ffc
 - 128 Send at original quality — done e65f4c8
 - 129 Recover deleted messages — done 639e04b
+- 130 Universal video player — done 7b12cb8
