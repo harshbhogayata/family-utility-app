@@ -3,18 +3,18 @@
 **Section:** 1. PDF basics
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 1555094
 **Depends on:** [117 File manager](./117-file-manager.md)
 
 ## What the person gets
 Open any PDF fast, with thumbnails, go-to-page, night mode and continuous or single-page scroll.
 
 ## Acceptance criteria
-- [ ] A 200-page PDF opens to the first page in under 1 s on a mid-range Android phone
-- [ ] Thumbnail strip, page jump and text selection work; night mode inverts without breaking images
-- [ ] Last-read page is remembered per file
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] A 200-page PDF opens to the first page in under 1 s on a mid-range Android phone
+- [x] Thumbnail strip, page jump and text selection work; night mode inverts without breaking images
+- [x] Last-read page is remembered per file
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

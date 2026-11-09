@@ -69,7 +69,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 
 | # | Feature | Section | Score | Status |
 | --- | --- | --- | --- | --- |
-| 001 | [PDF viewer](features/001-pdf-viewer.md) | 1. PDF basics | 125 | not started |
+| 001 | [PDF viewer](features/001-pdf-viewer.md) | 1. PDF basics | 125 | done 1555094 |
 | 021 | [Images to PDF](features/021-images-to-pdf.md) | 2. Convert | 125 | not started |
 | 034 | [Compress images](features/034-compress-images.md) | 3. Compress | 125 | not started |
 | 047 | [Document scanner](features/047-document-scanner.md) | 5. Scan and QR | 125 | not started |

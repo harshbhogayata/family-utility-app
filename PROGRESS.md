@@ -1,16 +1,17 @@
 # Progress
 
-Done: 11 / 130  (8%)
+Done: 12 / 130  (9%)
 In progress: none
-Updated: 2026-11-09 02:08 UTC
+Updated: 2026-11-09 02:14 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 11 |
+| 1 — file chores and platform core | 86 | 12 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
+- 001 PDF viewer — done 1555094
 - 051 QR scanner — done 012db23
 - 055 App lock — done d092d46
 - 057 Secure notes — done e9c143f
