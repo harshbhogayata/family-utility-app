@@ -236,7 +236,8 @@ void main() {
       await tester.pumpAndSettle();
       expect(sheet.requests.single.files.single.path, endsWith('report parts.zip'));
 
-      await tester.ensureVisible(find.byKey(const Key('split-share-parts')));
+      // The list builds lazily: scroll until the button exists.
+      await tester.dragUntilVisible(find.byKey(const Key('split-share-parts')), find.byType(ListView), const Offset(0, -200));
       await tester.pumpAndSettle();
       expect(find.bySemanticsLabel('Share the parts as separate PDFs'), findsOneWidget);
       await tester.tap(find.byKey(const Key('split-share-parts')));
