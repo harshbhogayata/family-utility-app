@@ -86,10 +86,10 @@ abstract final class PdfMerger {
           return;
         }
         final Map<String, Object> here = Map<String, Object>.of(inherit);
-        for (final String k in _inherited) {
-          final Object? a = v[k];
+        for (final String key in _inherited) {
+          final Object? a = v[key];
           if (a != null) {
-            here[k] = a;
+            here[key] = a;
           }
         }
         final Object? k = v['Kids'];
