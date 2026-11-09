@@ -1,12 +1,12 @@
 # Progress
 
-Done: 63 / 130  (48%)
+Done: 64 / 130  (49%)
 In progress: none
-Updated: 2026-11-09 12:39 UTC
+Updated: 2026-11-09 12:52 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 63 |
+| 1 — file chores and platform core | 86 | 64 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -74,3 +74,4 @@ Updated: 2026-11-09 12:39 UTC
 - 126 Clipboard link watch — done 44ef7df
 - 127 Download queue — done 7311ffc
 - 128 Send at original quality — done e65f4c8
+- 129 Recover deleted messages — done 639e04b
