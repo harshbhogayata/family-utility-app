@@ -9,7 +9,10 @@ import 'package:path_provider/path_provider.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/convert/convert_registry.dart';
+import '../../engines/image/one_tap_scan.dart';
 import '../../engines/image/scan_namer.dart';
+import '../../engines/pdf/pdf_ocr.dart' show PdfOcrError;
+import '../../engines/pdf/pdf_text_search.dart';
 import '../../engines/image/document_scanner.dart';
 import '../../engines/image/scan_filters.dart';
 import '../../engines/share/share_engine.dart';
@@ -78,6 +81,8 @@ class DocumentScannerScreen extends StatefulWidget {
     this.returnResult = false,
     this.now,
     this.autoNamer,
+    this.oneTap,
+    this.index,
   });
 
   /// Defaults to the phone's back camera.
@@ -97,6 +102,12 @@ class DocumentScannerScreen extends StatefulWidget {
   /// 053: names the scan from its title and date (on-device OCR); the
   /// person edits the name before it is saved.
   final ScanAutoNamer? autoNamer;
+
+  /// 054: OCR, compress and save with an auto-name in one action.
+  final OneTapScan? oneTap;
+
+  /// Where the searchable copy's text goes (Search inside PDFs).
+  final PdfLibraryIndex? index;
 
   @override
   State<DocumentScannerScreen> createState() => _DocumentScannerScreenState();
@@ -258,6 +269,52 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
     final DateTime t = (widget.now ?? DateTime.now)();
     String two(int v) => v.toString().padLeft(2, '0');
     return 'Scan ${t.year}-${two(t.month)}-${two(t.day)} ${two(t.hour)}.${two(t.minute)}';
+  }
+
+  /// 054: one tap: read, compress, name and save a searchable PDF.
+  Future<void> _oneTapSave(OneTapScan oneTap) async {
+    if (_session.isEmpty || _busy) {
+      _toast('Scan a page first');
+      return;
+    }
+    setState(() {
+      _busy = true;
+      _status = 'Reading the pages…';
+    });
+    try {
+      final OneTapResult r = await oneTap.run(
+        _session.pages,
+        (widget.now ?? DateTime.now)(),
+        progress: (String step) {
+          if (mounted) {
+            setState(() => _status = step);
+          }
+        },
+      );
+      final String path = await widget.io.write(r.name, 'pdf', r.pdf);
+      final PdfLibraryIndex index = widget.index ?? PdfLibraryIndex.instance;
+      index.put(IndexedPdf(path: path, pages: r.pageTexts));
+      await index.save();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _outputs = <String>[path];
+        _status = 'Saved ${baseNameOf(path)}: searchable, ${r.wordCount} '
+            '${r.wordCount == 1 ? 'word' : 'words'}, ${(r.pdf.length / 1024).ceil()} KB';
+      });
+      if (widget.returnResult) {
+        Navigator.of(context).pop(<String>[path]);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _status = e is PdfOcrError ? e.message : 'Could not make the searchable PDF');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
   }
 
   /// 053: suggests a name from the first page, editable before save.
@@ -641,6 +698,18 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
               ? 'Save ${_session.length}-page PDF'
               : 'Save ${_session.length} JPG${_session.length == 1 ? '' : 's'}'),
         ),
+        if (widget.oneTap != null) ...<Widget>[
+          const SizedBox(height: 8),
+          Semantics(
+            hint: 'Reads the text, compresses and saves with an automatic name',
+            child: FilledButton.tonalIcon(
+              key: const Key('scan-one-tap'),
+              onPressed: _session.isEmpty || _busy ? null : () => _oneTapSave(widget.oneTap!),
+              icon: const Icon(Icons.bolt),
+              label: const Text('One tap: searchable PDF'),
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -685,3 +754,5 @@ class QuadPainter extends CustomPainter {
   bool shouldRepaint(QuadPainter old) =>
       old.quad != quad || old.progress != progress || old.frameWidth != frameWidth || old.frameHeight != frameHeight;
 }
+
+String baseNameOf(String path) => path.split('/').last;

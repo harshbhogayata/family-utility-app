@@ -3,7 +3,7 @@
 **Section:** 5. Scan and QR
 **Phase:** 1
 **Priority score:** 64 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [047 Document scanner](./047-document-scanner.md), [008 OCR a scan](./008-ocr-a-scan.md), [032 Compress PDF](./032-compress-pdf.md), [053 Auto-name scans](./053-auto-name-scans.md)
 
 ## What the person gets

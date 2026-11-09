@@ -77,6 +77,7 @@ import '../engines/pdf/pdf_text_search.dart';
 import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
 import '../engines/image/scan_namer.dart';
+import '../engines/image/one_tap_scan.dart';
 import '../platform/mlkit_text_platform.dart';
 import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
@@ -357,6 +358,8 @@ void bootstrap() {
     recognizer: const MlKitTextRecognizer(),
     store: const PrefsScanNamePatternStore(),
   );
+  // 054: one tap reads, compresses and names the scan.
+  OneTapScan.instance = OneTapScan(recognizer: const MlKitTextRecognizer(), namer: ScanAutoNamer.instance!);
 
   // 047: other apps can open the scanner and get the saved scan back.
   ScanEntry(() async {
@@ -365,7 +368,7 @@ void bootstrap() {
       return <String>[];
     }
     final List<String>? saved = await nav.push<List<String>>(
-      MaterialPageRoute<List<String>>(builder: (BuildContext context) => DocumentScannerScreen(returnResult: true, autoNamer: ScanAutoNamer.instance)),
+      MaterialPageRoute<List<String>>(builder: (BuildContext context) => DocumentScannerScreen(returnResult: true, autoNamer: ScanAutoNamer.instance, oneTap: OneTapScan.instance)),
     );
     return saved ?? <String>[];
   }).attach();
@@ -640,7 +643,7 @@ void bootstrap() {
       icon: Icons.document_scanner_outlined,
       featureNumber: 47,
       touches: const <DataTouch>{DataTouch.camera, DataTouch.files},
-      builder: (BuildContext context) => DocumentScannerScreen(autoNamer: ScanAutoNamer.instance),
+      builder: (BuildContext context) => DocumentScannerScreen(autoNamer: ScanAutoNamer.instance, oneTap: OneTapScan.instance),
     ),
     ToolEntry(
       id: 'convert-anything',
