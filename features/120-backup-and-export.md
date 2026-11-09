@@ -3,7 +3,7 @@
 **Section:** 10. Platform
 **Phase:** 2
 **Priority score:** 75 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [079 Sync through your own Drive or home Wi-Fi](./079-sync-through-your-own-drive-or-home-wi-fi.md)
 
 ## What the person gets

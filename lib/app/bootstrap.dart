@@ -42,6 +42,9 @@ import 'app.dart';
 import '../engines/family/shared_calendar.dart';
 import '../engines/family/shared_shopping_list.dart';
 import '../engines/family/shared_contacts.dart';
+import '../engines/platform/backup_export.dart';
+import '../platform/backup_platform.dart';
+import '../tools/backup/backup_screen.dart';
 import '../platform/calendar_platform.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/unlock_pdf/unlock_pdf_screen.dart';
@@ -494,6 +497,35 @@ void bootstrap() {
   }
 
   family.store.addListener(syncDial);
+
+  // 120: whole-app backup on a schedule, to the family's own folder.
+  const Map<String, String> sectionNames = <String, String>{
+    'members': 'Family members',
+    'calendar': 'Calendar',
+    'shopping': 'Shopping list',
+    'contacts': 'Family contacts',
+    'tasks': 'To-do',
+    'notes': 'Notices',
+    'documents': 'Documents',
+    'places': 'Places',
+    'checkins': 'Check-ins',
+  };
+  final BackupExport backup = BackupExport(
+    parts: <BackupPart>[
+      FamilyIdentityBackupPart(family),
+      FamilyBackupPart(family.store),
+      SettingsBackupPart(const PrefsSettingsSource()),
+    ],
+    sections: () => <ExportSection>[
+      for (final MapEntry<String, String> e in sectionNames.entries)
+        FamilyCollectionSection(family.store, e.key, e.value),
+    ],
+    folder: const IoBackupFolder(),
+    settingsStore: const SecureBackupSettingsStore(),
+  );
+  BackupExport.install(backup);
+  unawaited(backup.load().then((_) => backup.runIfDue()));
+  AppLifecycleListener(onResume: () => unawaited(backup.runIfDue()));
 
   // 126: opt-in; looks at the clipboard only when the app comes to the front.
   final ClipboardLinkWatch watch = ClipboardLinkWatch(
@@ -1195,6 +1227,15 @@ void bootstrap() {
       featureNumber: 110,
       touches: const <DataTouch>{},
       builder: (BuildContext context) => const LanguageScreen(),
+    ),
+    ToolEntry(
+      id: 'backup',
+      name: 'Backup and export',
+      section: ToolSection.platform,
+      icon: Icons.backup_outlined,
+      featureNumber: 120,
+      touches: const <DataTouch>{DataTouch.files},
+      builder: (BuildContext context) => const BackupScreen(),
     ),
     ToolEntry(
       id: 'home-widget',
