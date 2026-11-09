@@ -122,13 +122,13 @@ class WordPdfOptions {
 const List<double> headingSizes = <double>[20, 16, 14, 13, 12, 11];
 
 class _Word {
-  _Word(this.text, this.run, this.font, this.size, this.width, {this.breakAfter = false});
+  _Word(this.text, this.run, this.font, this.size, this.width);
   final String text;
   final DocRun run;
   final String font;
   final double size;
   final double width;
-  bool breakAfter;
+  bool breakAfter = false;
   bool get bold => run.bold;
 }
 
