@@ -101,7 +101,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 036 | [Compress video](features/036-compress-video.md) | 3. Compress | 80 | not started |
 | 038 | [Shrink-to-send presets](features/038-shrink-to-send-presets.md) | 3. Compress | 80 | not started |
 | 040 | [Resize](features/040-resize.md) | 4. Image basics | 80 | not started |
-| 062 | [Phone to laptop](features/062-phone-to-laptop.md) | 7. Share and transfer | 80 | not started |
+| 062 | [Phone to laptop](features/062-phone-to-laptop.md) | 7. Share and transfer | 80 | done ddae934 |
 | 127 | [Download queue](features/127-download-queue.md) | 11. Links and WhatsApp essentials | 80 | not started |
 | 128 | [Send at original quality](features/128-send-at-original-quality.md) | 11. Links and WhatsApp essentials | 80 | not started |
 | 049 | [ID scan](features/049-id-scan.md) | 5. Scan and QR | 75 | not started |
