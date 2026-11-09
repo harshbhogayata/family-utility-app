@@ -403,6 +403,19 @@ class _Out {
 // ---------------------------------------------------------------------------
 // The document
 
+/// Undoes a PDF security handler while the file is parsed (used by 012
+/// Unlock a known password). Strings and streams of direct objects go
+/// through it, and object streams are decrypted before they are unpacked.
+abstract class PdfDecryptor {
+  Object value(int num, int gen, Object v);
+
+  Uint8List stream(int num, int gen, PdfDict dict, Uint8List data);
+}
+
+/// Builds the decryptor from the /Encrypt dictionary and the trailer; throws
+/// [PdfCompressError] when the password does not open the file.
+typedef PdfDecryptorFactory = PdfDecryptor Function(PdfDict encrypt, PdfDict trailer);
+
 class PdfDocumentModel {
   PdfDocumentModel._(this.objects, this.trailer);
 
@@ -423,13 +436,13 @@ class PdfDocumentModel {
     return v;
   }
 
-  static PdfDocumentModel parse(Uint8List b) {
+  static PdfDocumentModel parse(Uint8List b, {PdfDecryptorFactory? decrypt}) {
     if (b.length < 8 || latin1.decode(b.sublist(0, 5)) != '%PDF-') {
       throw const PdfCompressError('This file is not a PDF.');
     }
     final String text = latin1.decode(b);
     final Map<int, PdfObject> objects = <int, PdfObject>{};
-    final List<(int, PdfDict, Uint8List)> objStreams = <(int, PdfDict, Uint8List)>[];
+    final List<(int, int, PdfDict, Uint8List)> objStreams = <(int, int, PdfDict, Uint8List)>[];
     final Map<String, Object> trailer = <String, Object>{};
     final List<(int, PdfDict)> trailerDicts = <(int, PdfDict)>[];
 
@@ -511,7 +524,7 @@ class PdfDocumentModel {
       if (value is PdfDict && stream != null) {
         final String? type = value.name('Type');
         if (type == 'ObjStm') {
-          objStreams.add((m.start, value, stream));
+          objStreams.add((num, gen, value, stream));
           continue;
         }
         if (type == 'XRef') {
@@ -534,8 +547,45 @@ class PdfDocumentModel {
       }
     }
 
+    trailerDicts.sort(((int, PdfDict) a, (int, PdfDict) b) => a.$1.compareTo(b.$1));
+    for (final (int _, PdfDict t) in trailerDicts) {
+      for (final String k in <String>['Root', 'Info', 'ID', 'Encrypt']) {
+        final Object? v = t[k];
+        if (v != null) {
+          trailer[k] = v;
+        }
+      }
+    }
+    PdfDecryptor? decryptor;
+    final Object? encrypt = trailer['Encrypt'];
+    if (encrypt != null) {
+      if (decrypt == null) {
+        throw const PdfCompressError('This PDF is password protected. Unlock it first.');
+      }
+      final int encNum = encrypt is PdfRef ? encrypt.num : -1;
+      final Object? encDict = encrypt is PdfRef ? objects[encrypt.num]?.value : encrypt;
+      if (encDict is! PdfDict) {
+        throw const PdfCompressError('This PDF has damaged password settings.');
+      }
+      final PdfDecryptor dec = decrypt(encDict, PdfDict(Map<String, Object>.of(trailer)));
+      decryptor = dec;
+      for (final PdfObject o in objects.values) {
+        if (o.num == encNum) {
+          continue;
+        }
+        final Uint8List? data = o.stream;
+        if (data != null && o.value is PdfDict) {
+          o.stream = dec.stream(o.num, o.gen, o.value as PdfDict, data);
+        }
+        o.value = dec.value(o.num, o.gen, o.value);
+      }
+      objects.remove(encNum);
+      trailer.remove('Encrypt');
+    }
+
     // Unpack object streams. Direct objects already read win.
-    for (final (int _, PdfDict d, Uint8List data) in objStreams) {
+    for (final (int stmNum, int stmGen, PdfDict d, Uint8List raw) in objStreams) {
+      final Uint8List data = decryptor == null ? raw : decryptor.stream(stmNum, stmGen, d, raw);
       final Uint8List decoded = _decodeFlate(d, data) ??
           (throw const PdfCompressError('This PDF uses a storage format the app cannot rewrite yet.'));
       final int n = d.integer('N') ?? 0;
@@ -559,18 +609,6 @@ class PdfDocumentModel {
       }
     }
 
-    trailerDicts.sort(((int, PdfDict) a, (int, PdfDict) b) => a.$1.compareTo(b.$1));
-    for (final (int _, PdfDict t) in trailerDicts) {
-      for (final String k in <String>['Root', 'Info', 'ID', 'Encrypt']) {
-        final Object? v = t[k];
-        if (v != null) {
-          trailer[k] = v;
-        }
-      }
-    }
-    if (trailer['Encrypt'] != null) {
-      throw const PdfCompressError('This PDF is password protected. Unlock it first.');
-    }
     if (trailer['Root'] == null) {
       throw const PdfCompressError('This PDF has no catalog and cannot be rewritten.');
     }

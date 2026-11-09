@@ -28,6 +28,7 @@ import '../tools/document_scanner/document_scanner_screen.dart';
 import '../engines/image/scan_entry.dart';
 import 'app.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
+import '../tools/unlock_pdf/unlock_pdf_screen.dart';
 import '../tools/word_pdf/word_pdf_screen.dart';
 import '../tools/resize/resize_screen.dart';
 import '../tools/passport_photo/passport_photo_screen.dart';
@@ -507,6 +508,14 @@ void bootstrap() {
       icon: Icons.lock_outline,
       featureNumber: 11,
       builder: (BuildContext context) => const ProtectPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'unlock-pdf',
+      name: 'Unlock a known password',
+      section: ToolSection.pdf,
+      icon: Icons.lock_open_outlined,
+      featureNumber: 12,
+      builder: (BuildContext context) => const UnlockPdfScreen(),
     ),
     ToolEntry(
       id: 'qr-scanner',
