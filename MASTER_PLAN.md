@@ -191,7 +191,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 096 | [Saved addresses and autofill profile](features/096-saved-addresses-and-autofill-profile.md) | 9. Personal records | 100 | done 592f2a5 |
 | 081 | [Shared expenses and settle-up](features/081-shared-expenses-and-settle-up.md) | 9. Personal records | 80 | done ec554bd |
 | 087 | [Loan tracker](features/087-loan-tracker.md) | 9. Personal records | 80 | not started |
-| 089 | [BP and sugar logs](features/089-bp-and-sugar-logs.md) | 9. Personal records | 80 | not started |
+| 089 | [BP and sugar logs](features/089-bp-and-sugar-logs.md) | 9. Personal records | 80 | done 63896c5 |
 | 093 | [Elderly care log](features/093-elderly-care-log.md) | 9. Personal records | 80 | not started |
 | 095 | [Birthdays and anniversaries](features/095-birthdays-and-anniversaries.md) | 9. Personal records | 80 | not started |
 | 102 | [WhatsApp direct](features/102-whatsapp-direct.md) | 9. Personal records | 80 | not started |

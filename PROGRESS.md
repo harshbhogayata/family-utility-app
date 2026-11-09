@@ -1,14 +1,14 @@
 # Progress
 
-Done: 109 / 130  (83%)
+Done: 110 / 130  (84%)
 In progress: none
-Updated: 2026-11-09 23:21 UTC
+Updated: 2026-11-09 23:35 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 85 |
 | 2 — family layer | 20 | 20 |
-| 3 — personal records | 24 | 4 |
+| 3 — personal records | 24 | 5 |
 
 ## Done
 - 001 PDF viewer — done 1555094
@@ -92,6 +92,7 @@ Updated: 2026-11-09 23:21 UTC
 - 080 Expense tracker — done 56d4674
 - 081 Shared expenses and settle-up — done ec554bd
 - 088 Medicine reminders with pill stock — done 61696fd
+- 089 BP and sugar logs — done 63896c5
 - 096 Saved addresses and autofill profile — done 592f2a5
 - 104 Offline first — done 12c34d3
 - 105 Paste anything — done 1516ef8
