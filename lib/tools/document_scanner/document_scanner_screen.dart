@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/convert/convert_registry.dart';
+import '../../engines/image/scan_namer.dart';
 import '../../engines/image/document_scanner.dart';
 import '../../engines/image/scan_filters.dart';
 import '../../engines/share/share_engine.dart';
@@ -76,6 +77,7 @@ class DocumentScannerScreen extends StatefulWidget {
     this.share,
     this.returnResult = false,
     this.now,
+    this.autoNamer,
   });
 
   /// Defaults to the phone's back camera.
@@ -91,6 +93,10 @@ class DocumentScannerScreen extends StatefulWidget {
 
   /// Clock for file names (tests).
   final DateTime Function()? now;
+
+  /// 053: names the scan from its title and date (on-device OCR); the
+  /// person edits the name before it is saved.
+  final ScanAutoNamer? autoNamer;
 
   @override
   State<DocumentScannerScreen> createState() => _DocumentScannerScreenState();
@@ -254,6 +260,69 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
     return 'Scan ${t.year}-${two(t.month)}-${two(t.day)} ${two(t.hour)}.${two(t.minute)}';
   }
 
+  /// 053: suggests a name from the first page, editable before save.
+  Future<String?> _askName(ScanAutoNamer namer) async {
+    final DateTime now = (widget.now ?? DateTime.now)();
+    ScanNameSuggestion suggestion;
+    try {
+      suggestion = await namer.suggest(_session.pages.first.jpeg, now);
+    } catch (_) {
+      suggestion = await namer.fromText('', now);
+    }
+    if (!mounted) {
+      return null;
+    }
+    final TextEditingController name = TextEditingController(text: suggestion.name);
+    final TextEditingController pattern = TextEditingController(text: await namer.pattern());
+    if (!mounted) {
+      return null;
+    }
+    final String? chosen = await showDialog<String>(
+      context: context,
+      builder: (BuildContext ctx) => AlertDialog(
+        title: const Text('Name this scan'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextField(
+              key: const Key('scan-name-field'),
+              controller: name,
+              decoration: const InputDecoration(labelText: 'File name'),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              key: const Key('scan-name-pattern'),
+              controller: pattern,
+              decoration: const InputDecoration(
+                labelText: 'Pattern',
+                helperText: 'Use {title}, {date} and {time}',
+              ),
+              onChanged: (String p) => name.text = fillScanName(
+                p,
+                title: suggestion.title,
+                date: suggestion.date,
+                now: now,
+              ),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+          FilledButton(
+            key: const Key('scan-name-save'),
+            onPressed: () => Navigator.of(ctx).pop(name.text),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+    if (chosen != null) {
+      await namer.setPattern(pattern.text);
+    }
+    final String safe = chosen == null ? '' : safeFileName(chosen);
+    return chosen == null ? null : (safe.isEmpty ? _baseName() : safe);
+  }
+
   Future<void> _make() async {
     if (_session.isEmpty || _busy) {
       _toast('Scan a page first');
@@ -261,7 +330,15 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
     }
     setState(() => _busy = true);
     try {
-      final String name = _baseName();
+      String name = _baseName();
+      final ScanAutoNamer? namer = widget.autoNamer;
+      if (namer != null) {
+        final String? chosen = await _askName(namer);
+        if (chosen == null) {
+          return;
+        }
+        name = chosen;
+      }
       final List<String> written = <String>[];
       if (_format == ScanFormat.pdf) {
         final Uint8List pdf = await _session.toPdf();

@@ -76,6 +76,9 @@ import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../engines/pdf/pdf_text_search.dart';
 import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
+import '../engines/image/scan_namer.dart';
+import '../platform/mlkit_text_platform.dart';
+import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
@@ -349,6 +352,12 @@ void bootstrap() {
     RecordSearchSource(SecureNotes.instance),
   ]));
 
+  // 053: scans are named from their title and date, read on the phone.
+  ScanAutoNamer.instance = ScanAutoNamer(
+    recognizer: const MlKitTextRecognizer(),
+    store: const PrefsScanNamePatternStore(),
+  );
+
   // 047: other apps can open the scanner and get the saved scan back.
   ScanEntry(() async {
     final NavigatorState? nav = appNavigatorKey.currentState;
@@ -356,7 +365,7 @@ void bootstrap() {
       return <String>[];
     }
     final List<String>? saved = await nav.push<List<String>>(
-      MaterialPageRoute<List<String>>(builder: (BuildContext context) => const DocumentScannerScreen(returnResult: true)),
+      MaterialPageRoute<List<String>>(builder: (BuildContext context) => DocumentScannerScreen(returnResult: true, autoNamer: ScanAutoNamer.instance)),
     );
     return saved ?? <String>[];
   }).attach();
@@ -631,7 +640,7 @@ void bootstrap() {
       icon: Icons.document_scanner_outlined,
       featureNumber: 47,
       touches: const <DataTouch>{DataTouch.camera, DataTouch.files},
-      builder: (BuildContext context) => const DocumentScannerScreen(),
+      builder: (BuildContext context) => DocumentScannerScreen(autoNamer: ScanAutoNamer.instance),
     ),
     ToolEntry(
       id: 'convert-anything',
