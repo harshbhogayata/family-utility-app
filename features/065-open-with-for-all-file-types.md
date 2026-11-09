@@ -3,7 +3,7 @@
 **Section:** 7. Share and transfer
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [106 Smart suggestions](./106-smart-suggestions.md)
 
 ## What the person gets
@@ -21,6 +21,8 @@ The app is registered for 50+ file types so tapping a file lands on the right to
 - Flutter; platform channels only where Dart packages fall short.
 - Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
 - Add a golden test or integration test under `test/features/065_open-with-for-all-file-types/`.
+
+- Build run 2026-11-09: type lists and the inbox/prompt engines in `lib/engines/share/open_with.dart`. Android: one VIEW filter (content/file, 53 MIME types) plus SEND for application/video/audio; MainActivity copies the file into the cache and hands the path over `app.family/open_with` (`initialFiles`, `files`), and `openDefaultsSettings` opens the app's Open-by-default page (Android 12+), falling back to Default apps, then App info. iOS: `CFBundleDocumentTypes` (38 UTIs, rank Alternate), `LSSupportsOpeningDocumentsInPlace` false so the system copies into `Documents/Inbox`, which Dart scans on start and on resume (no native code); imported UTIs for RAR, 7z and Markdown. Opened files land on `OpenedFileScreen` (tools from 106, Share/Save/Undo, the one-time Android card, stored in shared_preferences).
 
 ## Done when
 All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.

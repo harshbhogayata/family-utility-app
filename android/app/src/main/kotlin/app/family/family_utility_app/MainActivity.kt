@@ -15,6 +15,8 @@ class MainActivity : FlutterActivity() {
     private var pendingLink: String? = null
     private var filesChannel: MethodChannel? = null
     private var pendingFiles: List<String>? = null
+    private var openChannel: MethodChannel? = null
+    private var pendingOpened: List<String>? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -43,6 +45,21 @@ class MainActivity : FlutterActivity() {
             }
         }
         filesChannel = files
+
+        // 065 Open-with: a file tapped in another app lands on its tools.
+        pendingOpened = openedFiles(intent)
+        val opened = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/open_with")
+        opened.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "initialFiles" -> {
+                    result.success(pendingOpened)
+                    pendingOpened = null
+                }
+                "openDefaultsSettings" -> result.success(openDefaultsSettings())
+                else -> result.notImplemented()
+            }
+        }
+        openChannel = opened
 
         // 129 Recover deleted messages: is the notification listener allowed?
         val history = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/message_history")
@@ -73,8 +90,60 @@ class MainActivity : FlutterActivity() {
             linkChannel?.invokeMethod("link", text)
             return
         }
-        val paths = sharedFiles(intent) ?: return
-        filesChannel?.invokeMethod("files", paths)
+        val paths = sharedFiles(intent)
+        if (paths != null) {
+            filesChannel?.invokeMethod("files", paths)
+            return
+        }
+        val openedPaths = openedFiles(intent) ?: return
+        openChannel?.invokeMethod("files", openedPaths)
+    }
+
+    /// 065: the file behind ACTION_VIEW, or files sent that are neither text
+    /// nor pictures (those go to 123 and 025), copied into the cache.
+    private fun openedFiles(intent: Intent?): List<String>? {
+        if (intent == null) {
+            return null
+        }
+        val uris = ArrayList<Uri>()
+        if (intent.action == Intent.ACTION_VIEW) {
+            val data = intent.data ?: return null
+            uris.add(data)
+        } else if (intent.action == Intent.ACTION_SEND || intent.action == Intent.ACTION_SEND_MULTIPLE) {
+            val type = intent.type ?: return null
+            if (type.startsWith("text/") || type.startsWith("image/")) {
+                return null
+            }
+            uris.addAll(streamUris(intent))
+        } else {
+            return null
+        }
+        if (uris.isEmpty()) {
+            return null
+        }
+        val out = copyIntoCache(uris, "opened_in", "file")
+        return if (out.isEmpty()) null else out
+    }
+
+    /// 065: the app's "Open by default" page, else default apps, else details.
+    private fun openDefaultsSettings(): Boolean {
+        val pkg = Uri.parse("package:" + packageName)
+        val tries = ArrayList<Intent>()
+        if (Build.VERSION.SDK_INT >= 31) {
+            tries.add(Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS, pkg))
+        }
+        tries.add(Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS))
+        tries.add(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, pkg))
+        for (t in tries) {
+            try {
+                t.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(t)
+                return true
+            } catch (e: Exception) {
+                // Try the next page.
+            }
+        }
+        return false
     }
 
     private fun sharedText(intent: Intent?): String? {
@@ -130,13 +199,19 @@ class MainActivity : FlutterActivity() {
         if (uris.isEmpty()) {
             return null
         }
-        val batch = File(cacheDir, "shared_in/" + System.currentTimeMillis())
+        return copyIntoCache(uris, "shared_in", "photo")
+    }
+
+    /// Copies [uris] into the cache (one folder per file so the original
+    /// names survive) and returns their paths in order.
+    private fun copyIntoCache(uris: List<Uri>, folder: String, fallback: String): List<String> {
+        val batch = File(cacheDir, folder + "/" + System.currentTimeMillis())
         val out = ArrayList<String>()
         for ((i, uri) in uris.withIndex()) {
             try {
                 val dir = File(batch, i.toString())
                 dir.mkdirs()
-                val name = (displayName(uri) ?: "photo_$i").replace('/', '_')
+                val name = (displayName(uri) ?: (fallback + "_" + i)).replace('/', '_')
                 val target = File(dir, name)
                 contentResolver.openInputStream(uri)?.use { input ->
                     target.outputStream().use { output -> input.copyTo(output) }
@@ -145,7 +220,7 @@ class MainActivity : FlutterActivity() {
                     out.add(target.absolutePath)
                 }
             } catch (e: Exception) {
-                // An unreadable picture is skipped; the rest still arrive.
+                // An unreadable file is skipped; the rest still arrive.
             }
         }
         return out

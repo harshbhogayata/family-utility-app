@@ -62,6 +62,9 @@ import '../tools/batch/batch_screen.dart';
 import '../tools/versions/versions_screen.dart';
 import '../engines/image/heic_convert.dart';
 import '../engines/share/shared_files.dart';
+import '../engines/share/open_with.dart';
+import '../platform/default_app_prompt_store.dart';
+import '../tools/open_with/opened_file_screen.dart';
 import '../platform/heic_platform.dart';
 import '../tools/heic/heic_screen.dart';
 import '../engines/image/avif_convert.dart';
@@ -351,6 +354,46 @@ void bootstrap() {
   }
 
   pictures.onFiles = (List<String> _) => openPictures(true);
+
+  // 065: a file opened from another app shows the tools that apply to it.
+  final DefaultAppPrompt defaultPrompt = DefaultAppPrompt(const PrefsDefaultAppPromptStore());
+  DefaultAppPrompt.install(defaultPrompt);
+  unawaited(defaultPrompt.load());
+  final OpenWithInbox opened = OpenWithInbox();
+  OpenWithInbox.install(opened);
+  void openOpened(bool retry) {
+    final NavigatorState? nav = appNavigatorKey.currentState;
+    if (nav == null) {
+      if (retry) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => openOpened(false));
+      }
+      return;
+    }
+    final List<String>? paths = opened.take();
+    if (paths == null) {
+      return;
+    }
+    unawaited(nav.push<void>(MaterialPageRoute<void>(
+      builder: (BuildContext context) => OpenedFileScreen(paths: paths),
+    )));
+  }
+
+  opened.onFiles = (List<String> _) => openOpened(true);
+  unawaited(opened.attach());
+  if (Platform.isIOS) {
+    // iOS copies files from "Open in" into Documents/Inbox.
+    Future<void> scanIosInbox() async {
+      try {
+        final Directory docs = await getApplicationDocumentsDirectory();
+        await opened.scanInbox('${docs.path}/Inbox');
+      } catch (_) {
+        // No documents folder: nothing to open.
+      }
+    }
+
+    unawaited(scanIosInbox());
+    AppLifecycleListener(onResume: () => unawaited(scanIosInbox()));
+  }
   unawaited(pictures.attach());
   unawaited(inbox.attach());
 
