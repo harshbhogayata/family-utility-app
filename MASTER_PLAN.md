@@ -80,7 +80,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 104 | [Offline first](features/104-offline-first.md) | 10. Platform | 125 | done 12c34d3 |
 | 114 | [One search](features/114-one-search.md) | 10. Platform | 125 | done 02b6068 |
 | 117 | [File manager](features/117-file-manager.md) | 10. Platform | 125 | done 213b1d0 |
-| 032 | [Compress PDF](features/032-compress-pdf.md) | 3. Compress | 100 | in progress |
+| 032 | [Compress PDF](features/032-compress-pdf.md) | 3. Compress | 100 | done d697bdf |
 | 033 | [PDF to target size](features/033-pdf-to-target-size.md) | 3. Compress | 100 | not started |
 | 035 | [Image to exact KB](features/035-image-to-exact-kb.md) | 3. Compress | 100 | not started |
 | 041 | [Crop with ratios](features/041-crop-with-ratios.md) | 4. Image basics | 100 | not started |
