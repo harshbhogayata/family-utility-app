@@ -139,6 +139,9 @@ void main() {
   });
 
   testWidgets('screen: pick, choose a format, convert all, share and undo', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
     final FakeSink sink = FakeSink();
     final BatchConverter b = BatchConverter(registry: ConvertRegistry.builtIn(), jobs: BackgroundJobs(NoopJobHost()));
     await tester.pumpWidget(MaterialApp(
