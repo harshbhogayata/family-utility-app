@@ -49,6 +49,8 @@ dependencies:
   flutter_image_compress: ^2.3.0
   # 066 Copy result: images go on the clipboard as images.
   pasteboard: ^0.3.0
+  # 067 Background jobs: foreground service and progress notification.
+  flutter_local_notifications: ^17.2.4
 
 dev_dependencies:
   flutter_test:

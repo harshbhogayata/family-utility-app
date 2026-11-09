@@ -63,6 +63,9 @@ import '../platform/save_platform.dart';
 import '../engines/share/copy_result.dart';
 import '../platform/clipboard_platform.dart';
 import '../tools/copy_result/copy_result_screen.dart';
+import '../engines/platform/background_jobs.dart';
+import '../platform/job_host_platform.dart';
+import '../tools/background_jobs/background_jobs_screen.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -93,6 +96,8 @@ void bootstrap() {
   );
   SaveAnywhere.install(saver);
   unawaited(saver.load());
+
+  BackgroundJobs.install(BackgroundJobs(NotificationJobHost()));
 
   CopyResult.install(CopyResult(const SystemClipboardBackend()));
 
@@ -336,6 +341,15 @@ void bootstrap() {
       icon: Icons.qr_code_2,
       featureNumber: 52,
       builder: (BuildContext context) => const QrGeneratorScreen(),
+    ),
+    ToolEntry(
+      id: 'background-jobs',
+      name: 'Background jobs',
+      section: ToolSection.share,
+      icon: Icons.pending_actions_outlined,
+      featureNumber: 67,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const BackgroundJobsScreen(),
     ),
     ToolEntry(
       id: 'copy-result',
