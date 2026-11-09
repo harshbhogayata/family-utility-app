@@ -20,6 +20,9 @@ import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/archives/archives_screen.dart';
 import '../tools/images_to_pdf/images_to_pdf_screen.dart';
+import '../tools/document_scanner/document_scanner_screen.dart';
+import '../engines/image/scan_entry.dart';
+import 'app.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
@@ -105,6 +108,18 @@ void bootstrap() {
     HistorySearchSource(history),
     RecordSearchSource(SecureNotes.instance),
   ]));
+
+  // 047: other apps can open the scanner and get the saved scan back.
+  ScanEntry(() async {
+    final NavigatorState? nav = appNavigatorKey.currentState;
+    if (nav == null) {
+      return <String>[];
+    }
+    final List<String>? saved = await nav.push<List<String>>(
+      MaterialPageRoute<List<String>>(builder: (BuildContext context) => const DocumentScannerScreen(returnResult: true)),
+    );
+    return saved ?? <String>[];
+  }).attach();
 
   ToolRegistry.registerAll(<ToolEntry>[
     ToolEntry(
@@ -212,6 +227,15 @@ void bootstrap() {
       icon: Icons.picture_as_pdf_outlined,
       featureNumber: 21,
       builder: (BuildContext context) => const ImagesToPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'document-scanner',
+      name: 'Document scanner',
+      section: ToolSection.scan,
+      icon: Icons.document_scanner_outlined,
+      featureNumber: 47,
+      touches: const <DataTouch>{DataTouch.camera, DataTouch.files},
+      builder: (BuildContext context) => const DocumentScannerScreen(),
     ),
     ToolEntry(
       id: 'convert-anything',

@@ -37,6 +37,8 @@ dependencies:
   pointycastle: ^3.9.1
   # 021 Images to PDF: take a photo with the camera.
   image_picker: ^1.1.2
+  # 047 Document scanner: live preview frames for edge detection.
+  camera: ^0.11.0
 
 dev_dependencies:
   flutter_test:
