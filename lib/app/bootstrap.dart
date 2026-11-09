@@ -27,6 +27,7 @@ import 'app.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/word_pdf/word_pdf_screen.dart';
 import '../tools/resize/resize_screen.dart';
+import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
 import '../engines/convert/convert_registry.dart';
 import '../engines/convert/word_converters.dart';
@@ -297,6 +298,14 @@ void bootstrap() {
       icon: Icons.high_quality_outlined,
       featureNumber: 128,
       builder: (BuildContext context) => const SendOriginalScreen(),
+    ),
+    ToolEntry(
+      id: 'status-saver',
+      name: 'Status saver',
+      section: ToolSection.links,
+      icon: Icons.amp_stories_outlined,
+      featureNumber: 125,
+      builder: (BuildContext context) => const StatusSaverScreen(),
     ),
     ToolEntry(
       id: 'history',
