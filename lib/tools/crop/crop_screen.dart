@@ -497,8 +497,13 @@ class _CropCanvasState extends State<_CropCanvas> {
                   ),
                   for (final CropCorner corner in CropCorner.values)
                     Positioned(
-                      left: (_isRight(corner) ? box.right : box.left) - handle / 2,
-                      top: (_isBottom(corner) ? box.bottom : box.top) - handle / 2,
+                      // Kept inside the canvas so the whole touch target is hittable.
+                      left: ((_isRight(corner) ? box.right : box.left) - handle / 2)
+                          .clamp(0.0, math.max(0.0, w - handle))
+                          .toDouble(),
+                      top: ((_isBottom(corner) ? box.bottom : box.top) - handle / 2)
+                          .clamp(0.0, math.max(0.0, h - handle))
+                          .toDouble(),
                       width: handle,
                       height: handle,
                       child: Semantics(
