@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/share/original_quality.dart';
 import '../../engines/share/share_engine.dart';
@@ -215,7 +214,7 @@ class _SendOriginalScreenState extends State<SendOriginalScreen> {
                 child: Text(
                   _status!,
                   key: const Key('original-status'),
-                  style: text.bodyMedium?.copyWith(color: AppColors.ink),
+                  style: text.bodyLarge?.copyWith(fontSize: 13),
                 ),
               ),
             ),

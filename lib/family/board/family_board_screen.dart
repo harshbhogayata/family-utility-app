@@ -185,7 +185,7 @@ class _FamilyBoardScreenState extends State<FamilyBoardScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text('No notes yet. Pinned notes show on the Family screen.',
-                style: text.bodyMedium?.copyWith(color: AppColors.muted)),
+                style: text.bodyMedium),
           ),
         for (final FamilyNote n in notes) _noteTile(n),
         const SizedBox(height: 20),
@@ -235,7 +235,7 @@ class _FamilyBoardScreenState extends State<FamilyBoardScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text('No tasks yet. Give each one an owner and, if it matters, a due date.',
-                style: text.bodyMedium?.copyWith(color: AppColors.muted)),
+                style: text.bodyMedium),
           ),
         for (final FamilyTask t in tasks) _taskTile(t, today),
       ],

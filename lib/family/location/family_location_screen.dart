@@ -209,7 +209,7 @@ class _FamilyLocationScreenState extends State<FamilyLocationScreen> {
         const SizedBox(height: 12),
         Text(
           'Your trail of the last 7 days stays on this phone: ${_loc.trail.length} points.',
-          style: text.bodySmall?.copyWith(color: AppColors.muted),
+          style: text.bodySmall,
         ),
       ],
     );

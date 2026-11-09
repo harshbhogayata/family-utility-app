@@ -195,7 +195,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
         const SizedBox(height: 4),
         Text(
           '${members.length} ${members.length == 1 ? 'member' : 'members'} · ${_space.store.liveCount} shared items',
-          style: text.bodyMedium?.copyWith(color: AppColors.muted),
+          style: text.bodyMedium,
         ),
         // 073: notes pinned to the family screen.
         for (final FamilyNote n in FamilyBoard.pinnedIn(_space.store))

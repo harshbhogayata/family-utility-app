@@ -239,7 +239,7 @@ class _RedactScreenState extends State<RedactScreen> {
           Text(
             'Finds faces, number plates and Aadhaar numbers on this phone. '
             'The cover is baked into a new picture; nothing is uploaded.',
-            style: text.bodyMedium?.copyWith(color: AppColors.muted),
+            style: text.bodyMedium,
           ),
           const SizedBox(height: 12),
           OutlinedButton.icon(

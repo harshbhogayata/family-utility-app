@@ -185,7 +185,7 @@ class _OcrScanScreenState extends State<OcrScanScreen> {
           Text(
             'Reads the words in a scanned PDF on this phone and adds them as an invisible layer, '
             'so you can search and select text. The pages look the same; nothing is uploaded.',
-            style: text.bodyMedium?.copyWith(color: AppColors.muted),
+            style: text.bodyMedium,
           ),
           const SizedBox(height: 16),
           OutlinedButton.icon(

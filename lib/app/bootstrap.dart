@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../engines/platform/accessibility.dart';
 import '../engines/platform/action_history.dart';
 import '../engines/platform/versions.dart';
 import '../engines/platform/file_manager.dart';
@@ -24,6 +25,7 @@ import '../engines/family/member_profiles.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
+import '../platform/accessibility_store.dart';
 import '../platform/document_vault_platform.dart';
 import '../platform/location_platform.dart';
 import '../platform/vault_platform.dart';
@@ -120,6 +122,7 @@ import '../platform/mlkit_text_platform.dart';
 import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/nearby_share/nearby_share_screen.dart';
+import '../tools/accessibility/accessibility_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/private_vault/private_vault_screen.dart';
@@ -245,6 +248,11 @@ void bootstrap() {
   final MemberProfiles profiles = MemberProfiles(const PrefsProfileStore());
   MemberProfiles.install(profiles);
   unawaited(profiles.load());
+
+  // 109: dark mode, text size and one-hand layout.
+  final AccessibilityPrefs accessibility = AccessibilityPrefs(const PrefsAccessibilityStore());
+  AccessibilityPrefs.install(accessibility);
+  unawaited(accessibility.load());
 
   final FirstRun firstRun = FirstRun(const PrefsFirstRunStore());
   FirstRun.install(firstRun);
@@ -1125,6 +1133,15 @@ void bootstrap() {
       featureNumber: 130,
       touches: const <DataTouch>{DataTouch.files},
       builder: (BuildContext context) => const VideoPlayerScreen(),
+    ),
+    ToolEntry(
+      id: 'accessibility',
+      name: 'Accessibility',
+      section: ToolSection.platform,
+      icon: Icons.accessibility_new,
+      featureNumber: 109,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const AccessibilityScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',

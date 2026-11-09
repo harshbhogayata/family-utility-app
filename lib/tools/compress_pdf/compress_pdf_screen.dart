@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/pdf/pdf_compressor.dart';
 import '../../engines/share/share_engine.dart';
@@ -264,7 +263,7 @@ class _CompressPdfScreenState extends State<CompressPdfScreen> {
             Text(
               '${formatBytes(a.size)} · ${a.pages} ${a.pages == 1 ? 'page' : 'pages'} · ${a.images.length} '
               '${a.images.length == 1 ? 'photo' : 'photos'}',
-              style: text.bodyMedium?.copyWith(color: AppColors.muted),
+              style: text.bodyMedium,
             ),
             const SizedBox(height: 16),
             Semantics(
@@ -285,7 +284,7 @@ class _CompressPdfScreenState extends State<CompressPdfScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            Text(_preset.hint, style: text.bodySmall?.copyWith(color: AppColors.muted)),
+            Text(_preset.hint, style: text.bodySmall),
             const SizedBox(height: 12),
             Text(
               'Estimated: about ${formatBytes(a.estimate(_preset))}',

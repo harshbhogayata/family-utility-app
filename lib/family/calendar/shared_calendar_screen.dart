@@ -173,7 +173,7 @@ class _SharedCalendarScreenState extends State<SharedCalendarScreen> {
           Text(
             'Add an event and it shows on every family phone, in its owner\'s colour. '
             'It syncs over your Wi-Fi or your own folder; nothing goes to a server.',
-            style: text.bodyMedium?.copyWith(color: AppColors.muted),
+            style: text.bodyMedium,
           ),
         ],
       );

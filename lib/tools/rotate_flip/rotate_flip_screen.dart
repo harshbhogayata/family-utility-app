@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/image/rotate_flip.dart';
 import '../../engines/share/share_engine.dart';
@@ -179,7 +178,7 @@ class _RotateFlipScreenState extends State<RotateFlipScreen> {
           Text(
             'Photos (JPG) are turned without losing quality: only the orientation note inside the file changes. '
             'Other pictures are redrawn as PNG. Nothing leaves this phone.',
-            style: text.bodyMedium?.copyWith(color: AppColors.muted),
+            style: text.bodyMedium,
           ),
           const SizedBox(height: 16),
           OutlinedButton.icon(

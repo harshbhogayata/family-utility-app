@@ -237,7 +237,7 @@ class _OneSearchScreenState extends State<OneSearchScreen> {
         child: Text(
           '${o.results.length} found in ${o.elapsed.inMilliseconds} ms',
           key: const Key('one-search-count'),
-          style: text.labelSmall?.copyWith(color: AppColors.muted),
+          style: text.labelSmall,
         ),
       ),
     ];

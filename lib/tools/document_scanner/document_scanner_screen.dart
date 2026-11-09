@@ -506,7 +506,7 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
         liveRegion: true,
         child: Text(_status!,
             key: const Key('scan-status'),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.ink)),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 13)),
       ),
     );
   }

@@ -234,13 +234,13 @@ class _DocumentVaultScreenState extends State<DocumentVaultScreen> {
         Text(
           'Files are encrypted on the phone that added them. The family sees '
           'each card\'s name and expiry, and gets reminders 30, 7 and 1 day before.',
-          style: text.bodySmall?.copyWith(color: AppColors.muted),
+          style: text.bodySmall,
         ),
         if (groups.isEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: Text('No documents yet. Add an Aadhaar, PAN, passport, vehicle papers or insurance.',
-                style: text.bodyMedium?.copyWith(color: AppColors.muted)),
+                style: text.bodyMedium),
           ),
         for (final MapEntry<String, List<FamilyDocument>> g in groups) ...<Widget>[
           Padding(

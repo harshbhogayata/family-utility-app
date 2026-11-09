@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/archive/archive_engine.dart';
 import '../../engines/archive/zip_codec.dart';
@@ -289,7 +288,7 @@ class _ArchivesScreenState extends State<ArchivesScreen> {
                 child: Text(
                   _status!,
                   key: const Key('archive-status'),
-                  style: text.bodyMedium?.copyWith(color: AppColors.ink),
+                  style: text.bodyLarge?.copyWith(fontSize: 13),
                 ),
               ),
             ),

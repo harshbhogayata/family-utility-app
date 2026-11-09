@@ -219,7 +219,7 @@ class _ImagesToPdfScreenState extends State<ImagesToPdfScreen> {
               child: Semantics(
                 liveRegion: true,
                 child: Text(_status!,
-                    key: const Key('i2p-status'), style: text.bodyMedium?.copyWith(color: AppColors.ink)),
+                    key: const Key('i2p-status'), style: text.bodyLarge?.copyWith(fontSize: 13)),
               ),
             ),
           const SizedBox(height: 12),

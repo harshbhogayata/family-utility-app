@@ -21,6 +21,69 @@ abstract final class AppColors {
   ];
 }
 
+/// One set of colours per brightness (feature 109 adds dark). Every text
+/// role meets 4.5:1 on its ground and surface.
+@immutable
+class AppPalette {
+  const AppPalette({
+    required this.brightness,
+    required this.ground,
+    required this.surface,
+    required this.line,
+    required this.divider,
+    required this.ink,
+    required this.muted,
+    required this.accent,
+    required this.accentDark,
+    required this.accentTint,
+    required this.onAccent,
+    required this.error,
+  });
+
+  final Brightness brightness;
+  final Color ground;
+  final Color surface;
+  final Color line;
+  final Color divider;
+  final Color ink;
+  final Color muted;
+  final Color accent;
+  final Color accentDark;
+  final Color accentTint;
+  final Color onAccent;
+  final Color error;
+
+  static const AppPalette light = AppPalette(
+    brightness: Brightness.light,
+    ground: AppColors.ground,
+    surface: AppColors.surface,
+    line: AppColors.line,
+    divider: AppColors.divider,
+    ink: AppColors.ink,
+    muted: AppColors.muted,
+    accent: AppColors.accent,
+    accentDark: AppColors.accentDark,
+    accentTint: AppColors.accentTint,
+    onAccent: Colors.white,
+    error: Color(0xFFB3261E),
+  );
+
+  static const AppPalette dark = AppPalette(
+    brightness: Brightness.dark,
+    ground: Color(0xFF121416),
+    surface: Color(0xFF1B1E21),
+    line: Color(0xFF34393E),
+    divider: Color(0xFF25292D),
+    ink: Color(0xFFECEDEF),
+    muted: Color(0xFFA9AFB8),
+    accent: Color(0xFF5CC7BA),
+    accentDark: Color(0xFF9BE3D9),
+    accentTint: Color(0xFF173431),
+    onAccent: Color(0xFF00201D),
+    error: Color(0xFFF2B8B5),
+  );
+}
+
 abstract final class AppRadius {
   static const double card = 16;
   static const double input = 14;
@@ -60,83 +123,84 @@ TextStyle _grotesk(double size, Color color) {
 
 /// The app's text scale: Space Grotesk 700 for titles (22 px), Inter for
 /// everything else (15 body, 13 secondary, 12 caption, 11 nav).
-TextTheme buildTextTheme() {
+TextTheme buildTextTheme([AppPalette p = AppPalette.light]) {
   return TextTheme(
-    headlineSmall: _grotesk(22, AppColors.ink),
-    titleLarge: _grotesk(22, AppColors.ink),
-    titleMedium: _inter(15, FontWeight.w600, AppColors.ink),
-    titleSmall: _inter(13, FontWeight.w600, AppColors.ink),
-    bodyLarge: _inter(15, FontWeight.w400, AppColors.ink, height: 1.4),
-    bodyMedium: _inter(13, FontWeight.w400, AppColors.muted, height: 1.4),
-    bodySmall: _inter(12, FontWeight.w400, AppColors.muted),
-    labelLarge: _inter(15, FontWeight.w600, AppColors.ink),
-    labelMedium: _inter(12, FontWeight.w500, AppColors.muted),
-    labelSmall: _inter(11, FontWeight.w500, AppColors.muted),
+    headlineSmall: _grotesk(22, p.ink),
+    titleLarge: _grotesk(22, p.ink),
+    titleMedium: _inter(15, FontWeight.w600, p.ink),
+    titleSmall: _inter(13, FontWeight.w600, p.ink),
+    bodyLarge: _inter(15, FontWeight.w400, p.ink, height: 1.4),
+    bodyMedium: _inter(13, FontWeight.w400, p.muted, height: 1.4),
+    bodySmall: _inter(12, FontWeight.w400, p.muted),
+    labelLarge: _inter(15, FontWeight.w600, p.ink),
+    labelMedium: _inter(12, FontWeight.w500, p.muted),
+    labelSmall: _inter(11, FontWeight.w500, p.muted),
   );
 }
 
-ThemeData buildAppTheme() {
-  const ColorScheme scheme = ColorScheme(
-    brightness: Brightness.light,
-    primary: AppColors.accent,
-    onPrimary: Colors.white,
-    primaryContainer: AppColors.accentTint,
-    onPrimaryContainer: AppColors.accentDark,
-    secondary: AppColors.accentDark,
-    onSecondary: Colors.white,
-    secondaryContainer: AppColors.accentTint,
-    onSecondaryContainer: AppColors.accentDark,
-    error: Color(0xFFB3261E),
-    onError: Colors.white,
-    surface: AppColors.surface,
-    onSurface: AppColors.ink,
-    onSurfaceVariant: AppColors.muted,
-    outline: AppColors.line,
-    outlineVariant: AppColors.divider,
-    surfaceContainerHighest: AppColors.divider,
+ThemeData buildAppTheme({Brightness brightness = Brightness.light}) {
+  final AppPalette p = brightness == Brightness.dark ? AppPalette.dark : AppPalette.light;
+  final ColorScheme scheme = ColorScheme(
+    brightness: p.brightness,
+    primary: p.accent,
+    onPrimary: p.onAccent,
+    primaryContainer: p.accentTint,
+    onPrimaryContainer: p.accentDark,
+    secondary: p.accentDark,
+    onSecondary: p.onAccent,
+    secondaryContainer: p.accentTint,
+    onSecondaryContainer: p.accentDark,
+    error: p.error,
+    onError: p.onAccent,
+    surface: p.surface,
+    onSurface: p.ink,
+    onSurfaceVariant: p.muted,
+    outline: p.line,
+    outlineVariant: p.divider,
+    surfaceContainerHighest: p.divider,
   );
 
-  final TextTheme text = buildTextTheme();
+  final TextTheme text = buildTextTheme(p);
   final RoundedRectangleBorder cardShape = RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(AppRadius.card),
-    side: const BorderSide(color: AppColors.line),
+    side: BorderSide(color: p.line),
   );
 
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
-    scaffoldBackgroundColor: AppColors.ground,
+    scaffoldBackgroundColor: p.ground,
     fontFamily: AppFonts.body,
     textTheme: text,
-    dividerColor: AppColors.divider,
+    dividerColor: p.divider,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.ground,
-      foregroundColor: AppColors.ink,
+      backgroundColor: p.ground,
+      foregroundColor: p.ink,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
       titleTextStyle: text.titleLarge,
     ),
     cardTheme: CardThemeData(
-      color: AppColors.surface,
+      color: p.surface,
       elevation: 0,
       shape: cardShape,
       margin: EdgeInsets.zero,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.surface,
+      fillColor: p.surface,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppRadius.input),
-        borderSide: const BorderSide(color: AppColors.line),
+        borderSide: BorderSide(color: p.line),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppRadius.input),
-        borderSide: const BorderSide(color: AppColors.line),
+        borderSide: BorderSide(color: p.line),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppRadius.input),
-        borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+        borderSide: BorderSide(color: p.accent, width: 1.5),
       ),
     ),
     filledButtonTheme: FilledButtonThemeData(
@@ -151,8 +215,8 @@ ThemeData buildAppTheme() {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         minimumSize: const Size(kMinTouchTarget, kMinTouchTarget + 4),
-        side: const BorderSide(color: AppColors.line),
-        foregroundColor: AppColors.ink,
+        side: BorderSide(color: p.line),
+        foregroundColor: p.ink,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.round),
         ),
@@ -162,7 +226,7 @@ ThemeData buildAppTheme() {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         minimumSize: const Size(kMinTouchTarget, kMinTouchTarget),
-        foregroundColor: AppColors.accent,
+        foregroundColor: p.accent,
       ),
     ),
     iconButtonTheme: IconButtonThemeData(
@@ -171,24 +235,24 @@ ThemeData buildAppTheme() {
       ),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: AppColors.surface,
-      selectedColor: AppColors.accentTint,
-      side: const BorderSide(color: AppColors.line),
-      labelStyle: text.labelMedium?.copyWith(color: AppColors.ink),
+      backgroundColor: p.surface,
+      selectedColor: p.accentTint,
+      side: BorderSide(color: p.line),
+      labelStyle: text.labelMedium?.copyWith(color: p.ink),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.round),
       ),
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: AppColors.surface,
-      indicatorColor: AppColors.accentTint,
+      backgroundColor: p.surface,
+      indicatorColor: p.accentTint,
       height: 64,
       labelTextStyle: WidgetStatePropertyAll<TextStyle?>(text.labelSmall),
       iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
         (Set<WidgetState> states) => IconThemeData(
           color: states.contains(WidgetState.selected)
-              ? AppColors.accentDark
-              : AppColors.muted,
+              ? p.accentDark
+              : p.muted,
           size: 22,
         ),
       ),
@@ -199,9 +263,9 @@ ThemeData buildAppTheme() {
         borderRadius: BorderRadius.circular(AppRadius.input),
       ),
     ),
-    listTileTheme: const ListTileThemeData(
+    listTileTheme: ListTileThemeData(
       minVerticalPadding: 10,
-      iconColor: AppColors.muted,
+      iconColor: p.muted,
     ),
   );
 }

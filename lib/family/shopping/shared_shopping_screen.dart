@@ -163,7 +163,7 @@ class _SharedShoppingScreenState extends State<SharedShoppingScreen> {
         child: Text(
           'The list is empty. Anything you add shows on every family phone, '
           'and a tick at the shop shows for everyone.',
-          style: text.bodyMedium?.copyWith(color: AppColors.muted),
+          style: text.bodyMedium,
         ),
       );
     }

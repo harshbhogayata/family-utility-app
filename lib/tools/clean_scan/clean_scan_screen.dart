@@ -262,7 +262,7 @@ class _CleanScanScreenState extends State<CleanScanScreen> {
           Text(
             'Finds blank pages, straightens crooked scans and turns upside-down pages the right way up, '
             'all on this phone. You see every page before anything is removed; your original stays as it is.',
-            style: text.bodyMedium?.copyWith(color: AppColors.muted),
+            style: text.bodyMedium,
           ),
           const SizedBox(height: 16),
           OutlinedButton.icon(

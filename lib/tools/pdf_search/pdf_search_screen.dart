@@ -481,7 +481,7 @@ class _PdfSearchScreenState extends State<PdfSearchScreen> {
                       'Type a word to search every PDF and scan on this phone. '
                       'The text is read and searched here; nothing is uploaded.',
                       textAlign: TextAlign.center,
-                      style: text.bodyMedium?.copyWith(color: AppColors.muted),
+                      style: text.bodyMedium,
                     ),
                   ),
                 )

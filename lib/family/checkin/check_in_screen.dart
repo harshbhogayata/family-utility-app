@@ -129,7 +129,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
         if (feed.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text('No check-ins in the last 7 days.', style: text.bodyMedium?.copyWith(color: AppColors.muted)),
+            child: Text('No check-ins in the last 7 days.', style: text.bodyMedium),
           ),
         for (final CheckIn c in feed)
           ListTile(
