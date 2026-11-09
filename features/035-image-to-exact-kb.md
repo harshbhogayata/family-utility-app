@@ -3,14 +3,14 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 678b67d
 **Depends on:** [034 Compress images](./034-compress-images.md), [040 Resize](./040-resize.md)
 
 ## What the person gets
 Hit an exact size for forms: 20, 50, 100, 200 KB or custom.
 
 ## Acceptance criteria
-- [ ] Binary search on quality and dimensions until within 5% under target
+- [x] Binary search on quality and dimensions until within 5% under target
 - [x] Optional dimension lock in px or mm; result shown with a 'fits the limit' tick
 - [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
 - [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
