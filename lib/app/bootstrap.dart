@@ -46,6 +46,7 @@ import '../engines/download/shared_link.dart';
 import '../engines/download/video_link.dart';
 import '../platform/video_notice_prefs.dart';
 import '../tools/video_link/video_link_screen.dart';
+import '../tools/audio_link/audio_link_screen.dart';
 import '../engines/download/clipboard_watch.dart';
 import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
@@ -577,6 +578,17 @@ void bootstrap() {
       networkReason: 'Reads the public page of the link you paste and fetches its video. Nothing of yours is uploaded.',
       touches: const <DataTouch>{DataTouch.files, DataTouch.network},
       builder: (BuildContext context) => const VideoLinkScreen(),
+    ),
+    ToolEntry(
+      id: 'audio-link',
+      name: 'Audio from a link',
+      section: ToolSection.links,
+      icon: Icons.audiotrack_outlined,
+      featureNumber: 124,
+      needsNetwork: true,
+      networkReason: 'Reads the public page of the link you paste and fetches its sound. Nothing of yours is uploaded.',
+      touches: const <DataTouch>{DataTouch.files, DataTouch.network},
+      builder: (BuildContext context) => const AudioLinkScreen(),
     ),
     ToolEntry(
       id: 'clipboard-watch',
