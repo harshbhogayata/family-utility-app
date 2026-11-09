@@ -116,6 +116,7 @@ abstract final class BatchPolicy {
     51: BatchSupport.noPicker(),
     52: BatchSupport.single('One QR code holds one logo.'),
     55: BatchSupport.noPicker(),
+    56: BatchSupport.multiPicker(),
     57: BatchSupport.noPicker(),
     59: BatchSupport.noPicker(),
     62: BatchSupport.multiPicker(),
