@@ -1,14 +1,14 @@
 # Progress
 
-Done: 106 / 130  (81%)
+Done: 107 / 130  (82%)
 In progress: none
-Updated: 2026-11-09 22:42 UTC
+Updated: 2026-11-09 22:51 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 84 |
 | 2 — family layer | 20 | 20 |
-| 3 — personal records | 24 | 2 |
+| 3 — personal records | 24 | 3 |
 
 ## Done
 - 001 PDF viewer — done 1555094
@@ -90,6 +90,7 @@ Updated: 2026-11-09 22:42 UTC
 - 079 Sync through your own Drive or home Wi-Fi — done 83d0f04
 - 080 Expense tracker — done 56d4674
 - 088 Medicine reminders with pill stock — done 61696fd
+- 096 Saved addresses and autofill profile — done 592f2a5
 - 104 Offline first — done 12c34d3
 - 105 Paste anything — done 1516ef8
 - 106 Smart suggestions — done 196df57
