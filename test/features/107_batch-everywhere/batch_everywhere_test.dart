@@ -64,6 +64,7 @@ const Map<String, int> folderFeature = <String, int>{
   'protect_pdf': 11,
   'unlock_pdf': 12,
   'redact_pdf': 13,
+  'encrypt_file': 58,
   'redact': 45,
   'batch': 107,
   'batch_convert': 31,

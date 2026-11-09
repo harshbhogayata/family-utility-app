@@ -90,6 +90,7 @@ import '../tools/rotate_flip/rotate_flip_screen.dart';
 import '../engines/convert/sheet_converters.dart';
 import '../tools/redact/redact_screen.dart';
 import '../tools/redact_pdf/redact_pdf_screen.dart';
+import '../tools/encrypt_file/encrypt_file_screen.dart';
 import '../engines/image/scan_namer.dart';
 import '../engines/image/one_tap_scan.dart';
 import '../platform/mlkit_text_platform.dart';
@@ -558,6 +559,14 @@ void bootstrap() {
       featureNumber: 57,
       touches: const <DataTouch>{DataTouch.files, DataTouch.clipboard},
       builder: (BuildContext context) => const SecureNotesScreen(),
+    ),
+    ToolEntry(
+      id: 'encrypt-file',
+      name: 'Encrypt any file',
+      section: ToolSection.security,
+      icon: Icons.enhanced_encryption_outlined,
+      featureNumber: 58,
+      builder: (BuildContext context) => const EncryptFileScreen(),
     ),
     ToolEntry(
       id: 'compress-pdf',
