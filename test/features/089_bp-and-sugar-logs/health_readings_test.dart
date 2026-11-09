@@ -9,25 +9,25 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('engine', () {
     test('one-line entries parse as BP or sugar', () {
-      final ParsedReading bp = HealthLog.parse('128/84 72')!;
+      final ParsedReading bp = HealthReadings.parse('128/84 72')!;
       expect(bp.kind, ReadingKind.bp);
       expect(bp.systolic, 128);
       expect(bp.diastolic, 84);
       expect(bp.pulse, 72);
-      expect(HealthLog.parse('bp 130 85 after walk')!.note, 'walk');
-      expect(HealthLog.parse('120 80')!.kind, ReadingKind.bp);
+      expect(HealthReadings.parse('bp 130 85 after walk')!.note, 'walk');
+      expect(HealthReadings.parse('120 80')!.kind, ReadingKind.bp);
 
-      final ParsedReading f = HealthLog.parse('110 fasting')!;
+      final ParsedReading f = HealthReadings.parse('110 fasting')!;
       expect(f.kind, ReadingKind.sugar);
       expect(f.sugar, 110);
       expect(f.context, SugarContext.fasting);
-      expect(HealthLog.parse('sugar 160 after lunch')!.context, SugarContext.afterMeal);
-      expect(HealthLog.parse('ppbs 150')!.context, SugarContext.afterMeal);
-      expect(HealthLog.parse('140 mg/dl')!.kind, ReadingKind.sugar);
-      expect(HealthLog.parse('95', prefer: ReadingKind.sugar)!.sugar, 95);
-      expect(HealthLog.parse('95', prefer: ReadingKind.bp), isNull);
-      expect(HealthLog.parse('80/120'), isNull);
-      expect(HealthLog.parse('hello'), isNull);
+      expect(HealthReadings.parse('sugar 160 after lunch')!.context, SugarContext.afterMeal);
+      expect(HealthReadings.parse('ppbs 150')!.context, SugarContext.afterMeal);
+      expect(HealthReadings.parse('140 mg/dl')!.kind, ReadingKind.sugar);
+      expect(HealthReadings.parse('95', prefer: ReadingKind.sugar)!.sugar, 95);
+      expect(HealthReadings.parse('95', prefer: ReadingKind.bp), isNull);
+      expect(HealthReadings.parse('80/120'), isNull);
+      expect(HealthReadings.parse('hello'), isNull);
     });
 
     test('bands follow common adult reference ranges', () {
@@ -48,7 +48,7 @@ void main() {
     test('range, summary, undo, saved and reloaded', () async {
       DateTime now = DateTime(2026, 3, 1, 8);
       final MemoryHealthReadingStore store = MemoryHealthReadingStore();
-      final HealthLog log = HealthLog(store: store, now: () => now);
+      final HealthReadings log = HealthReadings(store: store, now: () => now);
       log.quickAdd('120/80 70');
       now = DateTime(2026, 3, 2, 8);
       log.quickAdd('140/90');
@@ -61,7 +61,7 @@ void main() {
 
       final List<HealthReading> r = log.inRange(ReadingKind.bp, DateTime(2026, 3, 1), DateTime(2026, 3, 2));
       expect(r.map((HealthReading x) => x.systolic).toList(), <int>[120, 140]);
-      final ({int count, int avg, int min, int max, int avgDia}) s = HealthLog.summary(r)!;
+      final ({int count, int avg, int min, int max, int avgDia}) s = HealthReadings.summary(r)!;
       expect(s.count, 2);
       expect(s.avg, 130);
       expect(s.avgDia, 85);
@@ -76,7 +76,7 @@ void main() {
       expect(log.undo(), isFalse);
 
       await Future<void>.delayed(Duration.zero);
-      final HealthLog again = HealthLog(store: store);
+      final HealthReadings again = HealthReadings(store: store);
       await again.load();
       expect(again.all.length, 4);
       expect(again.all.last.pulse, 70);
@@ -84,7 +84,7 @@ void main() {
     });
 
     test('PDF of a date range is a well-formed PDF with the readings', () {
-      final HealthLog log = HealthLog(now: () => DateTime(2026, 3, 1, 8));
+      final HealthReadings log = HealthReadings(now: () => DateTime(2026, 3, 1, 8));
       for (int i = 0; i < 70; i++) {
         log.addBp(systolic: 120 + i % 20, diastolic: 80, pulse: 70, note: 'arm (left) ₹', at: DateTime(2026, 3, 1).add(Duration(hours: i * 6)));
       }
@@ -118,7 +118,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     DateTime clock() => DateTime(2026, 3, 20, 9);
-    final HealthLog log = HealthLog(now: clock);
+    final HealthReadings log = HealthReadings(now: clock);
     Uint8List? shared;
     String? sharedName;
     String? savedName;
@@ -153,7 +153,7 @@ void main() {
     await tester.enterText(find.byKey(const Key('health-entry')), '108');
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
-    expect(log.all.first.kind, ReadingKind.sugar);
+    expect(log.all.where((HealthReading r) => r.kind == ReadingKind.sugar).length, 1);
     expect(find.text('108 mg/dL random'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('health-range')));

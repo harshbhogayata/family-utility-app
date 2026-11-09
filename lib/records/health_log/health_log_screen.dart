@@ -14,7 +14,7 @@ import '../../engines/share/share_engine.dart';
 class HealthLogScreen extends StatefulWidget {
   const HealthLogScreen({super.key, this.log, this.share, this.save, this.now, this.pickRange});
 
-  final HealthLog? log;
+  final HealthReadings? log;
 
   /// Shares the PDF; defaults to the share sheet.
   final Future<void> Function(Uint8List pdf, String name)? share;
@@ -31,7 +31,7 @@ class HealthLogScreen extends StatefulWidget {
 }
 
 class _HealthLogScreenState extends State<HealthLogScreen> {
-  HealthLog get _log => widget.log ?? HealthLog.instance;
+  HealthReadings get _log => widget.log ?? HealthReadings.instance;
   final TextEditingController _entry = TextEditingController();
   ReadingKind _kind = ReadingKind.bp;
   late DateTimeRange _range;
@@ -142,7 +142,7 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
     final TextTheme text = Theme.of(context).textTheme;
     final ColorScheme cs = Theme.of(context).colorScheme;
     final List<HealthReading> rs = _shown;
-    final ({int count, int avg, int min, int max, int avgDia})? s = HealthLog.summary(rs);
+    final ({int count, int avg, int min, int max, int avgDia})? s = HealthReadings.summary(rs);
     final String summary = s == null
         ? 'No readings in this range.'
         : _kind == ReadingKind.bp

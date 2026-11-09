@@ -213,8 +213,8 @@ class FileHealthReadingStore implements HealthReadingStore {
   }
 }
 
-class HealthLog extends ChangeNotifier {
-  HealthLog({HealthReadingStore? store, DateTime Function()? now})
+class HealthReadings extends ChangeNotifier {
+  HealthReadings({HealthReadingStore? store, DateTime Function()? now})
       : _store = store ?? MemoryHealthReadingStore(),
         _now = now ?? DateTime.now;
 
@@ -391,8 +391,8 @@ class HealthLog extends ChangeNotifier {
     return (count: rs.length, avg: (sum / rs.length).round(), min: lo, max: hi, avgDia: (dia / rs.length).round());
   }
 
-  static HealthLog instance = HealthLog();
-  static void install(HealthLog l) => instance = l;
+  static HealthReadings instance = HealthReadings();
+  static void install(HealthReadings l) => instance = l;
 }
 
 String _two(int v) => v.toString().padLeft(2, '0');
@@ -454,7 +454,7 @@ class HealthPdf {
     y -= 34;
     first.write(_text(_m, y, 11, '${person.trim().isEmpty ? '' : '${person.trim()} - '}${readingDate(from)} to ${readingDate(to)}'));
     y -= 16;
-    final ({int count, int avg, int min, int max, int avgDia})? s = HealthLog.summary(readings);
+    final ({int count, int avg, int min, int max, int avgDia})? s = HealthReadings.summary(readings);
     final String unit = kind == ReadingKind.bp ? 'mmHg' : 'mg/dL';
     final String sumLine = s == null
         ? 'No readings in this range.'

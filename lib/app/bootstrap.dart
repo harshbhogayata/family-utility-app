@@ -377,8 +377,8 @@ void bootstrap() {
   unawaited(expenses.load());
 
   // 089: BP and sugar readings in the app's own folder.
-  final HealthLog healthLog = HealthLog(store: FileHealthReadingStore(() => appFolder('health')));
-  HealthLog.install(healthLog);
+  final HealthReadings healthLog = HealthReadings(store: FileHealthReadingStore(() => appFolder('health')));
+  HealthReadings.install(healthLog);
   unawaited(healthLog.load());
 
   // 081: shared bills and settle-up, kept beside the ledger.
