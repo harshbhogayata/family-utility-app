@@ -207,8 +207,11 @@ class _ShrinkToSendScreenState extends State<ShrinkToSendScreen> {
         ),
       ),
     );
-    name.dispose();
-    mb.dispose();
+    // The dialog is still animating out; dispose its controllers after that.
+    WidgetsBinding.instance.addPostFrameCallback((_) => Future<void>.delayed(const Duration(seconds: 1), () {
+          name.dispose();
+          mb.dispose();
+        }));
     if (made == null) {
       return;
     }
