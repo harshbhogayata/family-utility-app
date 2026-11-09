@@ -176,7 +176,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 075 | [Shared contacts](features/075-shared-contacts.md) | 8. Family — shared live data | 75 | done a6a4f49 |
 | 120 | [Backup and export](features/120-backup-and-export.md) | 10. Platform | 75 | done 42ee688 |
 | 122 | [Cross-links](features/122-cross-links.md) | 10. Platform | 64 | done 1ad6efe |
-| 070 | [Family roles](features/070-family-roles.md) | 8. Family — shared live data | 60 | not started |
+| 070 | [Family roles](features/070-family-roles.md) | 8. Family — shared live data | 60 | done 9b5bd93 |
 | 116 | [Custom home](features/116-custom-home.md) | 10. Platform | 45 | not started |
 | 078 | [Change log](features/078-change-log.md) | 8. Family — shared live data | 36 | not started |
 | 119 | [Guest mode](features/119-guest-mode.md) | 10. Platform | 24 | not started |
