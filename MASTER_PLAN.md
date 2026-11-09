@@ -147,7 +147,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 005 | [Remove pages](features/005-remove-pages.md) | 1. PDF basics | 27 | done 5f495f0 |
 | 006 | [Reorder pages](features/006-reorder-pages.md) | 1. PDF basics | 27 | done 3633a4f |
 | 007 | [Rotate pages](features/007-rotate-pages.md) | 1. PDF basics | 27 | done 7a0efef |
-| 024 | [Text to PDF](features/024-text-to-pdf.md) | 2. Convert | 27 | not started |
+| 024 | [Text to PDF](features/024-text-to-pdf.md) | 2. Convert | 27 | done 1c5ba86 |
 | 012 | [Unlock a known password](features/012-unlock-a-known-password.md) | 1. PDF basics | 24 | not started |
 | 013 | [Redact](features/013-redact.md) | 1. PDF basics | 24 | not started |
 | 058 | [Encrypt any file](features/058-encrypt-any-file.md) | 6. Security | 24 | not started |
