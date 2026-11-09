@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../engines/share/share_engine.dart';
+import '../../engines/platform/app_strings.dart';
+import '../strings_scope.dart';
 import '../theme.dart';
 
 /// The row every tool result ends with: Share, Save and Undo (DESIGN.md).
@@ -12,18 +14,20 @@ class ResultBar extends StatelessWidget {
     required this.onShare,
     required this.onSave,
     required this.onUndo,
-    this.saveLabel = 'Save',
-    this.undoLabel = 'Undo',
+    this.saveLabel,
+    this.undoLabel,
   });
 
   final VoidCallback onShare;
   final VoidCallback onSave;
   final VoidCallback onUndo;
-  final String saveLabel;
-  final String undoLabel;
+  /// Defaults to "Save" in the active profile's language (feature 110).
+  final String? saveLabel;
+  final String? undoLabel;
 
   @override
   Widget build(BuildContext context) {
+    final AppStrings t = AppStringsScope.of(context);
     return SafeArea(
       top: false,
       child: Container(
@@ -43,7 +47,7 @@ class ResultBar extends StatelessWidget {
                     key: const Key('result-undo'),
                     onPressed: onUndo,
                     icon: const Icon(Icons.undo),
-                    label: Text(undoLabel),
+                    label: Text(undoLabel ?? t.undo),
                   ),
                 ),
                 const SizedBox(width: AppRadius.gridGap),
@@ -52,7 +56,7 @@ class ResultBar extends StatelessWidget {
                     key: const Key('result-share'),
                     onPressed: onShare,
                     icon: const Icon(Icons.ios_share),
-                    label: const Text('Share'),
+                    label: Text(t.share),
                   ),
                 ),
                 const SizedBox(width: AppRadius.gridGap),
@@ -61,7 +65,7 @@ class ResultBar extends StatelessWidget {
                     key: const Key('result-save'),
                     onPressed: onSave,
                     icon: const Icon(Icons.save_alt),
-                    label: Text(saveLabel),
+                    label: Text(saveLabel ?? t.save),
                   ),
                 ),
               ],
@@ -89,7 +93,7 @@ class RecentShareTargetsLine extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
-            'Last shared to $names',
+            AppStringsScope.of(context).lastSharedTo(names),
             key: const Key('recent-share-targets'),
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,

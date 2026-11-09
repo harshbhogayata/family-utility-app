@@ -6,6 +6,16 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>hi</string>
+		<string>ta</string>
+		<string>te</string>
+		<string>bn</string>
+		<string>mr</string>
+		<string>gu</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Family Utility App</string>
 	<key>CFBundleExecutable</key>

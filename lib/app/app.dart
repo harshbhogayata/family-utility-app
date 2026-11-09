@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../engines/family/member_profiles.dart';
 import '../engines/platform/accessibility.dart';
 import '../family/calendar/calendar_reminder_host.dart';
 import '../tools/app_lock/lock_screen.dart';
 import 'shell.dart';
+import 'strings_scope.dart';
 import 'theme.dart';
 
 /// The app's root navigator, for screens opened from outside the widget tree
@@ -15,18 +18,30 @@ class FamilyUtilityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<AccessibilitySettings>(
-      valueListenable: AccessibilityPrefs.instance,
-      builder: (BuildContext context, AccessibilitySettings a, Widget? _) => MaterialApp(
-        navigatorKey: appNavigatorKey,
-        title: 'Family Utility',
-        debugShowCheckedModeBanner: false,
-        theme: buildAppTheme(),
-        darkTheme: buildAppTheme(brightness: Brightness.dark),
-        themeMode: themeModeFor(a.theme),
-        builder: (BuildContext context, Widget? child) => AccessibleFrame(settings: a, child: child),
-        home: const LockGate(child: CalendarReminderHost(child: AppShell())),
+    return ListenableBuilder(
+      listenable: Listenable.merge(<Listenable>[AccessibilityPrefs.instance, MemberProfiles.instance]),
+      builder: (BuildContext context, Widget? _) => _app(AccessibilityPrefs.instance.value),
+    );
+  }
+
+  Widget _app(AccessibilitySettings a) {
+    // 110: the active profile's language. English keeps Flutter's defaults.
+    final String code = MemberProfiles.instance.active.language;
+    final bool english = code == 'en';
+    return MaterialApp(
+      navigatorKey: appNavigatorKey,
+      locale: english ? null : Locale(code),
+      supportedLocales: english ? const <Locale>[Locale('en', 'US')] : <Locale>[Locale(code), const Locale('en')],
+      localizationsDelegates: english ? null : GlobalMaterialLocalizations.delegates,
+      title: 'Family Utility',
+      debugShowCheckedModeBanner: false,
+      theme: buildAppTheme(),
+      darkTheme: buildAppTheme(brightness: Brightness.dark),
+      themeMode: themeModeFor(a.theme),
+      builder: (BuildContext context, Widget? child) => ProfileStringsScope(
+        child: AccessibleFrame(settings: a, child: child),
       ),
+      home: const LockGate(child: CalendarReminderHost(child: AppShell())),
     );
   }
 }

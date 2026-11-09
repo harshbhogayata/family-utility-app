@@ -123,6 +123,7 @@ import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/nearby_share/nearby_share_screen.dart';
 import '../tools/accessibility/accessibility_screen.dart';
+import '../tools/language/language_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/private_vault/private_vault_screen.dart';
@@ -1142,6 +1143,15 @@ void bootstrap() {
       featureNumber: 109,
       touches: const <DataTouch>{},
       builder: (BuildContext context) => const AccessibilityScreen(),
+    ),
+    ToolEntry(
+      id: 'language',
+      name: 'Language',
+      section: ToolSection.platform,
+      icon: Icons.translate,
+      featureNumber: 110,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const LanguageScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',
