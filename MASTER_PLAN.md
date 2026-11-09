@@ -104,7 +104,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 062 | [Phone to laptop](features/062-phone-to-laptop.md) | 7. Share and transfer | 80 | done ddae934 |
 | 127 | [Download queue](features/127-download-queue.md) | 11. Links and WhatsApp essentials | 80 | not started |
 | 128 | [Send at original quality](features/128-send-at-original-quality.md) | 11. Links and WhatsApp essentials | 80 | done e65f4c8 |
-| 049 | [ID scan](features/049-id-scan.md) | 5. Scan and QR | 75 | not started |
+| 049 | [ID scan](features/049-id-scan.md) | 5. Scan and QR | 75 | done cedf8ab |
 | 118 | [Action history and trash](features/118-action-history-and-trash.md) | 10. Platform | 75 | done bfeeaf5 |
 | 125 | [WhatsApp status saver](features/125-whatsapp-status-saver.md) | 11. Links and WhatsApp essentials | 75 | done d1b57d3 |
 | 126 | [Clipboard link watch](features/126-clipboard-link-watch.md) | 11. Links and WhatsApp essentials | 75 | not started |

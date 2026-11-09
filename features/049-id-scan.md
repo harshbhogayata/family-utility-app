@@ -3,16 +3,16 @@
 **Section:** 5. Scan and QR
 **Phase:** 1
 **Priority score:** 75 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done cedf8ab
 **Depends on:** [047 Document scanner](./047-document-scanner.md), [044 ID card to A4](./044-id-card-to-a4.md)
 
 ## What the person gets
 Both sides of a card onto one page, auto-aligned.
 
 ## Acceptance criteria
-- [ ] Guided two-shot flow; output ready to print
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Guided two-shot flow; output ready to print
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

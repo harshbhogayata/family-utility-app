@@ -1,12 +1,12 @@
 # Progress
 
-Done: 32 / 130  (24%)
+Done: 33 / 130  (25%)
 In progress: none
-Updated: 2026-11-09 05:43 UTC
+Updated: 2026-11-09 05:50 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 32 |
+| 1 — file chores and platform core | 86 | 33 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -28,6 +28,7 @@ Updated: 2026-11-09 05:43 UTC
 - 044 ID card to A4 — done ce3fade
 - 047 Document scanner — done d7ded95
 - 048 Scan filters — done cb126a8
+- 049 ID scan — done cedf8ab
 - 051 QR scanner — done 012db23
 - 055 App lock — done d092d46
 - 057 Secure notes — done e9c143f
