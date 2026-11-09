@@ -115,6 +115,30 @@ void main() {
     expect(latin1.decode(r.bytes), contains('(Bookmarked) Tj'));
   });
 
+  test('50 MB of input merges in one pass', () {
+    // Each file: one page whose picture stream is 25 MB.
+    Uint8List big(int seed) {
+      const int n = 25 * 1024 * 1024;
+      final Uint8List data = Uint8List(n);
+      for (int i = 0; i < n; i += 4096) {
+        data[i] = (i ~/ 4096 + seed) & 255;
+      }
+      final Uint8List head = Uint8List.fromList(latin1.encode('%PDF-1.4\n'
+          '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n'
+          '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n'
+          '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im0 4 0 R >> >> >>\nendobj\n'
+          '4 0 obj\n<< /Type /XObject /Subtype /Image /Width 4096 /Height 6400 /ColorSpace /DeviceGray '
+          '/BitsPerComponent 8 /Length $n >>\nstream\n'));
+      final Uint8List tail = Uint8List.fromList(latin1.encode('\nendstream\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF\n'));
+      return Uint8List.fromList(<int>[...head, ...data, ...tail]);
+    }
+
+    final PdfMergeResult r = PdfMerger.merge(<MergeInput>[MergeInput('a.pdf', big(1)), MergeInput('b.pdf', big(2))]);
+    expect(r.pageCount, 2);
+    expect(r.bytes.length, greaterThan(50 * 1024 * 1024));
+    expect(PdfDocumentModel.parse(r.bytes).pageCount(), 2);
+  }, timeout: const Timeout(Duration(minutes: 3)));
+
   test('one file, or a broken file, is refused plainly', () {
     expect(() => PdfMerger.merge(<MergeInput>[MergeInput('a.pdf', withBookmarks())]), throwsA(isA<PdfCompressError>()));
     expect(
