@@ -167,11 +167,13 @@ import '../engines/records/elderly_care.dart';
 import '../engines/records/expense_tracker.dart';
 import '../engines/records/health_readings.dart';
 import '../engines/records/occasions.dart';
+import '../engines/records/whatsapp_direct.dart';
 import '../engines/records/shared_expenses.dart';
 import '../engines/records/medicine_reminders.dart';
 import '../platform/medicine_alarm_platform.dart';
 import '../records/medicines/medicine_screen.dart';
 import '../platform/occasion_platform.dart';
+import '../platform/whatsapp_platform.dart';
 import '../family/sync/lan_family_sync.dart';
 import 'tool_registry.dart';
 
@@ -386,6 +388,12 @@ void bootstrap() {
   );
   Occasions.install(occasions);
   unawaited(familyLoaded.then((_) => occasions.reschedule()));
+
+  // 102: wa.me chats; recent numbers in the app's own folder.
+  final WhatsAppDirect whatsapp =
+      WhatsAppDirect(store: FileRecentNumberStore(() => appFolder('whatsapp')), opener: const UrlLinkOpener());
+  WhatsAppDirect.install(whatsapp);
+  unawaited(whatsapp.load());
 
   // 080: expenses and receipt photos in the app's own folder.
   final ExpenseTracker expenses = ExpenseTracker(store: FileExpenseStore(() => appFolder('expenses')));

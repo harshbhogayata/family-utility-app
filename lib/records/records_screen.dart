@@ -7,6 +7,7 @@ import 'medicines/medicine_screen.dart';
 import 'occasions/occasions_screen.dart';
 import 'profile/autofill_profile_screen.dart';
 import 'quick_add/quick_add_screen.dart';
+import 'whatsapp_direct/whatsapp_direct_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
@@ -51,6 +52,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Name, date of birth, saved addresses'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const AutofillProfileScreen()),
+              ),
+            ),
+            // 102: message a number without saving it.
+            ListTile(
+              key: const Key('records-whatsapp-direct'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.chat_outlined),
+              title: const Text('WhatsApp direct'),
+              subtitle: const Text('Message a number without saving it'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const WhatsAppDirectScreen()),
               ),
             ),
             const SizedBox(height: 8),
