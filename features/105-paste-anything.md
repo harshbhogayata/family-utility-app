@@ -3,16 +3,16 @@
 **Section:** 10. Platform
 **Phase:** 1
 **Priority score:** 64 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 1516ef8
 **Depends on:** [106 Smart suggestions](./106-smart-suggestions.md)
 
 ## What the person gets
 Paste a link, text or file on the home screen and get the matching tools.
 
 ## Acceptance criteria
-- [ ] Clipboard content type detected on paste; matching tools listed in order of likely use
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Clipboard content type detected on paste; matching tools listed in order of likely use
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

@@ -1,12 +1,12 @@
 # Progress
 
-Done: 85 / 130  (65%)
+Done: 86 / 130  (66%)
 In progress: none
-Updated: 2026-11-09 18:42 UTC
+Updated: 2026-11-09 18:50 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 83 |
+| 1 — file chores and platform core | 86 | 84 |
 | 2 — family layer | 20 | 2 |
 | 3 — personal records | 24 | 0 |
 
@@ -79,6 +79,7 @@ Updated: 2026-11-09 18:42 UTC
 - 068 Family space — done b41233b
 - 069 Profile per member — done 5ea2376
 - 104 Offline first — done 12c34d3
+- 105 Paste anything — done 1516ef8
 - 106 Smart suggestions — done 196df57
 - 107 Batch everywhere — done e56c777
 - 108 Versions — done d46302d
