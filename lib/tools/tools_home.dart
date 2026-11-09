@@ -6,6 +6,7 @@ import '../engines/platform/first_run.dart';
 import '../engines/privacy/on_device_mode.dart';
 import 'app_lock/app_lock_settings_screen.dart';
 import 'app_lock/lock_screen.dart';
+import 'one_search/one_search_screen.dart';
 import 'privacy/privacy_screen.dart';
 
 /// Home / Tools: greeting, paste-or-pick box, tool grid.
@@ -31,6 +32,15 @@ class ToolsHome extends StatelessWidget {
                       semanticsLabel: 'Tools home',
                     ),
                   ),
+                  IconButton(
+                    key: const Key('home-search'),
+                    tooltip: 'Search tools, files, history and records',
+                    icon: const Icon(Icons.search),
+                    onPressed: () => Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(builder: (BuildContext _) => const OneSearchScreen()),
+                    ),
+                  ),
+                  const SizedBox(width: 4),
                   const CircleAvatar(
                     radius: 18,
                     backgroundColor: AppColors.accentTint,

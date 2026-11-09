@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import '../engines/platform/action_history.dart';
 import '../engines/platform/file_manager.dart';
 import '../engines/platform/first_run.dart';
+import '../engines/platform/one_search.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
 import '../engines/security/secure_notes.dart';
@@ -19,6 +20,7 @@ import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/history/history_screen.dart';
+import '../tools/one_search/one_search_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
@@ -74,7 +76,29 @@ void bootstrap() {
     clipboard: const SystemClipboard(),
   ));
 
+  final OcrTextStore ocr = OcrTextStore(FileOcrBackend(() => appFolder('search')));
+  OcrTextStore.install(ocr);
+  unawaited(ocr.load());
+
+  OneSearch.install(OneSearch(<SearchSource>[
+    ToolSearchSource(() => ToolRegistry.all
+        .map((ToolEntry t) => ToolInfo(id: t.id, name: t.name, section: t.section.label))
+        .toList()),
+    FileSearchSource(files),
+    ocr,
+    HistorySearchSource(history),
+    RecordSearchSource(SecureNotes.instance),
+  ]));
+
   ToolRegistry.registerAll(<ToolEntry>[
+    ToolEntry(
+      id: 'one-search',
+      name: 'Search',
+      section: ToolSection.platform,
+      icon: Icons.search,
+      featureNumber: 114,
+      builder: (BuildContext context) => const OneSearchScreen(),
+    ),
     ToolEntry(
       id: 'pdf-viewer',
       name: 'PDF viewer',
