@@ -20,6 +20,7 @@ import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
+import '../tools/crop/crop_screen.dart';
 import '../tools/pdf_target_size/pdf_target_size_screen.dart';
 import '../tools/history/history_screen.dart';
 import '../tools/one_search/one_search_screen.dart';
@@ -165,6 +166,14 @@ void bootstrap() {
       icon: Icons.photo_size_select_large_outlined,
       featureNumber: 34,
       builder: (BuildContext context) => const CompressImagesScreen(),
+    ),
+    ToolEntry(
+      id: 'crop',
+      name: 'Crop',
+      section: ToolSection.image,
+      icon: Icons.crop,
+      featureNumber: 41,
+      builder: (BuildContext context) => const CropScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',
