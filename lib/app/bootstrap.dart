@@ -19,6 +19,7 @@ import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/archives/archives_screen.dart';
+import '../tools/images_to_pdf/images_to_pdf_screen.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
@@ -203,6 +204,14 @@ void bootstrap() {
       featureNumber: 62,
       touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
       builder: (BuildContext context) => const PhoneToLaptopScreen(),
+    ),
+    ToolEntry(
+      id: 'images-to-pdf',
+      name: 'Images to PDF',
+      section: ToolSection.convert,
+      icon: Icons.picture_as_pdf_outlined,
+      featureNumber: 21,
+      builder: (BuildContext context) => const ImagesToPdfScreen(),
     ),
     ToolEntry(
       id: 'convert-anything',

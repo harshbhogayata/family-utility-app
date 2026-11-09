@@ -35,6 +35,8 @@ dependencies:
   image: ^4.2.0
   # 029 Archives: AES block cipher, PBKDF2 and HMAC for WinZip AES ZIPs.
   pointycastle: ^3.9.1
+  # 021 Images to PDF: take a photo with the camera.
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
