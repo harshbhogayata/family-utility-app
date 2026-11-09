@@ -3,17 +3,17 @@
 **Section:** 4. Image basics
 **Phase:** 1
 **Priority score:** 50 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done ce3fade
 **Depends on:** [021 Images to PDF](./021-images-to-pdf.md), [047 Document scanner](./047-document-scanner.md)
 
 ## What the person gets
 Front and back of a card on one printable page.
 
 ## Acceptance criteria
-- [ ] Two captures or two images auto-aligned at actual size on A4 or Letter
-- [ ] Output as PDF and JPG
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Two captures or two images auto-aligned at actual size on A4 or Letter
+- [x] Output as PDF and JPG
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
