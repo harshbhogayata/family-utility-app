@@ -61,6 +61,7 @@ import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/split_pdf/split_pdf_screen.dart';
+import '../tools/extract_pages/extract_pages_screen.dart';
 import '../tools/protect_pdf/protect_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
@@ -458,6 +459,14 @@ void bootstrap() {
       icon: Icons.call_split,
       featureNumber: 3,
       builder: (BuildContext context) => const SplitPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'extract-pages',
+      name: 'Extract pages',
+      section: ToolSection.pdf,
+      icon: Icons.library_add_check_outlined,
+      featureNumber: 4,
+      builder: (BuildContext context) => const ExtractPagesScreen(),
     ),
     ToolEntry(
       id: 'protect-pdf',

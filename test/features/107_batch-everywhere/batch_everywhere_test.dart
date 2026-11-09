@@ -57,6 +57,7 @@ class FakeSheet implements ShareSheet {
 const Map<String, int> folderFeature = <String, int>{
   'archives': 29,
   'split_pdf': 3,
+  'extract_pages': 4,
   'protect_pdf': 11,
   'redact': 45,
   'batch': 107,

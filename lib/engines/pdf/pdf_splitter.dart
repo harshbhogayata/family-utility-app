@@ -200,7 +200,11 @@ class PdfSplitSource {
   }
 
   /// A new PDF holding pages [range] (counted from 1).
-  Uint8List build(PageRange range) {
+  Uint8List build(PageRange range) => buildPages(range.pages);
+
+  /// A new PDF holding [pages] (counted from 1) in the order given.
+  /// Feature 004 uses this for pages picked out of order.
+  Uint8List buildPages(List<int> pages) {
     final Map<int, PdfObject> out = <int, PdfObject>{};
     for (final MapEntry<int, PdfObject> e in _doc.objects.entries) {
       if (!_drop.contains(e.key)) {
@@ -210,7 +214,7 @@ class PdfSplitSource {
     final int pagesNum = _next;
     final int catalogNum = _next + 1;
     final List<Object> kids = <Object>[];
-    for (int p = range.first; p <= range.last; p++) {
+    for (final int p in pages) {
       final _Page page = _pages[p - 1];
       final PdfObject src = _doc.objects[page.num]!;
       final PdfDict d = PdfDict(Map<String, Object>.of((src.value as PdfDict).entries));
