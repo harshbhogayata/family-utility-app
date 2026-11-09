@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
+import '../engines/platform/action_history.dart';
 import '../engines/platform/first_run.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
@@ -13,6 +16,7 @@ import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
+import '../tools/history/history_screen.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
@@ -39,6 +43,18 @@ void bootstrap() {
   final FirstRun firstRun = FirstRun(const PrefsFirstRunStore());
   FirstRun.install(firstRun);
   unawaited(firstRun.load());
+
+  Future<Directory> appFolder(String name) async {
+    final Directory base = await getApplicationDocumentsDirectory();
+    return Directory('${base.path}/$name');
+  }
+
+  final ActionHistory history = ActionHistory(
+    store: FileHistoryStore(() => appFolder('history')),
+    bin: DirectoryTrashBin(() => appFolder('trash')),
+  );
+  ActionHistory.install(history);
+  unawaited(history.load());
 
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),
@@ -96,6 +112,14 @@ void bootstrap() {
       icon: Icons.high_quality_outlined,
       featureNumber: 128,
       builder: (BuildContext context) => const SendOriginalScreen(),
+    ),
+    ToolEntry(
+      id: 'history',
+      name: 'History and trash',
+      section: ToolSection.platform,
+      icon: Icons.history,
+      featureNumber: 118,
+      builder: (BuildContext context) => const HistoryScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',
