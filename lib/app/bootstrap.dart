@@ -19,6 +19,7 @@ import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
+import '../tools/compress_pdf/compress_pdf_screen.dart';
 import '../tools/history/history_screen.dart';
 import '../tools/one_search/one_search_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
@@ -139,6 +140,14 @@ void bootstrap() {
       featureNumber: 57,
       touches: const <DataTouch>{DataTouch.files, DataTouch.clipboard},
       builder: (BuildContext context) => const SecureNotesScreen(),
+    ),
+    ToolEntry(
+      id: 'compress-pdf',
+      name: 'Compress PDF',
+      section: ToolSection.compress,
+      icon: Icons.compress,
+      featureNumber: 32,
+      builder: (BuildContext context) => const CompressPdfScreen(),
     ),
     ToolEntry(
       id: 'compress-images',
