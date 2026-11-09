@@ -76,6 +76,7 @@ import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../engines/pdf/pdf_text_search.dart';
 import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
+import '../tools/clean_scan/clean_scan_screen.dart';
 import '../tools/redact/redact_screen.dart';
 import '../engines/image/scan_namer.dart';
 import '../engines/image/one_tap_scan.dart';
@@ -406,6 +407,14 @@ void bootstrap() {
       icon: Icons.document_scanner_outlined,
       featureNumber: 8,
       builder: (BuildContext context) => const OcrScanScreen(),
+    ),
+    ToolEntry(
+      id: 'clean-scan',
+      name: 'Remove blank pages',
+      section: ToolSection.pdf,
+      icon: Icons.auto_fix_high_outlined,
+      featureNumber: 15,
+      builder: (BuildContext context) => const CleanScanScreen(),
     ),
     ToolEntry(
       id: 'redact',
