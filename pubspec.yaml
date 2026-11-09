@@ -33,6 +33,8 @@ dependencies:
   pdfrx: ^2.0.0
   # 034 Compress images: pure-Dart decode and encode.
   image: ^4.2.0
+  # 029 Archives: AES block cipher, PBKDF2 and HMAC for WinZip AES ZIPs.
+  pointycastle: ^3.9.1
 
 dev_dependencies:
   flutter_test:

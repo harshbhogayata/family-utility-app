@@ -18,6 +18,7 @@ import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
+import '../tools/archives/archives_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
 import '../tools/crop/crop_screen.dart';
@@ -201,6 +202,14 @@ void bootstrap() {
       featureNumber: 62,
       touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
       builder: (BuildContext context) => const PhoneToLaptopScreen(),
+    ),
+    ToolEntry(
+      id: 'archives',
+      name: 'Archives',
+      section: ToolSection.convert,
+      icon: Icons.folder_zip_outlined,
+      featureNumber: 29,
+      builder: (BuildContext context) => const ArchivesScreen(),
     ),
     ToolEntry(
       id: 'send-original',

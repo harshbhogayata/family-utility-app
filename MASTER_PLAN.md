@@ -96,7 +96,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 010 | [Sign PDF](features/010-sign-pdf.md) | 1. PDF basics | 80 | done 2fbb457 |
 | 018 | [Word to PDF and back](features/018-word-to-pdf-and-back.md) | 2. Convert | 80 | not started |
 | 025 | [HEIC to JPG or PNG](features/025-heic-to-jpg-or-png.md) | 2. Convert | 80 | not started |
-| 029 | [Archives](features/029-archives.md) | 2. Convert | 80 | not started |
+| 029 | [Archives](features/029-archives.md) | 2. Convert | 80 | in progress |
 | 030 | [Convert anything](features/030-convert-anything.md) | 2. Convert | 80 | not started |
 | 036 | [Compress video](features/036-compress-video.md) | 3. Compress | 80 | not started |
 | 038 | [Shrink-to-send presets](features/038-shrink-to-send-presets.md) | 3. Compress | 80 | not started |
