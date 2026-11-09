@@ -3,16 +3,16 @@
 **Section:** 10. Platform
 **Phase:** 2
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 8173048
 **Depends on:** none
 
 ## What the person gets
 Dark mode, large text, screen-reader labels, one-hand layout.
 
 ## Acceptance criteria
-- [ ] All controls labelled; dynamic type up to 200%; contrast 4.5:1; bottom-reachable primary actions
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] All controls labelled; dynamic type up to 200%; contrast 4.5:1; bottom-reachable primary actions
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
