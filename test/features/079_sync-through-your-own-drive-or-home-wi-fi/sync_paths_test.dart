@@ -110,5 +110,6 @@ void main() {
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.textContaining('Calendar event changed · via Own folder'), 200);
     expect(find.textContaining('Calendar event changed · via Own folder'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 1)); // let the store's save timer run
   });
 }
