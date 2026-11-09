@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
@@ -326,6 +327,8 @@ class _RedactScreenState extends State<RedactScreen> {
                 'Drag to cover another part.',
             child: GestureDetector(
               key: const Key('redact-canvas'),
+              // Boxes start where the finger went down, not after the slop.
+              dragStartBehavior: DragStartBehavior.down,
               onPanStart: (DragStartDetails d) => setState(() {
                 _dragStart = d.localPosition;
                 _dragRect = Rect.fromPoints(d.localPosition, d.localPosition);
