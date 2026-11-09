@@ -157,8 +157,10 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('i2p-camera')));
     await tester.pumpAndSettle();
-    expect(find.text('Make 4-page PDF'), findsOneWidget);
     expect(tester.getSize(find.byKey(const Key('i2p-camera'))).height, greaterThanOrEqualTo(44));
+    await tester.scrollUntilVisible(find.byKey(const Key('i2p-make')), 200, scrollable: find.byType(Scrollable).first);
+    await tester.pumpAndSettle();
+    expect(find.text('Make 4-page PDF'), findsOneWidget);
 
     await tester.ensureVisible(find.byTooltip('Remove sticker.gif'));
     await tester.pumpAndSettle();
@@ -171,7 +173,7 @@ void main() {
     await tester.tap(find.text('Letter'));
     await tester.pumpAndSettle();
 
-    await tester.ensureVisible(find.byKey(const Key('i2p-make')));
+    await tester.scrollUntilVisible(find.byKey(const Key('i2p-make')), 200, scrollable: find.byType(Scrollable).first);
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('i2p-make')));
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
