@@ -48,6 +48,7 @@ import '../platform/video_notice_prefs.dart';
 import '../tools/video_link/video_link_screen.dart';
 import '../tools/audio_link/audio_link_screen.dart';
 import '../tools/batch_convert/batch_convert_screen.dart';
+import '../tools/batch/batch_screen.dart';
 import '../engines/image/heic_convert.dart';
 import '../engines/share/shared_files.dart';
 import '../platform/heic_platform.dart';
@@ -563,6 +564,14 @@ void bootstrap() {
       icon: Icons.dynamic_feed_outlined,
       featureNumber: 31,
       builder: (BuildContext context) => const BatchConvertScreen(),
+    ),
+    ToolEntry(
+      id: 'batch',
+      name: 'Batch',
+      section: ToolSection.convert,
+      icon: Icons.library_add_check_outlined,
+      featureNumber: 107,
+      builder: (BuildContext context) => const BatchScreen(),
     ),
     ToolEntry(
       id: 'word-pdf',
