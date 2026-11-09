@@ -173,7 +173,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 109 | [Accessibility](features/109-accessibility.md) | 10. Platform | 80 | done 8173048 |
 | 110 | [Indian languages per profile](features/110-indian-languages-per-profile.md) | 10. Platform | 80 | done e643735 |
 | 112 | [Widgets and quick-settings tile](features/112-widgets-and-quick-settings-tile.md) | 10. Platform | 80 | done f9d3c08 |
-| 075 | [Shared contacts](features/075-shared-contacts.md) | 8. Family — shared live data | 75 | not started |
+| 075 | [Shared contacts](features/075-shared-contacts.md) | 8. Family — shared live data | 75 | done a6a4f49 |
 | 120 | [Backup and export](features/120-backup-and-export.md) | 10. Platform | 75 | not started |
 | 122 | [Cross-links](features/122-cross-links.md) | 10. Platform | 64 | not started |
 | 070 | [Family roles](features/070-family-roles.md) | 8. Family — shared live data | 60 | not started |
