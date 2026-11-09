@@ -160,10 +160,14 @@ void main() {
     expect(find.text('Make 4-page PDF'), findsOneWidget);
     expect(tester.getSize(find.byKey(const Key('i2p-camera'))).height, greaterThanOrEqualTo(44));
 
+    await tester.ensureVisible(find.byTooltip('Remove sticker.gif'));
+    await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Remove sticker.gif'));
     await tester.pumpAndSettle();
     expect(find.text('sticker.gif'), findsNothing);
 
+    await tester.drag(find.byType(ListView).first, const Offset(0, 2000));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Letter'));
     await tester.pumpAndSettle();
 
