@@ -43,6 +43,7 @@ import '../engines/family/shared_calendar.dart';
 import '../engines/family/shared_shopping_list.dart';
 import '../engines/family/shared_contacts.dart';
 import '../engines/platform/backup_export.dart';
+import '../engines/platform/cross_links.dart';
 import '../platform/backup_platform.dart';
 import '../tools/backup/backup_screen.dart';
 import '../platform/calendar_platform.dart';
@@ -497,6 +498,23 @@ void bootstrap() {
   }
 
   family.store.addListener(syncDial);
+
+  // 122: records point at each other; family documents and calendar events
+  // are the first kinds, the Records tab adds its own as they arrive.
+  final CrossLinks links = CrossLinks(storage: FileCrossLinkStorage(() => appFolder('links')));
+  CrossLinks.install(links);
+  String? familyTitle(String collection, String id) {
+    final FamilyRecord? r = family.store.get(collection, id);
+    if (r == null) {
+      return null;
+    }
+    final Object? t = r.fields['title'] ?? r.fields['name'] ?? r.fields['text'];
+    return t == null ? collection : '$t';
+  }
+
+  links.registerKind(SimpleRecordKind('documents', 'Document', (String id) => familyTitle('documents', id)));
+  links.registerKind(SimpleRecordKind('calendar', 'Event', (String id) => familyTitle('calendar', id)));
+  unawaited(links.load());
 
   // 120: whole-app backup on a schedule, to the family's own folder.
   const Map<String, String> sectionNames = <String, String>{
