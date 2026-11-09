@@ -189,7 +189,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 088 | [Medicine reminders with pill stock](features/088-medicine-reminders-with-pill-stock.md) | 9. Personal records | 125 | done 61696fd |
 | 080 | [Expense tracker](features/080-expense-tracker.md) | 9. Personal records | 100 | done 56d4674 |
 | 096 | [Saved addresses and autofill profile](features/096-saved-addresses-and-autofill-profile.md) | 9. Personal records | 100 | done 592f2a5 |
-| 081 | [Shared expenses and settle-up](features/081-shared-expenses-and-settle-up.md) | 9. Personal records | 80 | not started |
+| 081 | [Shared expenses and settle-up](features/081-shared-expenses-and-settle-up.md) | 9. Personal records | 80 | done ec554bd |
 | 087 | [Loan tracker](features/087-loan-tracker.md) | 9. Personal records | 80 | not started |
 | 089 | [BP and sugar logs](features/089-bp-and-sugar-logs.md) | 9. Personal records | 80 | not started |
 | 093 | [Elderly care log](features/093-elderly-care-log.md) | 9. Personal records | 80 | not started |
