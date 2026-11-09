@@ -30,6 +30,8 @@ import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/secure_notes/secure_notes_screen.dart';
 import '../tools/send_original/send_original_screen.dart';
+import '../engines/share/save_anywhere.dart';
+import '../platform/save_platform.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -43,6 +45,13 @@ void bootstrap() {
   final ShareEngine share = ShareEngine(const SystemShareSheet(), const PrefsShareTargetStore());
   ShareEngine.install(share);
   unawaited(share.load());
+
+  final SaveAnywhere saver = SaveAnywhere(
+    platform: const SystemSavePlatform(),
+    store: const PrefsSaveChoiceStore(),
+  );
+  SaveAnywhere.install(saver);
+  unawaited(saver.load());
 
   final AppLock lock = AppLock(store: const SecureLockStore(), biometrics: PlatformBiometrics());
   AppLock.install(lock);
