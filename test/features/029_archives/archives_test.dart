@@ -247,11 +247,15 @@ void main() {
     await tester.tap(find.byKey(const Key('archive-extract')));
     await tester.pumpAndSettle();
     expect(platform.lastEntries, <String>['photos/b.jpg']);
+    await tester.drag(find.byType(ListView), const Offset(0, 2000));
+    await tester.pumpAndSettle();
     expect(find.textContaining('Extracted 1 file'), findsOneWidget);
 
     expect(find.byKey(const Key('result-share')), findsOneWidget);
     expect(find.byKey(const Key('result-save')), findsOneWidget);
     await tester.tap(find.byKey(const Key('result-undo')));
+    await tester.pumpAndSettle();
+    await tester.drag(find.byType(ListView), const Offset(0, 2000));
     await tester.pumpAndSettle();
     expect(find.textContaining('Removed 1 file'), findsOneWidget);
   });
