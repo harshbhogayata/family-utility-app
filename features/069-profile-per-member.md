@@ -3,16 +3,16 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 5ea2376
 **Depends on:** [068 Family space](./068-family-space.md)
 
 ## What the person gets
 One install, a profile per family member with its own history and favourites.
 
 ## Acceptance criteria
-- [ ] Switch profile from the home screen; each has its own PIN option, language and recents
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Switch profile from the home screen; each has its own PIN option, language and recents
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
