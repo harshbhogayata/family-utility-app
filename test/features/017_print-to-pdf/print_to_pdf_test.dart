@@ -183,8 +183,8 @@ void main() {
     Future<void> settle(WidgetTester tester) async {
       // Real file I/O finishes outside the fake clock; each step's
       // continuation then needs a pump, so alternate the two a few times.
-      for (int i = 0; i < 20; i++) {
-        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      for (int i = 0; i < 80; i++) {
+        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 10)));
         await tester.pump();
       }
     }
@@ -270,7 +270,7 @@ void main() {
         final Size s = tester.getSize(find.byKey(k));
         expect(s.height, greaterThanOrEqualTo(44), reason: '$k');
       }
-      expect(find.bySemanticsLabel(RegExp('Remove Ticket')), findsWidgets);
+      expect(find.byTooltip('Remove Ticket.pdf'), findsOneWidget);
       handle.dispose();
     });
   });
