@@ -44,6 +44,8 @@ import '../engines/family/shared_shopping_list.dart';
 import '../engines/family/shared_contacts.dart';
 import '../engines/platform/backup_export.dart';
 import '../engines/platform/cross_links.dart';
+import '../engines/family/family_roles.dart';
+import '../family/roles/family_roles_screen.dart';
 import '../platform/backup_platform.dart';
 import '../tools/backup/backup_screen.dart';
 import '../platform/calendar_platform.dart';
@@ -498,6 +500,9 @@ void bootstrap() {
   }
 
   family.store.addListener(syncDial);
+
+  // 070: adult, child and guest, with per-section read or write.
+  FamilyRoles.install(FamilyRoles(space: family));
 
   // 122: records point at each other; family documents and calendar events
   // are the first kinds, the Records tab adds its own as they arrive.
@@ -1245,6 +1250,15 @@ void bootstrap() {
       featureNumber: 110,
       touches: const <DataTouch>{},
       builder: (BuildContext context) => const LanguageScreen(),
+    ),
+    ToolEntry(
+      id: 'family-roles',
+      name: 'Family roles',
+      section: ToolSection.platform,
+      icon: Icons.admin_panel_settings_outlined,
+      featureNumber: 70,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const FamilyRolesScreen(),
     ),
     ToolEntry(
       id: 'backup',
