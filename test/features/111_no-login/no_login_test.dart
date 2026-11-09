@@ -88,6 +88,9 @@ void main() {
       expect(find.textContaining('Create account'), findsNothing);
 
       // The card does not block the grid: a tool opens with one tap.
+      // The grid grows as tools are added; scroll the tile into view first.
+      await tester.ensureVisible(find.widgetWithText(ToolTile, 'App lock'));
+      await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(ToolTile, 'App lock'));
       await tester.pumpAndSettle();
       sw.stop();
