@@ -10,6 +10,7 @@ import '../../app/theme.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/convert/convert_registry.dart';
 import '../../engines/image/document_scanner.dart';
+import '../../engines/image/scan_filters.dart';
 import '../../engines/share/share_engine.dart';
 import 'scan_camera.dart';
 
@@ -20,6 +21,15 @@ ScanPage _processOnDevice(Uint8List photo) => const DocumentScanner().process(ph
 
 /// Default processor: a background isolate, so the preview never stalls.
 Future<ScanPage> processInBackground(Uint8List photo) => compute(_processOnDevice, photo);
+
+/// Runs one filter on one page's original JPEG (feature 048).
+typedef ScanFilterRunner = Future<Uint8List> Function(Uint8List jpeg, ScanFilterSettings settings);
+
+Uint8List _filterOnDevice((Uint8List, ScanFilterSettings) job) => const ScanFilterEngine().apply(job.$1, job.$2);
+
+/// Default filter runner: a background isolate.
+Future<Uint8List> filterInBackground(Uint8List jpeg, ScanFilterSettings settings) =>
+    compute(_filterOnDevice, (jpeg, settings));
 
 /// Where scans are written.
 abstract class ScanIo {
@@ -61,6 +71,7 @@ class DocumentScannerScreen extends StatefulWidget {
     this.camera,
     this.io = const SystemScanIo(),
     this.process = processInBackground,
+    this.filter = filterInBackground,
     this.detector = const EdgeDetector(),
     this.share,
     this.returnResult = false,
@@ -71,6 +82,7 @@ class DocumentScannerScreen extends StatefulWidget {
   final ScanCamera? camera;
   final ScanIo io;
   final ScanProcessor process;
+  final ScanFilterRunner filter;
   final EdgeDetector detector;
   final ShareEngine? share;
 
@@ -99,6 +111,55 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
   ScanFormat _format = ScanFormat.pdf;
   List<String> _outputs = <String>[];
   String? _status;
+  int _selected = 0;
+  ScanFilter _filter = ScanFilter.original;
+  double _contrast = 1.0;
+  bool _wholeDocument = true;
+
+  int get _sel => _session.isEmpty ? 0 : _selected.clamp(0, _session.length - 1);
+
+  void _select(int i) {
+    final ScanPage p = _session.pages[i];
+    setState(() {
+      _selected = i;
+      _filter = p.filter.filter;
+      _contrast = p.filter.contrast;
+    });
+  }
+
+  Future<void> _applyFilter() async {
+    if (_session.isEmpty || _busy) {
+      return;
+    }
+    final ScanFilterSettings settings = ScanFilterSettings(filter: _filter, contrast: _contrast);
+    final List<ScanPage> pages = _session.pages;
+    final List<int> targets = _wholeDocument ? List<int>.generate(pages.length, (int i) => i) : <int>[_sel];
+    setState(() => _busy = true);
+    try {
+      final Map<int, ScanPage> changes = <int, ScanPage>{};
+      for (final int i in targets) {
+        final ScanPage p = pages[i];
+        final Uint8List out = settings.isIdentity ? p.original : await widget.filter(p.original, settings);
+        changes[i] = p.withFilter(out, settings);
+      }
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _session.replacePages(changes);
+        _outputs = <String>[];
+        _status = targets.length == 1
+            ? 'Applied ${_filter.label} to page ${targets.single + 1}'
+            : 'Applied ${_filter.label} to all ${targets.length} pages';
+      });
+    } on ConvertException catch (e) {
+      setState(() => _status = e.message);
+    } finally {
+      if (mounted) {
+        setState(() => _busy = false);
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -393,13 +454,17 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
                 ListTile(
                   key: ObjectKey(pages[i]),
                   minVerticalPadding: 8,
+                  selected: i == _sel,
+                  onTap: () => _select(i),
                   leading: SizedBox(
                     width: 44,
                     height: 56,
                     child: Image.memory(pages[i].jpeg, fit: BoxFit.cover, semanticLabel: 'Page ${i + 1}'),
                   ),
                   title: Text('Page ${i + 1}', style: text.titleMedium),
-                  subtitle: Text('${pages[i].width} × ${pages[i].height}'),
+                  subtitle: Text(pages[i].filter.filter == ScanFilter.original
+                      ? '${pages[i].width} × ${pages[i].height}'
+                      : pages[i].filter.filter.label),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -431,6 +496,50 @@ class _DocumentScannerScreenState extends State<DocumentScannerScreen> {
           onPressed: () => setState(() => _reviewing = false),
           icon: const Icon(Icons.add_a_photo_outlined),
           label: const Text('Add page'),
+        ),
+        const SizedBox(height: 12),
+        Text('Filter', style: text.titleSmall),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: <Widget>[
+            for (final ScanFilter f in ScanFilter.values)
+              ChoiceChip(
+                key: Key('scan-filter-${f.name}'),
+                label: Text(f.label),
+                selected: _filter == f,
+                onSelected: (bool _) => setState(() => _filter = f),
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text('Contrast: ${(_contrast * 100).round()}%', style: text.titleSmall),
+        Slider(
+          key: const Key('scan-contrast'),
+          value: _contrast,
+          min: ScanFilterSettings.minContrast,
+          max: ScanFilterSettings.maxContrast,
+          divisions: 15,
+          label: '${(_contrast * 100).round()}%',
+          semanticFormatterCallback: (double v) => 'Contrast ${(v * 100).round()} percent',
+          onChanged: (double v) => setState(() => _contrast = v),
+        ),
+        SegmentedButton<bool>(
+          key: const Key('scan-filter-scope'),
+          segments: <ButtonSegment<bool>>[
+            const ButtonSegment<bool>(value: false, label: Text('This page')),
+            const ButtonSegment<bool>(value: true, label: Text('All pages')),
+          ],
+          selected: <bool>{_wholeDocument},
+          onSelectionChanged: (Set<bool> v) => setState(() => _wholeDocument = v.first),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          key: const Key('scan-filter-apply'),
+          onPressed: _busy ? null : _applyFilter,
+          icon: const Icon(Icons.auto_fix_high_outlined),
+          label: const Text('Apply filter'),
         ),
         const SizedBox(height: 12),
         Text('Save as', style: text.titleSmall),

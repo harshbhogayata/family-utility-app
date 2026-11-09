@@ -345,13 +345,21 @@ void main() {
     expect(cam.shots, 3);
     expect(find.text('Retook page 1'), findsOneWidget);
 
+    Future<void> scrollTop() async {
+      await tester.drag(find.byType(ListView).first, const Offset(0, 3000));
+      await tester.pumpAndSettle();
+    }
+
     // Save as JPG: one file per page.
+    await tester.ensureVisible(find.text('JPG'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('JPG'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.byKey(const Key('scan-make')));
     await tester.tap(find.byKey(const Key('scan-make')));
     await tester.pumpAndSettle();
     expect(io.written.keys, <String>['/scans/Scan 2026-11-09 09.05 p1.jpg', '/scans/Scan 2026-11-09 09.05 p2.jpg']);
+    await scrollTop();
     expect(find.text('Saved 2 JPGs in Files › scans'), findsOneWidget);
 
     // Undo removes what was saved.
@@ -360,6 +368,8 @@ void main() {
     expect(io.written, isEmpty);
 
     // Save as PDF through the result bar.
+    await tester.ensureVisible(find.text('PDF'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('PDF'));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('result-save')));
@@ -373,6 +383,7 @@ void main() {
     await tester.tap(find.byKey(const Key('result-undo')));
     await tester.pumpAndSettle();
     expect(io.written, isEmpty);
+    await scrollTop();
     await tester.tap(find.byTooltip('Remove page 2'));
     await tester.pumpAndSettle();
     expect(find.text('Page 2'), findsNothing);

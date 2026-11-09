@@ -5,6 +5,7 @@ import 'package:image/image.dart' as img;
 
 import '../convert/convert_registry.dart';
 import '../pdf/images_to_pdf.dart';
+import 'scan_filters.dart';
 
 /// Feature 047 — Document scanner.
 ///
@@ -417,9 +418,32 @@ img.Image perspectiveFix(img.Image src, ScanQuad q) {
 
 /// One scanned page, already flattened, as JPEG.
 class ScanPage {
-  ScanPage({required this.jpeg, required this.width, required this.height, required this.foundEdges});
+  ScanPage({
+    required this.jpeg,
+    required this.width,
+    required this.height,
+    required this.foundEdges,
+    Uint8List? original,
+    this.filter = ScanFilterSettings.none,
+  }) : original = original ?? jpeg;
 
+  /// The page as shown and saved (filtered when a filter is set).
   final Uint8List jpeg;
+
+  /// The page as captured; filters always start from here (feature 048).
+  final Uint8List original;
+
+  final ScanFilterSettings filter;
+
+  /// The same page with [filtered] bytes made from [original] by [settings].
+  ScanPage withFilter(Uint8List filtered, ScanFilterSettings settings) => ScanPage(
+        jpeg: filtered,
+        width: width,
+        height: height,
+        foundEdges: foundEdges,
+        original: original,
+        filter: settings,
+      );
   final int width;
   final int height;
 
@@ -517,6 +541,28 @@ class ScanSession {
     _snapshot();
     final ScanPage p = _pages.removeAt(from);
     _pages.insert(target.clamp(0, _pages.length), p);
+  }
+
+  /// Swaps several pages at once (a filter on the whole document) as one
+  /// undo step.
+  void replacePages(Map<int, ScanPage> changes) {
+    if (changes.isEmpty) {
+      return;
+    }
+    for (final int i in changes.keys) {
+      RangeError.checkValidIndex(i, _pages);
+    }
+    _snapshot();
+    changes.forEach((int i, ScanPage p) => _pages[i] = p);
+  }
+
+  /// Applies [settings] to one page ([page]) or every page (null), always
+  /// from each page's original capture.
+  void applyFilter(ScanFilterSettings settings, {int? page, ScanFilterEngine engine = const ScanFilterEngine()}) {
+    final Iterable<int> targets = page == null ? List<int>.generate(_pages.length, (int i) => i) : <int>[page];
+    replacePages(<int, ScanPage>{
+      for (final int i in targets) i: _pages[i].withFilter(engine.apply(_pages[i].original, settings), settings),
+    });
   }
 
   bool undo() {
