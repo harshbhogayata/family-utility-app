@@ -153,6 +153,7 @@ class _HeicScreenState extends State<HeicScreen> {
           write: (String name, Uint8List bytes) async {
             final String path = await widget.files.write(name, bytes);
             written.add(path);
+            ctx.addOutput(path);
             return path;
           },
           cancelled: () => ctx.cancelled,

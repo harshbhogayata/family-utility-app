@@ -84,10 +84,14 @@ import '../platform/clipboard_platform.dart';
 import '../tools/copy_result/copy_result_screen.dart';
 import '../engines/platform/background_jobs.dart';
 import '../platform/job_host_platform.dart';
+import '../engines/platform/job_notifications.dart';
 import '../tools/background_jobs/background_jobs_screen.dart';
 import '../tools/compress_video/compress_video_screen.dart';
 import '../tools/shrink_to_send/shrink_to_send_screen.dart';
 import 'tool_registry.dart';
+
+/// 113: main() attaches it once the binding is up; tests never do.
+NotificationJobHost? jobNotificationHost;
 
 /// 126: kept alive for the app's lifetime.
 AppLifecycleListener? clipboardLifecycleListener;
@@ -124,7 +128,41 @@ void bootstrap() {
   SaveAnywhere.install(saver);
   unawaited(saver.load());
 
-  BackgroundJobs.install(BackgroundJobs(NotificationJobHost()));
+  final NotificationJobHost jobHost = NotificationJobHost();
+  final BackgroundJobs jobs = BackgroundJobs(jobHost);
+  BackgroundJobs.install(jobs);
+
+  // 113: a finished job's notification shares its files; Open shows the job.
+  void whenNavigator(void Function(NavigatorState nav) f, [bool retry = true]) {
+    final NavigatorState? nav = appNavigatorKey.currentState;
+    if (nav != null) {
+      f(nav);
+    } else if (retry) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => whenNavigator(f, false));
+    }
+  }
+
+  final JobNotifications jobNotices = JobNotifications(
+    jobs: jobs,
+    share: (List<String> paths) async {
+      final List<String> present = paths.where((String p) => File(p).existsSync()).toList();
+      if (present.isEmpty) {
+        whenNavigator((NavigatorState nav) => unawaited(nav.push<void>(MaterialPageRoute<void>(
+              builder: (BuildContext context) => const BackgroundJobsScreen(
+                note: 'That file was moved or removed',
+              ),
+            ))));
+        return;
+      }
+      await ShareEngine.instance.shareFiles(present);
+    },
+    open: (int id) => whenNavigator((NavigatorState nav) => unawaited(nav.push<void>(MaterialPageRoute<void>(
+          builder: (BuildContext context) => BackgroundJobsScreen(highlight: id),
+        )))),
+  );
+  JobNotifications.install(jobNotices);
+  jobHost.onTap = jobNotices.handle;
+  jobNotificationHost = jobHost;
 
   CopyResult.install(CopyResult(const SystemClipboardBackend()));
 

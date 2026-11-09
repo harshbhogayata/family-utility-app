@@ -166,6 +166,7 @@ class BatchConverter extends ChangeNotifier {
             final ConvertOutput out = await c.convert(ConvertInput(name: f.name, bytes: bytes), f.kind);
             final String path = await write(out);
             outputs.add(path);
+            ctx.addOutput(path);
             f
               ..state = BatchItemState.done
               ..outputPath = path

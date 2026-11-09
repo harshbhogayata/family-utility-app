@@ -500,7 +500,10 @@ class DownloadQueue extends ChangeNotifier {
 
   Future<void> _run(DownloadTask t) async {
     try {
-      await jobs.run<void>('Download ${t.name}', (JobContext ctx) => _fetch(t, ctx));
+      await jobs.run<void>('Download ${t.name}', (JobContext ctx) async {
+        await _fetch(t, ctx);
+        ctx.addOutput(t.path);
+      });
       t
         ..state = DownloadState.done
         ..error = null;

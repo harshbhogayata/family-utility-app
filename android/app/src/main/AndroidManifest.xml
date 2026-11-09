@@ -15,6 +15,15 @@
         android:label="family_utility_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- 067/113: job progress service and the Cancel / Share / Open buttons. -->
+        <service
+            android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="dataSync" />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

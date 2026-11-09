@@ -277,7 +277,9 @@ class BatchRunner {
             }
             final List<String> paths = <String>[];
             for (final BatchOutput o in outs) {
-              paths.add(await write(o));
+              final String path = await write(o);
+              paths.add(path);
+              ctx.addOutput(path);
             }
             items.add(BatchItem.done(input.name, outs, paths));
           } on JobCancelled {

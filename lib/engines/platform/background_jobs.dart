@@ -40,6 +40,14 @@ class JobContext {
     throwIfCancelled();
     _engine._progress(_job, fraction, detail);
   }
+
+  /// 113: a file this job made, so its notification can offer Share. Call it
+  /// as each file is written; a cancelled job still shares what it kept.
+  void addOutput(String path) {
+    if (!_job.outputs.contains(path)) {
+      _job.outputs.add(path);
+    }
+  }
 }
 
 /// One job as the jobs screen and the notification see it.
@@ -55,8 +63,11 @@ class JobRecord {
   String? detail;
   String? error;
 
-  /// Path of the file the job produced, if any, for Share.
-  String? outputPath;
+  /// Files the job produced, in order, for Share (113).
+  final List<String> outputs = <String>[];
+
+  /// The first file the job produced, if any.
+  String? get outputPath => outputs.isEmpty ? null : outputs.first;
   DateTime? finishedAt;
   bool _cancelRequested = false;
 
@@ -154,10 +165,13 @@ class BackgroundJobs extends ChangeNotifier {
       if (job._cancelRequested) {
         throw const JobCancelled();
       }
+      final String? out = outputOf?.call(result);
+      if (out != null && !job.outputs.contains(out)) {
+        job.outputs.add(out);
+      }
       job
         ..state = JobState.done
-        ..fraction = 1
-        ..outputPath = outputOf?.call(result);
+        ..fraction = 1;
       return result;
     } on JobCancelled {
       job.state = JobState.cancelled;
@@ -176,6 +190,16 @@ class BackgroundJobs extends ChangeNotifier {
         await _safe(_host.stop);
       }
     }
+  }
+
+  /// The job with [id], or null when it was cleared or the app restarted.
+  JobRecord? byId(int id) {
+    for (final JobRecord j in _jobs) {
+      if (j.id == id) {
+        return j;
+      }
+    }
+    return null;
   }
 
   /// Asks a running job to stop at its next step.
