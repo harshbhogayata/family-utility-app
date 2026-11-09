@@ -287,6 +287,7 @@ class InviteSheet extends StatelessWidget {
             Semantics(
               label: 'Family invite QR code',
               image: true,
+              excludeSemantics: true,
               child: Container(
                 color: Colors.white,
                 padding: const EdgeInsets.all(8),
