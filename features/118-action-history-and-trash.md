@@ -3,16 +3,16 @@
 **Section:** 10. Platform
 **Phase:** 1
 **Priority score:** 75 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done bfeeaf5
 **Depends on:** none
 
 ## What the person gets
 Every tool run listed with undo and re-run; recently deleted with restore.
 
 ## Acceptance criteria
-- [ ] History entries link input and output; re-run on a new file; trash retention 30 days
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] History entries link input and output; re-run on a new file; trash retention 30 days
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
