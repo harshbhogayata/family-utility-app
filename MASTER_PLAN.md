@@ -108,7 +108,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 118 | [Action history and trash](features/118-action-history-and-trash.md) | 10. Platform | 75 | done bfeeaf5 |
 | 125 | [WhatsApp status saver](features/125-whatsapp-status-saver.md) | 11. Links and WhatsApp essentials | 75 | done d1b57d3 |
 | 126 | [Clipboard link watch](features/126-clipboard-link-watch.md) | 11. Links and WhatsApp essentials | 75 | not started |
-| 002 | [Merge PDF](features/002-merge-pdf.md) | 1. PDF basics | 64 | not started |
+| 002 | [Merge PDF](features/002-merge-pdf.md) | 1. PDF basics | 64 | done a590af7 |
 | 017 | [Print to PDF](features/017-print-to-pdf.md) | 1. PDF basics | 64 | not started |
 | 054 | [One-tap searchable scan](features/054-one-tap-searchable-scan.md) | 5. Scan and QR | 64 | not started |
 | 063 | [Cloud import and save](features/063-cloud-import-and-save.md) | 7. Share and transfer | 64 | not started |
