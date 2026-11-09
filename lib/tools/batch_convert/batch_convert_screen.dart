@@ -225,8 +225,7 @@ class _BatchConvertScreenState extends State<BatchConvertScreen> {
                 const SizedBox(height: 12),
                 LinearProgressIndicator(
                   value: files.isEmpty ? 0 : finished / files.length,
-                  semanticsLabel: 'Batch progress',
-                  semanticsValue: '$finished of ${files.length} files',
+                  semanticsLabel: 'Batch progress, $finished of ${files.length} files',
                 ),
               ],
               if (_status != null)
