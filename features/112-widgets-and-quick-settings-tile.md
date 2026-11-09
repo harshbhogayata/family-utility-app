@@ -3,16 +3,16 @@
 **Section:** 10. Platform
 **Phase:** 2
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done f9d3c08
 **Depends on:** none
 
 ## What the person gets
 Home-screen widget and a tile for scan, paste, speed dial and next medicine.
 
 ## Acceptance criteria
-- [ ] Android widget and quick tile; iOS home and lock-screen widgets
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Android widget and quick tile; iOS home and lock-screen widgets
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

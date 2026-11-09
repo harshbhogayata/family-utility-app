@@ -1,13 +1,13 @@
 # Progress
 
-Done: 95 / 130  (73%)
+Done: 96 / 130  (73%)
 In progress: none
-Updated: 2026-11-09 20:41 UTC
+Updated: 2026-11-09 20:58 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 84 |
-| 2 — family layer | 20 | 11 |
+| 2 — family layer | 20 | 12 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
@@ -93,6 +93,7 @@ Updated: 2026-11-09 20:41 UTC
 - 109 Accessibility — done 8173048
 - 110 Indian languages per profile — done e643735
 - 111 No login — done 8507290
+- 112 Widgets and quick-settings tile — done f9d3c08
 - 113 Job notifications — done 28fc557
 - 114 One search — done 02b6068
 - 115 Recents and favourites — done 93c0972
