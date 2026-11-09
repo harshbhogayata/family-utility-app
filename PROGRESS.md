@@ -1,12 +1,12 @@
 # Progress
 
-Done: 64 / 130  (49%)
+Done: 65 / 130  (50%)
 In progress: none
-Updated: 2026-11-09 12:52 UTC
+Updated: 2026-11-09 13:00 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 64 |
+| 1 — file chores and platform core | 86 | 65 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -14,6 +14,7 @@ Updated: 2026-11-09 12:52 UTC
 - 001 PDF viewer — done 1555094
 - 002 Merge PDF — done a590af7
 - 003 Split PDF — done 75b311c
+- 004 Extract pages — done 2814a57
 - 008 OCR a scan — done 2e732c5
 - 010 Sign PDF — done 2fbb457
 - 011 Protect with password — done 75b311c
