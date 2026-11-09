@@ -64,6 +64,7 @@ import '../tools/split_pdf/split_pdf_screen.dart';
 import '../tools/extract_pages/extract_pages_screen.dart';
 import '../tools/remove_pages/remove_pages_screen.dart';
 import '../tools/reorder_pages/reorder_pages_screen.dart';
+import '../tools/rotate_pages/rotate_pages_screen.dart';
 import '../tools/protect_pdf/protect_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
@@ -485,6 +486,14 @@ void bootstrap() {
       icon: Icons.swap_vert,
       featureNumber: 6,
       builder: (BuildContext context) => const ReorderPagesScreen(),
+    ),
+    ToolEntry(
+      id: 'rotate-pages',
+      name: 'Rotate pages',
+      section: ToolSection.pdf,
+      icon: Icons.rotate_right,
+      featureNumber: 7,
+      builder: (BuildContext context) => const RotatePagesScreen(),
     ),
     ToolEntry(
       id: 'protect-pdf',

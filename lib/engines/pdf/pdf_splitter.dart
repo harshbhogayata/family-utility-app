@@ -217,10 +217,22 @@ class PdfSplitSource {
     return own ?? p.inherited['MediaBox'];
   }
 
+  /// The rotation page [page] (counted from 1) is shown at: 0, 90, 180
+  /// or 270 degrees clockwise, own or inherited (feature 007).
+  int rotationOf(int page) {
+    final _Page p = _pages[page - 1];
+    final Object? v = _doc.objects[p.num]?.value;
+    final Object? own = v is PdfDict ? _doc.resolve(v['Rotate']) : null;
+    final Object? r = own ?? _doc.resolve(p.inherited['Rotate']);
+    final int deg = r is PdfNum ? r.value.round() : 0;
+    return ((deg ~/ 90) * 90 % 360 + 360) % 360;
+  }
+
   /// A new PDF holding [pages] (counted from 1) in the order given; a
   /// [blank] slot adds an empty page sized like the page before it.
-  /// Features 004 and 006 use this for pages in any order.
-  Uint8List buildPages(List<int> pages) {
+  /// Features 004 and 006 use this for pages in any order. [turns] maps a
+  /// source page to quarter turns clockwise added to its rotation (007).
+  Uint8List buildPages(List<int> pages, {Map<int, int> turns = const <int, int>{}}) {
     final Map<int, PdfObject> out = <int, PdfObject>{};
     for (final MapEntry<int, PdfObject> e in _doc.objects.entries) {
       if (!_drop.contains(e.key)) {
@@ -258,6 +270,10 @@ class PdfSplitSource {
         d.entries.putIfAbsent(e.key, () => e.value);
       }
       d.entries['Parent'] = PdfRef(pagesNum, 0);
+      final int turn = (turns[p] ?? 0) % 4;
+      if (turn != 0) {
+        d.entries['Rotate'] = PdfNum('${(rotationOf(p) + 90 * turn) % 360}');
+      }
       final Object? box = d['MediaBox'];
       if (box != null) {
         lastBox = box;
