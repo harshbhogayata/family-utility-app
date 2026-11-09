@@ -51,4 +51,6 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    // 008 OCR a scan: the on-device Devanagari model next to the Latin one.
+    implementation("com.google.mlkit:text-recognition-devanagari:16.0.0")
 }

@@ -75,6 +75,7 @@ import '../tools/one_search/one_search_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../engines/pdf/pdf_text_search.dart';
 import '../tools/pdf_search/pdf_search_screen.dart';
+import '../tools/ocr_scan/ocr_scan_screen.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
@@ -384,6 +385,14 @@ void bootstrap() {
       icon: Icons.manage_search,
       featureNumber: 16,
       builder: (BuildContext context) => const PdfSearchScreen(),
+    ),
+    ToolEntry(
+      id: 'ocr-scan',
+      name: 'OCR a scan',
+      section: ToolSection.pdf,
+      icon: Icons.document_scanner_outlined,
+      featureNumber: 8,
+      builder: (BuildContext context) => const OcrScanScreen(),
     ),
     ToolEntry(
       id: 'merge-pdf',
