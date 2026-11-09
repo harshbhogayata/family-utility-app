@@ -12,6 +12,7 @@ import '../engines/platform/first_run.dart';
 import '../engines/platform/one_search.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
+import '../engines/family/check_ins.dart';
 import '../engines/family/document_vault.dart';
 import '../engines/family/family_location.dart';
 import '../engines/security/private_vault.dart';
@@ -327,6 +328,10 @@ void bootstrap() {
     history: FileLocationHistoryStore(() => appFolder('location')),
   );
   FamilyLocation.install(location);
+  // 077: one-tap check-in; automatic on arriving at a family place.
+  final CheckIns checkIns = CheckIns(location: location, space: family);
+  CheckIns.install(checkIns);
+  location.addListener(checkIns.onLatestFix);
   unawaited(location.load());
   LocationTracker.instance = LocationTracker(
     location: location,

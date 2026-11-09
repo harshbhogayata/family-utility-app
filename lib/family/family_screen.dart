@@ -14,6 +14,7 @@ import '../engines/share/share_engine.dart';
 import '../platform/calendar_platform.dart';
 import 'board/family_board_screen.dart';
 import 'calendar/shared_calendar_screen.dart';
+import 'checkin/check_in_screen.dart';
 import 'documents/document_vault_screen.dart';
 import 'location/family_location_screen.dart';
 import 'shopping/shared_shopping_screen.dart';
@@ -305,6 +306,16 @@ class _FamilyScreenState extends State<FamilyScreen> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           minTileHeight: 48,
+          leading: const Icon(Icons.verified_user_outlined),
+          title: const Text('Check in'),
+          subtitle: const Text("'Reached safely' in one tap, or automatic at saved places"),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => const CheckInScreen(),
+          ))),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
           leading: const Icon(Icons.folder_shared_outlined),
           title: const Text('Sync folder (your own Drive or iCloud)'),
           subtitle: Text(id.syncFolder ?? 'Off · Wi-Fi only'),
@@ -352,6 +363,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
       'documents': 'Document',
       'locations': 'Location',
       'places': 'Place',
+      'checkins': 'Check-in',
     };
     return '${names[c.collection] ?? c.collection} ${c.deleted ? 'removed' : 'changed'}';
   }

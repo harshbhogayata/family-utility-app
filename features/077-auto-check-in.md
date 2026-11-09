@@ -3,7 +3,7 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [076 Live family location](./076-live-family-location.md)
 
 ## What the person gets
