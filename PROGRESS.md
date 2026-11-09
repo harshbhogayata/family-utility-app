@@ -1,13 +1,13 @@
 # Progress
 
-Done: 102 / 130  (78%)
+Done: 103 / 130  (79%)
 In progress: none
-Updated: 2026-11-09 22:07 UTC
+Updated: 2026-11-09 22:15 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 84 |
-| 2 — family layer | 20 | 18 |
+| 2 — family layer | 20 | 19 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
@@ -103,6 +103,7 @@ Updated: 2026-11-09 22:07 UTC
 - 116 Custom home — done 219cf45
 - 117 File manager — done 213b1d0
 - 118 Action history and trash — done bfeeaf5
+- 119 Guest mode — done 4ae68af
 - 120 Backup and export — done 42ee688
 - 122 Cross-links — done 1ad6efe
 - 123 Download video from a link — done 14d74f8
