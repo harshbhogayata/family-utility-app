@@ -3,7 +3,7 @@
 **Section:** 1. PDF basics
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [117 File manager](./117-file-manager.md)
 
 ## What the person gets

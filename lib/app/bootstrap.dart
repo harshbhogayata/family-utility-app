@@ -18,6 +18,7 @@ import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/history/history_screen.dart';
+import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
@@ -73,6 +74,14 @@ void bootstrap() {
   ));
 
   ToolRegistry.registerAll(<ToolEntry>[
+    ToolEntry(
+      id: 'pdf-viewer',
+      name: 'PDF viewer',
+      section: ToolSection.pdf,
+      icon: Icons.picture_as_pdf_outlined,
+      featureNumber: 1,
+      builder: (BuildContext context) => const PdfViewerScreen(),
+    ),
     ToolEntry(
       id: 'qr-scanner',
       name: 'QR scanner',

@@ -29,6 +29,8 @@ dependencies:
   # 062 Phone to laptop: QR for the link, picking files to offer.
   qr_flutter: ^4.1.0
   file_picker: ^8.0.0
+  # 001 PDF viewer: PDFium on device, with text selection.
+  pdfrx: ^2.0.0
 
 dev_dependencies:
   flutter_test:
