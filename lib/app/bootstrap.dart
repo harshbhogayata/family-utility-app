@@ -77,6 +77,8 @@ import '../engines/pdf/pdf_text_search.dart';
 import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
 import '../tools/clean_scan/clean_scan_screen.dart';
+import '../tools/excel_pdf/excel_pdf_screen.dart';
+import '../engines/convert/sheet_converters.dart';
 import '../tools/redact/redact_screen.dart';
 import '../engines/image/scan_namer.dart';
 import '../engines/image/one_tap_scan.dart';
@@ -111,6 +113,13 @@ AppLifecycleListener? clipboardLifecycleListener;
 /// Each feature adds its entry here so the home grid is driven by one list.
 void bootstrap() {
   registerWordConverters(
+    ConvertRegistry.instance,
+    const PdfrxTextSource(),
+    loadUnicodeFont: () async => (await rootBundle.load('assets/fonts/Inter.ttf')).buffer.asUint8List(),
+  );
+
+  // 019: Excel workbooks to PDF and PDF tables to workbooks.
+  registerSheetConverters(
     ConvertRegistry.instance,
     const PdfrxTextSource(),
     loadUnicodeFont: () async => (await rootBundle.load('assets/fonts/Inter.ttf')).buffer.asUint8List(),
@@ -710,6 +719,14 @@ void bootstrap() {
       icon: Icons.description_outlined,
       featureNumber: 18,
       builder: (BuildContext context) => const WordPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'excel-pdf',
+      name: 'Excel to PDF and back',
+      section: ToolSection.convert,
+      icon: Icons.table_chart_outlined,
+      featureNumber: 19,
+      builder: (BuildContext context) => const ExcelPdfScreen(),
     ),
     ToolEntry(
       id: 'archives',

@@ -3,7 +3,7 @@
 **Section:** 2. Convert
 **Phase:** 1
 **Priority score:** 36 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [030 Convert anything](./030-convert-anything.md)
 
 ## What the person gets

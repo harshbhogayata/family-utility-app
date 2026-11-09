@@ -16,6 +16,8 @@ enum FileKind {
   pdf('PDF', 'pdf', 'application/pdf'),
   docx('Word document', 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
   doc('Word 97-2003 document', 'doc', 'application/msword'),
+  xlsx('Excel workbook', 'xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+  xls('Excel 97-2003 workbook', 'xls', 'application/vnd.ms-excel'),
   zip('ZIP', 'zip', 'application/zip'),
   rar('RAR', 'rar', 'application/vnd.rar'),
   sevenZip('7Z', '7z', 'application/x-7z-compressed'),
@@ -99,11 +101,19 @@ FileKind sniffFileKind(Uint8List b) {
     return FileKind.pdf;
   }
   if (_at(b, 0, const <int>[0x50, 0x4B, 0x03, 0x04]) || _at(b, 0, const <int>[0x50, 0x4B, 0x05, 0x06])) {
-    return _contains(b, ascii.encode('word/document.xml')) ? FileKind.docx : FileKind.zip;
+    if (_contains(b, ascii.encode('word/document.xml'))) {
+      return FileKind.docx;
+    }
+    return _contains(b, ascii.encode('xl/workbook.xml')) ? FileKind.xlsx : FileKind.zip;
   }
   if (_at(b, 0, const <int>[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]) &&
       _contains(b, <int>[for (final int c in ascii.encode('WordDocument')) ...<int>[c, 0]])) {
     return FileKind.doc;
+  }
+  if (_at(b, 0, const <int>[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]) &&
+      (_contains(b, <int>[for (final int c in ascii.encode('Workbook')) ...<int>[c, 0]]) ||
+          _contains(b, <int>[for (final int c in ascii.encode('Book')) ...<int>[c, 0]]))) {
+    return FileKind.xls;
   }
   if (_at(b, 0, const <int>[0x52, 0x61, 0x72, 0x21, 0x1A, 0x07])) {
     return FileKind.rar;
