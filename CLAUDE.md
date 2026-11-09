@@ -6,7 +6,7 @@ Goal: 130 / 130 features in `MASTER_PLAN.md` marked done. Sessions run unattende
 ```
 0. git pull --rebase origin main
 1. If BUILD_CONTROL.md's last line is STOP: end the session now. Do not chain.
-2. Lock: if BUILD_LOCK.md exists and its timestamp is under 3 hours old and its session id is not yours: end now, do not chain (another run is active).
+2. Lock: if BUILD_LOCK.md exists and its timestamp is under 2 hours old and its session id is not yours: end now, do not chain (another run is active). A lock older than 2 hours is stale: take it over.
    Else write BUILD_LOCK.md with your session id and the current UTC time, commit "chore: lock", push.
 3. If pubspec.yaml is missing: scaffold (see below), commit "chore: scaffold", push.
 4. NEXT=$(python3 tools/next_feature.py)
@@ -19,13 +19,14 @@ Goal: 130 / 130 features in `MASTER_PLAN.md` marked done. Sessions run unattende
    every 60 s until conclusion is set (allow 15 min). Red: read `gh run view <id> --log-failed`, fix, commit "fix(NNN): ...", push, poll again. Up to 4 fix rounds; after that leave the spec `in progress` with the failure summarised and move to the next eligible feature.
    If `flutter` IS available locally, run `flutter analyze && flutter test` first and only then push.
 7. Green: tick every acceptance box in the spec, set Status to `done <short hash>` (the hash of the green commit), run python3 tools/progress.py, commit "docs(NNN): done", push.
-8. Touch the timestamp in BUILD_LOCK.md every feature (same commit is fine). Go to 4.
+8. Touch the timestamp in BUILD_LOCK.md every feature (same commit is fine).
+9. Time budget: if more than 40 minutes have passed since the timestamp you first wrote in BUILD_LOCK.md, do the end-of-run steps now instead of starting another feature. Sessions that run past their limit die without warning and strand the lock; stopping early and chaining is always cheaper. Otherwise go to 4.
 ```
 Write code as if it will be compiled by a strict reviewer: pin package versions that exist on pub.dev, keep imports exact, prefer plain Dart over clever generics, and add the test in the same commit so CI covers it.
 When the session is near its limit: finish step 8 for the current feature if minutes remain, otherwise leave the spec `in progress` with one line under "## Implementation notes" saying what remains, run `tools/progress.py`, commit, push. Then delete `BUILD_LOCK.md`, commit "chore: unlock", push, and chain (below).
 
 ## Chain
-As the last act of a run, if the tally is below 130 / 130, the lock is released, BUILD_CONTROL.md does not say STOP, and this run completed at least one feature or the scaffold: call `fire_trigger` on the scheduled task named "Family utility app build" (find its id with `list_triggers`) with a one-line text naming the next feature. If this run completed nothing, do not chain; the daily schedule retries.
+As the last act of a run, if the tally is below 130 / 130, the lock is released, BUILD_CONTROL.md does not say STOP, and this run completed at least one feature or the scaffold: call `fire_trigger` on the scheduled task named "Family utility app build" (find its id with `list_triggers`) with a one-line text naming the next feature. If this run completed nothing, do not chain; the hourly schedule retries. The hourly schedule also recovers from a run that died mid-feature: the next hourly run finds a stale lock, takes it over, and resumes the `in progress` feature that tools/next_feature.py prints.
 
 ## Fixed rules (from MASTER_PLAN.md)
 - Offline first; nothing the user gives the app is uploaded.
