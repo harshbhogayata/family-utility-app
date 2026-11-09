@@ -106,6 +106,7 @@ abstract final class BatchPolicy {
     34: BatchSupport.multiPicker(),
     35: BatchSupport.single('Each photo is tuned to its own exact size.'),
     36: BatchSupport.single('Videos encode one at a time on the phone hardware; queue the next when done.'),
+    130: BatchSupport.single('Plays one video at a time; open the next from the folder button.'),
     37: BatchSupport.multiPicker(),
     38: BatchSupport.viaBatch(batchToolId),
     40: BatchSupport.viaBatch(batchToolId),

@@ -73,6 +73,7 @@ const Map<String, int> folderFeature = <String, int>{
   'rotate_flip': 42,
   'compress_pdf': 32,
   'compress_video': 36,
+  'video_player': 130,
   'convert_anything': 30,
   'copy_result': 66,
   'crop': 41,
