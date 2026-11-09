@@ -202,8 +202,24 @@ class PdfSplitSource {
   /// A new PDF holding pages [range] (counted from 1).
   Uint8List build(PageRange range) => buildPages(range.pages);
 
-  /// A new PDF holding [pages] (counted from 1) in the order given.
-  /// Feature 004 uses this for pages picked out of order.
+  /// In [buildPages], a slot for an empty page (feature 006).
+  static const int blank = 0;
+
+  /// A4 portrait, for a blank page before any real page.
+  static final PdfArray blankBox =
+      PdfArray(<Object>[const PdfNum('0'), const PdfNum('0'), const PdfNum('595'), const PdfNum('842')]);
+
+  /// The MediaBox page [page] (counted from 1) is drawn on, or null.
+  Object? _mediaBoxOf(int page) {
+    final _Page p = _pages[page - 1];
+    final Object? v = _doc.objects[p.num]?.value;
+    final Object? own = v is PdfDict ? v['MediaBox'] : null;
+    return own ?? p.inherited['MediaBox'];
+  }
+
+  /// A new PDF holding [pages] (counted from 1) in the order given; a
+  /// [blank] slot adds an empty page sized like the page before it.
+  /// Features 004 and 006 use this for pages in any order.
   Uint8List buildPages(List<int> pages) {
     final Map<int, PdfObject> out = <int, PdfObject>{};
     for (final MapEntry<int, PdfObject> e in _doc.objects.entries) {
@@ -213,8 +229,28 @@ class PdfSplitSource {
     }
     final int pagesNum = _next;
     final int catalogNum = _next + 1;
+    int blankNum = _next + 2;
     final List<Object> kids = <Object>[];
+    Object lastBox = blankBox;
     for (final int p in pages) {
+      if (p != blank) {
+        lastBox = _mediaBoxOf(p) ?? blankBox;
+        break;
+      }
+    }
+    for (final int p in pages) {
+      if (p == blank) {
+        // Feature 006: an empty page the size of the page before it.
+        out[blankNum] = PdfObject(blankNum, 0, PdfDict(<String, Object>{
+          'Type': const PdfName('Page'),
+          'Parent': PdfRef(pagesNum, 0),
+          'MediaBox': lastBox,
+          'Resources': PdfDict(<String, Object>{}),
+        }));
+        kids.add(PdfRef(blankNum, 0));
+        blankNum++;
+        continue;
+      }
       final _Page page = _pages[p - 1];
       final PdfObject src = _doc.objects[page.num]!;
       final PdfDict d = PdfDict(Map<String, Object>.of((src.value as PdfDict).entries));
@@ -222,6 +258,10 @@ class PdfSplitSource {
         d.entries.putIfAbsent(e.key, () => e.value);
       }
       d.entries['Parent'] = PdfRef(pagesNum, 0);
+      final Object? box = d['MediaBox'];
+      if (box != null) {
+        lastBox = box;
+      }
       out[page.num] = PdfObject(page.num, page.gen, d, stream: src.stream);
       kids.add(PdfRef(page.num, page.gen));
     }
