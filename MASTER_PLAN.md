@@ -125,7 +125,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 031 | [Batch convert](features/031-batch-convert.md) | 2. Convert | 48 | not started |
 | 037 | [Zip with optional password](features/037-zip-with-optional-password.md) | 3. Compress | 48 | done e559ab8 |
 | 039 | [Before and after preview](features/039-before-and-after-preview.md) | 3. Compress | 48 | done f5ee72f |
-| 046 | [View and strip EXIF](features/046-view-and-strip-exif.md) | 4. Image basics | 48 | not started |
+| 046 | [View and strip EXIF](features/046-view-and-strip-exif.md) | 4. Image basics | 48 | done 3717803 |
 | 052 | [QR generator](features/052-qr-generator.md) | 5. Scan and QR | 48 | not started |
 | 053 | [Auto-name scans](features/053-auto-name-scans.md) | 5. Scan and QR | 48 | not started |
 | 066 | [Copy result](features/066-copy-result.md) | 7. Share and transfer | 48 | not started |
