@@ -24,6 +24,10 @@ class VideoPreset {
   factory VideoPreset.custom(int kbps) =>
       VideoPreset._(VideoPresetKind.custom, 'Custom ($kbps kbps)', customKbps: kbps.clamp(100, 50000).toInt());
 
+  /// Any size limit, for shrink-to-send presets (038).
+  factory VideoPreset.target(int bytes, String label) =>
+      VideoPreset._(VideoPresetKind.custom, label, targetBytes: bytes);
+
   static const List<VideoPreset> fixed = <VideoPreset>[whatsapp, email, p720, p480];
 
   final VideoPresetKind kind;

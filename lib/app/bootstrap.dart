@@ -67,6 +67,7 @@ import '../engines/platform/background_jobs.dart';
 import '../platform/job_host_platform.dart';
 import '../tools/background_jobs/background_jobs_screen.dart';
 import '../tools/compress_video/compress_video_screen.dart';
+import '../tools/shrink_to_send/shrink_to_send_screen.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -260,6 +261,14 @@ void bootstrap() {
       icon: Icons.video_settings_outlined,
       featureNumber: 36,
       builder: (BuildContext context) => const CompressVideoScreen(),
+    ),
+    ToolEntry(
+      id: 'shrink-to-send',
+      name: 'Shrink to send',
+      section: ToolSection.compress,
+      icon: Icons.send_outlined,
+      featureNumber: 38,
+      builder: (BuildContext context) => const ShrinkToSendScreen(),
     ),
     ToolEntry(
       id: 'exact-kb',

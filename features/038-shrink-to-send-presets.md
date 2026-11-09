@@ -3,7 +3,7 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [032 Compress PDF](./032-compress-pdf.md), [034 Compress images](./034-compress-images.md), [036 Compress video](./036-compress-video.md)
 
 ## What the person gets
