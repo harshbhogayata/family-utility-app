@@ -1,12 +1,12 @@
 # Progress
 
-Done: 67 / 130  (51%)
+Done: 68 / 130  (52%)
 In progress: none
-Updated: 2026-11-09 13:20 UTC
+Updated: 2026-11-09 13:35 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 67 |
+| 1 — file chores and platform core | 86 | 68 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -17,6 +17,7 @@ Updated: 2026-11-09 13:20 UTC
 - 004 Extract pages — done 2814a57
 - 005 Remove pages — done 5f495f0
 - 006 Reorder pages — done 3633a4f
+- 007 Rotate pages — done 7a0efef
 - 008 OCR a scan — done 2e732c5
 - 010 Sign PDF — done 2fbb457
 - 011 Protect with password — done 75b311c
