@@ -3,18 +3,18 @@
 **Section:** 5. Scan and QR
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done d7ded95
 **Depends on:** [001 PDF viewer](./001-pdf-viewer.md), [021 Images to PDF](./021-images-to-pdf.md)
 
 ## What the person gets
 Camera capture with edge detection, perspective fix, multi-page and auto-capture.
 
 ## Acceptance criteria
-- [ ] Live edge detection at 30 fps; auto-capture when steady
-- [ ] Multi-page session with reorder and retake; saves as PDF or JPG
-- [ ] Share-sheet entry: any app can call the scanner
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Live edge detection at 30 fps; auto-capture when steady
+- [x] Multi-page session with reorder and retake; saves as PDF or JPG
+- [x] Share-sheet entry: any app can call the scanner
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

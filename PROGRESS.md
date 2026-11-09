@@ -1,12 +1,12 @@
 # Progress
 
-Done: 22 / 130  (16%)
+Done: 23 / 130  (17%)
 In progress: none
-Updated: 2026-11-09 03:57 UTC
+Updated: 2026-11-09 04:06 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 22 |
+| 1 — file chores and platform core | 86 | 23 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -20,6 +20,7 @@ Updated: 2026-11-09 03:57 UTC
 - 033 PDF to target size — done dc2c45a
 - 034 Compress images — done 494703f
 - 041 Crop with ratios — done 63f712a
+- 047 Document scanner — done d7ded95
 - 051 QR scanner — done 012db23
 - 055 App lock — done d092d46
 - 057 Secure notes — done e9c143f

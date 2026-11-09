@@ -72,7 +72,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 001 | [PDF viewer](features/001-pdf-viewer.md) | 1. PDF basics | 125 | done 1555094 |
 | 021 | [Images to PDF](features/021-images-to-pdf.md) | 2. Convert | 125 | done 1995985 |
 | 034 | [Compress images](features/034-compress-images.md) | 3. Compress | 125 | done 494703f |
-| 047 | [Document scanner](features/047-document-scanner.md) | 5. Scan and QR | 125 | not started |
+| 047 | [Document scanner](features/047-document-scanner.md) | 5. Scan and QR | 125 | done d7ded95 |
 | 051 | [QR scanner](features/051-qr-scanner.md) | 5. Scan and QR | 125 | done 012db23 |
 | 059 | [On-device mode](features/059-on-device-mode.md) | 6. Security | 125 | done 5fbcce5 |
 | 060 | [Share to any app](features/060-share-to-any-app.md) | 7. Share and transfer | 125 | done 9fcace7 |
