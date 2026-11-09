@@ -489,6 +489,7 @@ class _CropCanvasState extends State<_CropCanvas> {
                       child: GestureDetector(
                         key: const Key('crop-area'),
                         behavior: HitTestBehavior.translucent,
+                        dragStartBehavior: DragStartBehavior.down,
                         onPanStart: (_) => widget.onDragStart(),
                         onPanUpdate: (DragUpdateDetails d) =>
                             widget.onRect(CropEngine.move(widget.spec.rect, d.delta.dx / w, d.delta.dy / h), false),
@@ -511,6 +512,8 @@ class _CropCanvasState extends State<_CropCanvas> {
                         child: GestureDetector(
                           key: Key('crop-handle-${corner.name}'),
                           behavior: HitTestBehavior.opaque,
+                          // Count the finger's travel from touch-down, so small nudges land.
+                          dragStartBehavior: DragStartBehavior.down,
                           onPanStart: (_) => widget.onDragStart(),
                           onPanUpdate: (DragUpdateDetails d) => widget.onRect(
                             CropEngine.dragCorner(
