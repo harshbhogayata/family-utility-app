@@ -1,12 +1,12 @@
 # Progress
 
-Done: 82 / 130  (63%)
+Done: 83 / 130  (63%)
 In progress: none
-Updated: 2026-11-09 17:27 UTC
+Updated: 2026-11-09 17:47 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 80 |
+| 1 — file chores and platform core | 86 | 81 |
 | 2 — family layer | 20 | 2 |
 | 3 — personal records | 24 | 0 |
 
@@ -72,6 +72,7 @@ Updated: 2026-11-09 17:27 UTC
 - 062 Phone to laptop — done ddae934
 - 063 Cloud import and save — done 1cf27d4
 - 064 Save anywhere — done a9a7f75
+- 065 Open-with for all file types — done 0a5a347
 - 066 Copy result — done 39196a8
 - 067 Background jobs — done 5302aae
 - 068 Family space — done b41233b

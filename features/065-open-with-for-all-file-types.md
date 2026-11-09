@@ -3,19 +3,19 @@
 **Section:** 7. Share and transfer
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 0a5a347
 **Depends on:** [106 Smart suggestions](./106-smart-suggestions.md)
 
 ## What the person gets
 The app is registered for 50+ file types so tapping a file lands on the right tool.
 
 ## Acceptance criteria
-- [ ] Android intent filters and iOS document types for PDF, images, video, audio, archives, office files
-- [ ] Opening a file shows the tools that apply to it
-- [ ] Android: a one-time "Make this your PDF and image app?" prompt after the first successful open, with a button that deep-links to Settings > Apps > Default apps (or the app's Open-by-default page); never shown again once dismissed
-- [ ] iOS: document types (UTIs) registered so the app appears in Open in, the share sheet and Files > Open with; the spec accepts that iOS has no default-app setting for file types
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Android intent filters and iOS document types for PDF, images, video, audio, archives, office files
+- [x] Opening a file shows the tools that apply to it
+- [x] Android: a one-time "Make this your PDF and image app?" prompt after the first successful open, with a button that deep-links to Settings > Apps > Default apps (or the app's Open-by-default page); never shown again once dismissed
+- [x] iOS: document types (UTIs) registered so the app appears in Open in, the share sheet and Files > Open with; the spec accepts that iOS has no default-app setting for file types
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
