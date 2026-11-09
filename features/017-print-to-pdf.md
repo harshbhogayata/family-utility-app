@@ -21,6 +21,7 @@ Appear in every app's share sheet and print dialog as a PDF printer.
 - Add a golden test or integration test under `test/features/017_print-to-pdf/`.
 
 - Build run 2026-11-09: Android `PdfPrintService` (Kotlin, `BIND_PRINT_SERVICE`) adds the printer "Save as PDF (Family)" to every print dialog; the framework hands it the job as a PDF, which is written to `app_flutter/printed` via a `.part` file and renamed when complete. MainActivity's `app.family/print_to_pdf` channel opens Settings > Printing so the service can be switched on. iOS: no separate share-extension target (a new Xcode target cannot be added safely without Xcode); instead the PDF document type registered by 065 puts the app in the print preview's Share sheet, the file lands in `Documents/Inbox`, and `PrintedPdfs.adoptInbox` copies each new inbox PDF into `printed` once. Engine `lib/engines/pdf/print_to_pdf.dart`; screen `lib/tools/print_to_pdf/` lists printed PDFs with Share, Save (copy to `Saved`) and Undo (last add, keep or remove).
+- Remaining (2026-11-09 18:30 UTC): unverified. First CI run (206c5f6) passed analyze and every engine/registration test; the three screen tests timed out waiting on real file I/O, fixed in a163e59. Since then GitHub Actions starts no jobs at all (runs fail in seconds with 0 jobs, including reruns and a manual dispatch), so a163e59 has not been tested. Next run: re-push or rerun CI, then mark done if green.
 
 ## Done when
 All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.
