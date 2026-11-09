@@ -164,7 +164,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 069 | [Profile per member](features/069-profile-per-member.md) | 8. Family — shared live data | 125 | done 5ea2376 |
 | 071 | [Shared calendar](features/071-shared-calendar.md) | 8. Family — shared live data | 125 | done 1354986 |
 | 072 | [Shared shopping list](features/072-shared-shopping-list.md) | 8. Family — shared live data | 125 | done d94d2bc |
-| 079 | [Sync through your own Drive or home Wi-Fi](features/079-sync-through-your-own-drive-or-home-wi-fi.md) | 8. Family — shared live data | 125 | not started |
+| 079 | [Sync through your own Drive or home Wi-Fi](features/079-sync-through-your-own-drive-or-home-wi-fi.md) | 8. Family — shared live data | 125 | done 83d0f04 |
 | 073 | [Shared to-do and notice board](features/073-shared-to-do-and-notice-board.md) | 8. Family — shared live data | 100 | not started |
 | 074 | [Shared document vault with expiry](features/074-shared-document-vault-with-expiry.md) | 8. Family — shared live data | 100 | not started |
 | 121 | [Quick-add](features/121-quick-add.md) | 10. Platform | 100 | not started |
