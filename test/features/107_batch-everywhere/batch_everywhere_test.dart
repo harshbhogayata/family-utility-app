@@ -92,6 +92,7 @@ const Map<String, int> folderFeature = <String, int>{
   'raster': 27,
   'send_original': 128,
   'shrink_to_send': 38,
+  'fill_forms': 9,
   'sign_pdf': 10,
   'zip': 37,
 };
