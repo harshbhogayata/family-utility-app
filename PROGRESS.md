@@ -1,13 +1,13 @@
 # Progress
 
-Done: 100 / 130  (76%)
+Done: 101 / 130  (77%)
 In progress: none
-Updated: 2026-11-09 21:45 UTC
+Updated: 2026-11-09 21:59 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 84 |
-| 2 — family layer | 20 | 16 |
+| 2 — family layer | 20 | 17 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
@@ -99,6 +99,7 @@ Updated: 2026-11-09 21:45 UTC
 - 113 Job notifications — done 28fc557
 - 114 One search — done 02b6068
 - 115 Recents and favourites — done 93c0972
+- 116 Custom home — done 219cf45
 - 117 File manager — done 213b1d0
 - 118 Action history and trash — done bfeeaf5
 - 120 Backup and export — done 42ee688
