@@ -10,6 +10,7 @@ import '../engines/privacy/on_device_mode.dart';
 import 'app_lock/app_lock_settings_screen.dart';
 import 'app_lock/lock_screen.dart';
 import 'one_search/one_search_screen.dart';
+import 'paste_anything/paste_sheet.dart';
 import 'privacy/privacy_screen.dart';
 import 'profiles/profiles_screen.dart';
 import '../engines/family/member_profiles.dart';
@@ -71,20 +72,31 @@ class ToolsHome extends StatelessWidget {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverToBoxAdapter(
+              // 105 Paste anything: tap to read the clipboard and see the tools.
               child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: <Widget>[
-                      const Icon(Icons.add_circle_outline, color: AppColors.accent),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Paste or pick a file to start',
-                          style: text.bodyLarge,
-                        ),
+                clipBehavior: Clip.antiAlias,
+                child: Semantics(
+                  button: true,
+                  label: 'Paste a link, text, picture or file and see the tools for it',
+                  excludeSemantics: true,
+                  child: InkWell(
+                    key: const Key('home-paste'),
+                    onTap: () => showPasteSheet(context),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: <Widget>[
+                          const Icon(Icons.content_paste, color: AppColors.accent),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Paste or pick a file to start',
+                              style: text.bodyLarge,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
