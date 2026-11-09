@@ -79,7 +79,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 065 | [Open-with for all file types](features/065-open-with-for-all-file-types.md) | 7. Share and transfer | 125 | not started |
 | 104 | [Offline first](features/104-offline-first.md) | 10. Platform | 125 | done 12c34d3 |
 | 114 | [One search](features/114-one-search.md) | 10. Platform | 125 | not started |
-| 117 | [File manager](features/117-file-manager.md) | 10. Platform | 125 | not started |
+| 117 | [File manager](features/117-file-manager.md) | 10. Platform | 125 | done 213b1d0 |
 | 032 | [Compress PDF](features/032-compress-pdf.md) | 3. Compress | 100 | not started |
 | 033 | [PDF to target size](features/033-pdf-to-target-size.md) | 3. Compress | 100 | not started |
 | 035 | [Image to exact KB](features/035-image-to-exact-kb.md) | 3. Compress | 100 | not started |
