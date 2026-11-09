@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'expenses/expense_screen.dart';
 import 'medicines/medicine_screen.dart';
+import 'quick_add/quick_add_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
 /// Filled in by Phase 3 features (080 onwards).
@@ -14,8 +15,7 @@ class RecordsScreen extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
             Text('Records', style: text.titleLarge),
             const SizedBox(height: 8),
@@ -23,7 +23,20 @@ class RecordsScreen extends StatelessWidget {
               'Money, health, documents and home records, kept on this phone.',
               style: text.bodyMedium,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
+            // 121: one line in English or Hinglish into the ledger.
+            ListTile(
+              key: const Key('records-quick-add'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.bolt_outlined),
+              title: const Text('Quick add'),
+              subtitle: const Text('Type "paid 350 milk"'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const QuickAddScreen()),
+              ),
+            ),
+            const SizedBox(height: 8),
             Text('Money', style: text.titleMedium),
             // 080: expenses with receipt photos, month totals and CSV.
             ListTile(

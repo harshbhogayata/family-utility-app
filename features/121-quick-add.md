@@ -3,7 +3,7 @@
 **Section:** 10. Platform
 **Phase:** 2
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [080 Expense tracker](./080-expense-tracker.md)
 
 ## What the person gets
