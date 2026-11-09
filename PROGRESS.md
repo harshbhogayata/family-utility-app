@@ -1,12 +1,12 @@
 # Progress
 
-Done: 47 / 130  (36%)
+Done: 48 / 130  (36%)
 In progress: none
-Updated: 2026-11-09 09:08 UTC
+Updated: 2026-11-09 09:20 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 47 |
+| 1 — file chores and platform core | 86 | 48 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -54,6 +54,7 @@ Updated: 2026-11-09 09:08 UTC
 - 117 File manager — done 213b1d0
 - 118 Action history and trash — done bfeeaf5
 - 123 Download video from a link — done 14d74f8
+- 124 Download audio from a link — done 2be5196
 - 125 WhatsApp status saver — done d1b57d3
 - 126 Clipboard link watch — done 44ef7df
 - 127 Download queue — done 7311ffc
