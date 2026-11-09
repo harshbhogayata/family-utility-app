@@ -128,7 +128,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 046 | [View and strip EXIF](features/046-view-and-strip-exif.md) | 4. Image basics | 48 | done 3717803 |
 | 052 | [QR generator](features/052-qr-generator.md) | 5. Scan and QR | 48 | done e0c8180 |
 | 053 | [Auto-name scans](features/053-auto-name-scans.md) | 5. Scan and QR | 48 | not started |
-| 066 | [Copy result](features/066-copy-result.md) | 7. Share and transfer | 48 | not started |
+| 066 | [Copy result](features/066-copy-result.md) | 7. Share and transfer | 48 | done 39196a8 |
 | 067 | [Background jobs](features/067-background-jobs.md) | 7. Share and transfer | 48 | not started |
 | 107 | [Batch everywhere](features/107-batch-everywhere.md) | 10. Platform | 48 | not started |
 | 108 | [Versions](features/108-versions.md) | 10. Platform | 48 | not started |
