@@ -20,6 +20,8 @@ import '../engines/security/private_vault.dart';
 import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/first_run_store.dart';
+import '../platform/guest_mode_store.dart';
+import '../engines/platform/guest_mode.dart';
 import '../platform/profile_store.dart';
 import '../engines/family/member_profiles.dart';
 import '../platform/lock_platform.dart';
@@ -131,6 +133,7 @@ import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/nearby_share/nearby_share_screen.dart';
 import '../tools/accessibility/accessibility_screen.dart';
 import '../tools/custom_home/custom_home_screen.dart';
+import '../tools/guest_mode/guest_mode_screen.dart';
 import '../tools/language/language_screen.dart';
 import '../engines/platform/home_widgets.dart';
 import '../platform/speed_dial_store.dart';
@@ -266,6 +269,11 @@ void bootstrap() {
   final AccessibilityPrefs accessibility = AccessibilityPrefs(const PrefsAccessibilityStore());
   AccessibilityPrefs.install(accessibility);
   unawaited(accessibility.load());
+
+  // 119: guest mode survives a restart.
+  final GuestMode guest = GuestMode(const PrefsGuestModeStore());
+  GuestMode.install(guest);
+  unawaited(guest.load());
 
   final FirstRun firstRun = FirstRun(const PrefsFirstRunStore());
   FirstRun.install(firstRun);
@@ -1242,6 +1250,15 @@ void bootstrap() {
       featureNumber: 109,
       touches: const <DataTouch>{},
       builder: (BuildContext context) => const AccessibilityScreen(),
+    ),
+    ToolEntry(
+      id: guestModeToolId,
+      name: 'Guest mode',
+      section: ToolSection.platform,
+      icon: Icons.child_care,
+      featureNumber: 119,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const GuestModeScreen(),
     ),
     ToolEntry(
       id: 'custom-home',

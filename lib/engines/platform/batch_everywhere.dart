@@ -137,6 +137,7 @@ abstract final class BatchPolicy {
     112: BatchSupport.noPicker(),
     114: BatchSupport.noPicker(),
     116: BatchSupport.noPicker(),
+    119: BatchSupport.noPicker(),
     118: BatchSupport.multiPicker(),
     70: BatchSupport.noPicker(),
     120: BatchSupport.single('A restore reads one backup file, opened with its own password.'),

@@ -10,6 +10,8 @@ import '../engines/privacy/on_device_mode.dart';
 import 'app_lock/app_lock_settings_screen.dart';
 import 'app_lock/lock_screen.dart';
 import 'custom_home/custom_home_screen.dart';
+import 'guest_mode/guest_mode_screen.dart';
+import '../engines/platform/guest_mode.dart';
 import 'one_search/one_search_screen.dart';
 import 'paste_anything/paste_sheet.dart';
 import 'privacy/privacy_screen.dart';
@@ -23,8 +25,62 @@ class ToolsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: MemberProfiles.instance,
-      builder: (BuildContext context, Widget? _) => _build(context),
+      listenable: Listenable.merge(<Listenable>[MemberProfiles.instance, GuestMode.instance]),
+      builder: (BuildContext context, Widget? _) =>
+          GuestMode.instance.active ? _buildGuest(context) : _build(context),
+    );
+  }
+
+  /// 119: a guest sees only the tools the owner ticked, and a way out that
+  /// needs the owner's PIN.
+  Widget _buildGuest(BuildContext context) {
+    final List<ToolEntry> tools = <ToolEntry>[];
+    for (final String id in GuestMode.instance.filter(ToolRegistry.all.map((ToolEntry t) => t.id).toList())) {
+      final ToolEntry? t = ToolRegistry.byId(id);
+      if (t != null) {
+        tools.add(t);
+      }
+    }
+    final TextTheme text = Theme.of(context).textTheme;
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text('Guest mode', style: text.titleLarge, semanticsLabel: 'Guest mode tools'),
+                  ),
+                  TextButton.icon(
+                    key: const Key('guest-exit'),
+                    style: TextButton.styleFrom(minimumSize: const Size(44, 48)),
+                    icon: const Icon(Icons.lock_outline),
+                    label: const Text('Leave'),
+                    onPressed: () => unawaited(showGuestExitDialog(context)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: AppRadius.gridGap,
+                crossAxisSpacing: AppRadius.gridGap,
+                childAspectRatio: 1,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int i) => ToolTile(key: ValueKey<String>('tile-${tools[i].id}'), tool: tools[i]),
+                childCount: tools.length,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -272,6 +328,10 @@ class OnDeviceChip extends StatelessWidget {
 /// Opens [tool] (unlocking it first when it is locked) and notes it in the
 /// active member's recents (feature 069).
 Future<void> openTool(BuildContext context, ToolEntry tool) async {
+  // 119: a guest can open only the tools the owner allowed.
+  if (GuestMode.instance.active && !GuestMode.instance.isAllowed(tool.id)) {
+    return;
+  }
   final bool ok = await ensureUnlockedFor(context, tool.id);
   if (!ok || !context.mounted) {
     return;

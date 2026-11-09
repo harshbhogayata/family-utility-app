@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../engines/platform/app_strings.dart';
+import '../engines/platform/guest_mode.dart';
 import '../engines/security/app_lock.dart';
 import '../family/family_screen.dart';
 import '../platform/files_screen.dart';
@@ -31,6 +32,19 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: GuestMode.instance,
+      builder: (BuildContext context, Widget? _) {
+        // 119: a guest gets the Tools tab only, with the allowed tools.
+        if (GuestMode.instance.active) {
+          return const Scaffold(body: ToolsHome());
+        }
+        return _owner(context);
+      },
+    );
+  }
+
+  Widget _owner(BuildContext context) {
     final AppStrings t = AppStringsScope.of(context);
     return Scaffold(
       body: IndexedStack(index: _index, children: _pages),
