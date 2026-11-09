@@ -22,6 +22,8 @@ import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/archives/archives_screen.dart';
 import '../tools/images_to_pdf/images_to_pdf_screen.dart';
+import '../tools/text_to_pdf/text_to_pdf_screen.dart';
+import '../engines/pdf/text_to_pdf.dart';
 import '../tools/document_scanner/document_scanner_screen.dart';
 import '../engines/image/scan_entry.dart';
 import 'app.dart';
@@ -133,6 +135,9 @@ void bootstrap() {
 
   // 025: HEIC through the phone's codec, also for Convert anything / Batch.
   registerHeicConverters(ConvertRegistry.instance, const PlatformHeicCodec());
+
+  // 024: plain text files to PDF, drawn by the phone's text engine.
+  ConvertRegistry.instance.register(const TextToPdfConverter());
 
   final OnDeviceMode mode = OnDeviceMode(const PrefsOnDeviceModeStore());
   OnDeviceMode.install(mode);
@@ -708,6 +713,14 @@ void bootstrap() {
       icon: Icons.picture_as_pdf_outlined,
       featureNumber: 21,
       builder: (BuildContext context) => const ImagesToPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'text-to-pdf',
+      name: 'Text to PDF',
+      section: ToolSection.convert,
+      icon: Icons.text_snippet_outlined,
+      featureNumber: 24,
+      builder: (BuildContext context) => const TextToPdfScreen(),
     ),
     ToolEntry(
       id: 'document-scanner',
