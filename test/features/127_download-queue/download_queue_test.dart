@@ -332,7 +332,10 @@ void main() {
       f.feed(100);
       await io(tester);
       expect(find.textContaining('25%'), findsOneWidget);
-      expect(find.bySemanticsLabel('photo.jpg progress'), findsOneWidget);
+      expect(
+          find.byWidgetPredicate((Widget w) =>
+              w is LinearProgressIndicator && w.semanticsLabel == 'photo.jpg progress' && w.semanticsValue == '25%'),
+          findsOneWidget);
       final Size pauseSize = tester.getSize(find.byKey(const Key('dl-pause-1')));
       expect(pauseSize.width, greaterThanOrEqualTo(44));
       expect(pauseSize.height, greaterThanOrEqualTo(44));
