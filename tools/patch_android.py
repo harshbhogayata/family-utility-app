@@ -20,10 +20,17 @@ subprojects {{
     plugins.withId("com.android.library") {{
         val androidExt = extensions.findByName("android")
         if (androidExt != null) {{
+            val names = setOf("setCompileSdk", "setCompileSdkVersion", "compileSdkVersion")
             val setter = androidExt.javaClass.methods.firstOrNull {{
-                it.name == "setCompileSdkVersion" && it.parameterTypes.size == 1 && it.parameterTypes[0] == Int::class.javaPrimitiveType
+                it.name in names && it.parameterTypes.size == 1 &&
+                    (it.parameterTypes[0] == Int::class.javaPrimitiveType || it.parameterTypes[0] == java.lang.Integer::class.java)
             }}
-            setter?.invoke(androidExt, 36)
+            if (setter != null) {{
+                setter.invoke(androidExt, 36)
+                println("family-utility-app: forced compileSdk 36 on " + project.path + " via " + setter.name)
+            }} else {{
+                println("family-utility-app: no compileSdk setter found on " + project.path)
+            }}
         }}
     }}
 }}
