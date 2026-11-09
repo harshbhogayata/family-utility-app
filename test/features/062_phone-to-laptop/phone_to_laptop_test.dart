@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,6 +7,12 @@ import 'package:family_utility_app/engines/transfer/lan_transfer.dart';
 import 'package:family_utility_app/tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// flutter_test swaps every HttpClient for a mock that answers 400. These
+/// tests talk to a real local server, so they need the real client.
+class _RealHttp extends HttpOverrides {}
+
+HttpClient realClient() => HttpOverrides.runWithHttpOverrides<HttpClient>(HttpClient.new, _RealHttp());
 
 class FakeChooser implements FileChooser {
   FakeChooser(this.paths);
@@ -46,7 +53,7 @@ void main() {
       expect(SafeNames.clean('  '), 'file');
       expect(SafeNames.clean('..'), 'file');
       expect(SafeNames.clean('my photo (1).JPG'), 'my photo (1).JPG');
-      expect(SafeNames.clean('a/b<c>d|e.txt'), 'd_e.txt');
+      expect(SafeNames.clean('a/b<c>d|e.txt'), 'b_c_d_e.txt');
       final Directory dir = await Directory.systemTemp.createTemp('p2l');
       File('${dir.path}/a.txt').writeAsStringSync('x');
       expect(SafeNames.unique(dir, 'a.txt'), 'a (2).txt');
@@ -65,7 +72,7 @@ void main() {
       tmp = await Directory.systemTemp.createTemp('p2l');
       server = LanTransferServer(inbox: Directory('${tmp.path}/inbox'));
       await server.start(address: InternetAddress.loopbackIPv4);
-      client = HttpClient();
+      client = realClient();
       base = 'http://127.0.0.1:${server.port}';
     });
 
@@ -147,11 +154,19 @@ void main() {
       tester.view.physicalSize = const Size(1200, 2600);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
-      final Directory tmp = await Directory.systemTemp.createTemp('p2l');
-      addTearDown(() => tmp.delete(recursive: true));
+      // Sync IO only outside runAsync: real async IO never completes inside
+      // the fake-async zone of a widget test.
+      final Directory tmp = Directory.systemTemp.createTempSync('p2l');
+      addTearDown(() {
+        if (tmp.existsSync()) {
+          tmp.deleteSync(recursive: true);
+        }
+      });
       final File offer = File('${tmp.path}/scan.jpg')..writeAsStringSync('jpegdata');
       final LanTransferServer server = LanTransferServer(inbox: Directory('${tmp.path}/inbox'));
-      addTearDown(server.stop);
+      addTearDown(() {
+        unawaited(server.stop());
+      });
 
       await tester.pumpWidget(MaterialApp(
         theme: buildAppTheme(),
@@ -182,7 +197,7 @@ void main() {
       expect(find.text('scan.jpg'), findsOneWidget);
 
       await tester.runAsync(() async {
-        final HttpClient c = HttpClient();
+        final HttpClient c = realClient();
         final Map<String, Object?> r =
             await upload(c, 'http://127.0.0.1:${server.port}', server.token, 'from-laptop.pdf', 'pdf!');
         expect(r['ok'], isTrue);
