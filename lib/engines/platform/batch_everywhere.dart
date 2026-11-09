@@ -86,6 +86,7 @@ abstract final class BatchPolicy {
     8: BatchSupport.single('One scan at a time: every page is read by the on-device model.'),
     14: BatchSupport.single('You choose where the numbers go and where they start for one PDF.'),
     15: BatchSupport.single('You check each page of a scan before blank ones are removed.'),
+    17: BatchSupport.noPicker(),
     16: BatchSupport.single('One PDF at a time here; the All PDFs tab searches every saved PDF at once.'),
     18: BatchSupport.viaBatch('batch-convert'),
     19: BatchSupport.viaBatch('batch-convert'),

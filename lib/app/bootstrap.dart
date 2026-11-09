@@ -89,6 +89,7 @@ import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
 import '../tools/crop/crop_screen.dart';
 import '../tools/pdf_target_size/pdf_target_size_screen.dart';
+import '../tools/print_to_pdf/print_to_pdf_screen.dart';
 import '../tools/history/history_screen.dart';
 import '../tools/one_search/one_search_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
@@ -694,6 +695,14 @@ void bootstrap() {
       icon: Icons.straighten,
       featureNumber: 33,
       builder: (BuildContext context) => const PdfTargetSizeScreen(),
+    ),
+    ToolEntry(
+      id: 'print-to-pdf',
+      name: 'Print to PDF',
+      section: ToolSection.pdf,
+      icon: Icons.print_outlined,
+      featureNumber: 17,
+      builder: (BuildContext context) => const PrintToPdfScreen(),
     ),
     ToolEntry(
       id: 'sign-pdf',

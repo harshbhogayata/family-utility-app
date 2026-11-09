@@ -36,6 +36,16 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <!-- 017 Print to PDF: "Save as PDF (Family)" in every print dialog. -->
+        <service
+            android:name=".PdfPrintService"
+            android:label="Save as PDF (Family)"
+            android:exported="true"
+            android:permission="android.permission.BIND_PRINT_SERVICE">
+            <intent-filter>
+                <action android:name="android.printservice.PrintService" />
+            </intent-filter>
+        </service>
         <receiver
             android:exported="false"
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />

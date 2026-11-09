@@ -67,6 +67,15 @@ class MainActivity : FlutterActivity() {
         }
         openChannel = opened
 
+        // 017 Print to PDF: Settings > Printing, where the service is switched on.
+        val printing = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/print_to_pdf")
+        printing.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "openPrintSettings" -> result.success(openPrintSettings())
+                else -> result.notImplemented()
+            }
+        }
+
         // 130 Video player: this window's brightness and picture-in-picture.
         val player = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/video_player")
         player.setMethodCallHandler { call, result ->
@@ -180,6 +189,18 @@ class MainActivity : FlutterActivity() {
         }
         val out = copyIntoCache(uris, "opened_in", "file")
         return if (out.isEmpty()) null else out
+    }
+
+    /// 017: the system's printing settings page.
+    private fun openPrintSettings(): Boolean {
+        return try {
+            val t = Intent(Settings.ACTION_PRINT_SETTINGS)
+            t.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(t)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     /// 065: the app's "Open by default" page, else default apps, else details.
