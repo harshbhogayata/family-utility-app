@@ -173,6 +173,9 @@ void main() {
   });
 
   testWidgets('pick, auto-find, drag a box, cover, share and undo', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.5;
+    addTearDown(tester.view.reset);
     final SemanticsHandle handle = tester.ensureSemantics();
     final FakeFiles files = FakeFiles();
     final RecordingSheet sheet = RecordingSheet();
