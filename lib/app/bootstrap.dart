@@ -42,6 +42,10 @@ import '../tools/status_saver/status_saver_screen.dart';
 import '../engines/download/download_queue.dart';
 import '../engines/privacy/offline_policy.dart';
 import '../tools/download_queue/download_queue_screen.dart';
+import '../engines/download/shared_link.dart';
+import '../engines/download/video_link.dart';
+import '../platform/video_notice_prefs.dart';
+import '../tools/video_link/video_link_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
@@ -151,6 +155,42 @@ void bootstrap() {
   );
   DownloadQueue.install(downloads);
   unawaited(downloads.load());
+
+  // 123: video from a link; one plugin per site, saved through the queue.
+  VideoLinks.install(VideoLinkDownloader(
+    pages: HttpPageFetcher(),
+    notice: const PrefsNoticeStore(),
+    blockedReason: () {
+      for (final ToolEntry t in ToolRegistry.all) {
+        if (t.id == 'video-link') {
+          return NetworkGuard.blockedReason(t);
+        }
+      }
+      return null;
+    },
+  ));
+  final SharedLinkInbox inbox = SharedLinkInbox();
+  SharedLinkInbox.install(inbox);
+  void openShared(bool retry) {
+    final NavigatorState? nav = appNavigatorKey.currentState;
+    if (nav == null) {
+      // Opened by the share: wait for the first frame, then try once more.
+      if (retry) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => openShared(false));
+      }
+      return;
+    }
+    final String? text = inbox.take();
+    if (text == null) {
+      return;
+    }
+    unawaited(nav.push<void>(MaterialPageRoute<void>(
+      builder: (BuildContext context) => VideoLinkScreen(initialText: text),
+    )));
+  }
+
+  inbox.onLink = (String _) => openShared(true);
+  unawaited(inbox.attach());
 
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),
@@ -482,6 +522,17 @@ void bootstrap() {
       networkReason: 'Fetches the links you add. Nothing of yours is uploaded.',
       touches: const <DataTouch>{DataTouch.files, DataTouch.network},
       builder: (BuildContext context) => const DownloadQueueScreen(),
+    ),
+    ToolEntry(
+      id: 'video-link',
+      name: 'Video from a link',
+      section: ToolSection.links,
+      icon: Icons.video_library_outlined,
+      featureNumber: 123,
+      needsNetwork: true,
+      networkReason: 'Reads the public page of the link you paste and fetches its video. Nothing of yours is uploaded.',
+      touches: const <DataTouch>{DataTouch.files, DataTouch.network},
+      builder: (BuildContext context) => const VideoLinkScreen(),
     ),
     ToolEntry(
       id: 'status-saver',

@@ -3,7 +3,7 @@
 **Section:** 11. Links and WhatsApp essentials
 **Phase:** 1
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [127 Download queue](./127-download-queue.md)
 
 ## What the person gets
