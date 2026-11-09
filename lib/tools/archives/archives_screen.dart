@@ -281,6 +281,18 @@ class _ArchivesScreenState extends State<ArchivesScreen> {
               ),
             ),
           ),
+          if (_status != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Semantics(
+                liveRegion: true,
+                child: Text(
+                  _status!,
+                  key: const Key('archive-status'),
+                  style: text.bodyMedium?.copyWith(color: AppColors.ink),
+                ),
+              ),
+            ),
           if (a != null) ...<Widget>[
             const SizedBox(height: 12),
             Card(
@@ -366,18 +378,6 @@ class _ArchivesScreenState extends State<ArchivesScreen> {
               ),
             ),
           ),
-          if (_status != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Semantics(
-                liveRegion: true,
-                child: Text(
-                  _status!,
-                  key: const Key('archive-status'),
-                  style: text.bodyMedium?.copyWith(color: AppColors.ink),
-                ),
-              ),
-            ),
         ],
       ),
       bottomNavigationBar: ResultBar(onShare: _shareResults, onSave: _save, onUndo: _undo),
