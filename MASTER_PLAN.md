@@ -145,7 +145,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 129 | [Recover deleted messages](features/129-recover-deleted-messages.md) | 11. Links and WhatsApp essentials | 36 | done 639e04b |
 | 004 | [Extract pages](features/004-extract-pages.md) | 1. PDF basics | 27 | done 2814a57 |
 | 005 | [Remove pages](features/005-remove-pages.md) | 1. PDF basics | 27 | done 5f495f0 |
-| 006 | [Reorder pages](features/006-reorder-pages.md) | 1. PDF basics | 27 | not started |
+| 006 | [Reorder pages](features/006-reorder-pages.md) | 1. PDF basics | 27 | done 3633a4f |
 | 007 | [Rotate pages](features/007-rotate-pages.md) | 1. PDF basics | 27 | not started |
 | 024 | [Text to PDF](features/024-text-to-pdf.md) | 2. Convert | 27 | not started |
 | 012 | [Unlock a known password](features/012-unlock-a-known-password.md) | 1. PDF basics | 24 | not started |

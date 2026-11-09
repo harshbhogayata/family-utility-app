@@ -3,17 +3,17 @@
 **Section:** 1. PDF basics
 **Phase:** 1
 **Priority score:** 27 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 3633a4f
 **Depends on:** [001 PDF viewer](./001-pdf-viewer.md)
 
 ## What the person gets
 Drag thumbnails to reorder; add blank pages.
 
 ## Acceptance criteria
-- [ ] Drag-and-drop reorder on the thumbnail grid
-- [ ] Insert blank page at any position
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Drag-and-drop reorder on the thumbnail grid
+- [x] Insert blank page at any position
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
