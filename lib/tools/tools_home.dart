@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../app/theme.dart';
@@ -216,10 +218,8 @@ Future<void> openTool(BuildContext context, ToolEntry tool) async {
   if (!ok || !context.mounted) {
     return;
   }
-  await MemberProfiles.instance.recordRecent(tool.id);
-  if (!context.mounted) {
-    return;
-  }
+  // Never wait on the disk before opening the tool.
+  unawaited(MemberProfiles.instance.recordRecent(tool.id));
   await Navigator.of(context).push<void>(MaterialPageRoute<void>(builder: tool.builder));
 }
 
