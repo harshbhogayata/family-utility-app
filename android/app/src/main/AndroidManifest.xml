@@ -15,6 +15,11 @@
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         <!-- 129: read WhatsApp media folders on Android 12 and older. -->
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+        <!-- 088 Medicine reminders: exact dose alarms that survive a reboot. -->
+        <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
+        <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+        <uses-permission android:name="android.permission.VIBRATE" />
         <uses-feature android:name="android.hardware.camera" android:required="false" />
     <application
         android:label="family_utility_app"
@@ -51,6 +56,20 @@
         <receiver
             android:exported="false"
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
+        <!-- 088: scheduled dose alarms, re-armed after a reboot or update. -->
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".MainActivity"
             android:exported="true"

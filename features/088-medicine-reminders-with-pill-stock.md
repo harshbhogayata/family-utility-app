@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [069 Profile per member](./069-profile-per-member.md), [070 Family roles](./070-family-roles.md)
 
 ## What the person gets

@@ -76,6 +76,19 @@ class NotificationJobHost implements JobHost {
                   options: <DarwinNotificationActionOption>{DarwinNotificationActionOption.foreground},
                 ),
               ]),
+              // 088: dose alarms, scheduled by NotificationMedicineAlarms.
+              DarwinNotificationCategory('medicine_due', actions: <DarwinNotificationAction>[
+                DarwinNotificationAction.plain(
+                  'med_taken',
+                  'Taken',
+                  options: <DarwinNotificationActionOption>{DarwinNotificationActionOption.foreground},
+                ),
+                DarwinNotificationAction.plain(
+                  'med_snooze',
+                  'Snooze 10 min',
+                  options: <DarwinNotificationActionOption>{DarwinNotificationActionOption.foreground},
+                ),
+              ]),
             ],
           ),
         ),

@@ -56,6 +56,8 @@ dependencies:
   pasteboard: ^0.3.0
   # 067 Background jobs: foreground service and progress notification.
   flutter_local_notifications: ^17.2.4
+  # 088 Medicine reminders: alarms at an exact instant.
+  timezone: ^0.9.4
   # 076 Live family location: one fix at a time, at the engine's pace.
   geolocator: ^13.0.2
   # 036 Compress video: the phone's hardware encoder.

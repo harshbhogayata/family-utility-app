@@ -161,6 +161,9 @@ import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
+import '../engines/records/medicine_reminders.dart';
+import '../platform/medicine_alarm_platform.dart';
+import '../records/medicines/medicine_screen.dart';
 import '../family/sync/lan_family_sync.dart';
 import 'tool_registry.dart';
 
@@ -251,7 +254,19 @@ void bootstrap() {
         )))),
   );
   JobNotifications.install(jobNotices);
-  jobHost.onTap = jobNotices.handle;
+  jobHost.onTap = (String? actionId, String? payload) async {
+    // 088: dose alarms share the plugin; Taken / Snooze act, a tap opens.
+    if (MedicineReminders.ownsPayload(payload)) {
+      final bool acted = MedicineReminders.instance.handleTap(actionId, payload);
+      if (!acted) {
+        whenNavigator((NavigatorState nav) => unawaited(nav.push<void>(MaterialPageRoute<void>(
+              builder: (BuildContext context) => const MedicineScreen(),
+            ))));
+      }
+      return acted ? JobTapResult.ignored : JobTapResult.opened;
+    }
+    return jobNotices.handle(actionId, payload);
+  };
   jobNotificationHost = jobHost;
 
   CopyResult.install(CopyResult(const SystemClipboardBackend()));
@@ -335,7 +350,22 @@ void bootstrap() {
     ],
   );
   FamilySpace.install(family);
-  unawaited(family.load());
+  final Future<void> familyLoaded = family.load();
+  unawaited(familyLoaded);
+
+  // 088: medicines on the family store so allowed carers see them; on a
+  // phone not in a family they stay in this phone's own store.
+  final FamilyStore medicineSolo = FamilyStore(
+    deviceId: MedicineReminders.soloMember,
+    storage: FileFamilyStoreStorage(() => appFolder('medicines')),
+  );
+  final MedicineReminders medicines = MedicineReminders(
+    space: family,
+    soloStore: medicineSolo,
+    alarms: NotificationMedicineAlarms(),
+  );
+  MedicineReminders.install(medicines);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => medicines.reschedule()));
 
   // 071: shared calendar on the family store; reminders while the app runs.
   final SharedCalendar calendar = SharedCalendar(space: family);
