@@ -56,6 +56,7 @@ class FakeSheet implements ShareSheet {
 /// Feature number of each tool folder that has a picker, for the audit.
 const Map<String, int> folderFeature = <String, int>{
   'archives': 29,
+  'backup': 120,
   'split_pdf': 3,
   'extract_pages': 4,
   'remove_pages': 5,
