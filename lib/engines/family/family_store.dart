@@ -15,6 +15,44 @@ import 'vector_clock.dart';
 /// every phone picks the same winner without talking to the others.
 /// Deletes are kept as tombstones so they merge like edits.
 
+/// Feature 078 — one earlier state of a record: what it held, who wrote it
+/// (device id) and when. Records carry their recent revisions so the change
+/// log travels with them to every phone.
+@immutable
+class FamilyRevision {
+  const FamilyRevision({
+    required this.fields,
+    required this.writer,
+    required this.wallMillis,
+    this.deleted = false,
+  });
+
+  final Map<String, Object?> fields;
+  final String writer;
+  final int wallMillis;
+  final bool deleted;
+
+  /// Identity of a revision across phones.
+  String get mark => '$wallMillis/$writer';
+
+  Map<String, Object?> toJson() => <String, Object?>{
+        'f': fields,
+        'w': wallMillis,
+        'd': writer,
+        if (deleted) 'x': true,
+      };
+
+  static FamilyRevision fromJson(Map<String, Object?> json) {
+    final Object? f = json['f'];
+    return FamilyRevision(
+      fields: f is Map ? Map<String, Object?>.from(f) : <String, Object?>{},
+      writer: json['d'] as String? ?? '',
+      wallMillis: (json['w'] as num?)?.toInt() ?? 0,
+      deleted: json['x'] == true,
+    );
+  }
+}
+
 @immutable
 class FamilyRecord {
   const FamilyRecord({
@@ -25,7 +63,11 @@ class FamilyRecord {
     required this.wallMillis,
     required this.writer,
     this.deleted = false,
+    this.history = const <FamilyRevision>[],
   });
+
+  /// How many changes each record keeps, with author and time (078).
+  static const int keepChanges = 20;
 
   final String collection;
   final String id;
@@ -39,9 +81,21 @@ class FamilyRecord {
   final String writer;
   final bool deleted;
 
+  /// Earlier states, oldest first, at most [keepChanges] of them (078).
+  final List<FamilyRevision> history;
+
   String get key => '$collection/$id';
 
-  FamilyRecord copyWith({VectorClock? clock}) => FamilyRecord(
+  /// This record's current state as a revision.
+  FamilyRevision get revision =>
+      FamilyRevision(fields: fields, writer: writer, wallMillis: wallMillis, deleted: deleted);
+
+  /// Known states, newest first: the current one, then the states it
+  /// replaced. [keepChanges] + 1 states describe [keepChanges] changes.
+  List<FamilyRevision> get changes =>
+      <FamilyRevision>[revision, ...history.reversed].take(keepChanges + 1).toList();
+
+  FamilyRecord copyWith({VectorClock? clock, List<FamilyRevision>? history}) => FamilyRecord(
         collection: collection,
         id: id,
         fields: fields,
@@ -49,7 +103,26 @@ class FamilyRecord {
         wallMillis: wallMillis,
         writer: writer,
         deleted: deleted,
+        history: history ?? this.history,
       );
+
+  /// Joins revision lists from several phones: no duplicates, oldest first,
+  /// never the state [current] itself, trimmed to the newest that fit.
+  static List<FamilyRevision> joinHistory(FamilyRevision current, Iterable<FamilyRevision> revisions) {
+    final Map<String, FamilyRevision> byMark = <String, FamilyRevision>{};
+    for (final FamilyRevision r in revisions) {
+      if (r.mark != current.mark) {
+        byMark[r.mark] = r;
+      }
+    }
+    final List<FamilyRevision> out = byMark.values.toList()
+      ..sort((FamilyRevision a, FamilyRevision b) {
+        final int c = a.wallMillis.compareTo(b.wallMillis);
+        return c != 0 ? c : a.writer.compareTo(b.writer);
+      });
+    const int keep = keepChanges;
+    return out.length > keep ? out.sublist(out.length - keep) : out;
+  }
 
   /// True when this edit beats [other] in a concurrent tie.
   bool winsTieAgainst(FamilyRecord other) {
@@ -71,10 +144,12 @@ class FamilyRecord {
         'w': wallMillis,
         'd': writer,
         if (deleted) 'x': true,
+        if (history.isNotEmpty) 'h': history.map((FamilyRevision r) => r.toJson()).toList(),
       };
 
   static FamilyRecord fromJson(Map<String, Object?> json) {
     final Object? f = json['f'];
+    final Object? h = json['h'];
     return FamilyRecord(
       collection: json['c']! as String,
       id: json['i']! as String,
@@ -83,6 +158,11 @@ class FamilyRecord {
       wallMillis: (json['w'] as num?)?.toInt() ?? 0,
       writer: json['d'] as String? ?? '',
       deleted: json['x'] == true,
+      history: h is List
+          ? h.whereType<Map<Object?, Object?>>()
+              .map((Map<Object?, Object?> m) => FamilyRevision.fromJson(Map<String, Object?>.from(m)))
+              .toList()
+          : const <FamilyRevision>[],
     );
   }
 
@@ -245,6 +325,12 @@ class FamilyStore extends ChangeNotifier {
       wallMillis: wall,
       writer: deviceId,
       deleted: deleted,
+      history: old == null
+          ? const <FamilyRevision>[]
+          : FamilyRecord.joinHistory(
+              FamilyRevision(fields: fields, writer: deviceId, wallMillis: wall, deleted: deleted),
+              <FamilyRevision>[...old.history, old.revision],
+            ),
     );
     _apply(r, FamilyPath.thisPhone);
     return r;
@@ -258,9 +344,15 @@ class FamilyStore extends ChangeNotifier {
       _apply(incoming, via);
       return true;
     }
+    final List<FamilyRevision> all = <FamilyRevision>[
+      ...local.history,
+      local.revision,
+      ...incoming.history,
+      incoming.revision,
+    ];
     switch (incoming.clock.compare(local.clock)) {
       case ClockOrder.after:
-        _apply(incoming, via);
+        _apply(incoming.copyWith(history: FamilyRecord.joinHistory(incoming.revision, all)), via);
         return true;
       case ClockOrder.before:
       case ClockOrder.equal:
@@ -268,9 +360,24 @@ class FamilyStore extends ChangeNotifier {
       case ClockOrder.concurrent:
         final VectorClock joined = incoming.clock.merge(local.clock);
         final FamilyRecord winner = incoming.winsTieAgainst(local) ? incoming : local;
-        _apply(winner.copyWith(clock: joined), identical(winner, incoming) ? via : (_via[local.key] ?? FamilyPath.thisPhone));
+        _apply(
+          winner.copyWith(clock: joined, history: FamilyRecord.joinHistory(winner.revision, all)),
+          identical(winner, incoming) ? via : (_via[local.key] ?? FamilyPath.thisPhone),
+        );
         return true;
     }
+  }
+
+  /// The stored record for [collection]/[id], tombstone included (078).
+  FamilyRecord? raw(String collection, String id) => _records['$collection/$id'];
+
+  /// Puts [collection]/[id] back to [state]: a new edit, so it syncs like
+  /// any other and can itself be undone (078).
+  FamilyRecord? restore(String collection, String id, FamilyRevision? state) {
+    if (state == null || state.deleted) {
+      return delete(collection, id);
+    }
+    return put(collection, id, state.fields);
   }
 
   /// Merges many records; returns how many changed ours.

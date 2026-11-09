@@ -14,6 +14,7 @@ import '../engines/share/share_engine.dart';
 import '../platform/calendar_platform.dart';
 import 'board/family_board_screen.dart';
 import 'calendar/shared_calendar_screen.dart';
+import 'changes/change_log_screen.dart';
 import 'checkin/check_in_screen.dart';
 import 'documents/document_vault_screen.dart';
 import 'location/family_location_screen.dart';
@@ -322,6 +323,17 @@ class _FamilyScreenState extends State<FamilyScreen> {
           subtitle: const Text("'Reached safely' in one tap, or automatic at saved places"),
           onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
             builder: (BuildContext context) => const CheckInScreen(),
+          ))),
+        ),
+        ListTile(
+          key: const Key('family-change-log'),
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
+          leading: const Icon(Icons.history),
+          title: const Text('Change log'),
+          subtitle: const Text('Who changed what, with undo'),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => ChangeLogScreen(store: _space.store),
           ))),
         ),
         ListTile(
