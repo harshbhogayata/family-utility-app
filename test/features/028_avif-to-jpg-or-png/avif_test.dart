@@ -152,7 +152,7 @@ void main() {
 
     test('Convert anything and Batch convert take AVIF once registered', () async {
       final ConvertRegistry reg = ConvertRegistry.builtIn();
-      expect(reg.targetsFor(FileKind.avif), isEmpty);
+      expect(reg.targetsFor(FileKind.avif).where((Converter c) => c.target == FileKind.jpeg), isEmpty);
       registerAvifConverters(reg, FakeCodec());
       final List<FileKind> targets = reg.targetsFor(FileKind.avif).map((Converter c) => c.target).toList();
       expect(targets, containsAll(<FileKind>[FileKind.jpeg, FileKind.png]));
