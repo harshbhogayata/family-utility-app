@@ -158,60 +158,10 @@ class _ShrinkToSendScreenState extends State<ShrinkToSendScreen> {
   }
 
   Future<void> _addPreset() async {
-    final TextEditingController name = TextEditingController();
-    final TextEditingController mb = TextEditingController();
-    bool kb = false;
     final ShrinkPreset? made = await showDialog<ShrinkPreset>(
       context: context,
-      builder: (BuildContext context) => StatefulBuilder(
-        builder: (BuildContext context, StateSetter set) => AlertDialog(
-          title: const Text('New preset'),
-          content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            TextField(key: const Key('preset-name'), controller: name, decoration: const InputDecoration(labelText: 'Name')),
-            TextField(
-              key: const Key('preset-size'),
-              controller: mb,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: kb ? 'Limit in KB' : 'Limit in MB'),
-            ),
-            Row(children: <Widget>[
-              const Expanded(child: Text('Limit in KB instead of MB')),
-              Switch(
-                key: const Key('preset-kb'),
-                value: kb,
-                onChanged: (bool v) => set(() => kb = v),
-              ),
-            ]),
-          ]),
-          actions: <Widget>[
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-            FilledButton(
-              key: const Key('preset-ok'),
-              onPressed: () {
-                final double? v = double.tryParse(mb.text.trim());
-                if (v == null || v <= 0 || name.text.trim().isEmpty) {
-                  return;
-                }
-                Navigator.pop(
-                  context,
-                  ShrinkPreset(
-                    id: 'p${DateTime.now().microsecondsSinceEpoch}',
-                    label: name.text.trim(),
-                    targetBytes: kb ? (v * 1024).round() : (v * 1000 * 1000).round(),
-                  ),
-                );
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
-      ),
+      builder: (BuildContext context) => const _NewPresetDialog(),
     );
-    // The dialog is still animating out; dispose its controllers after that.
-    WidgetsBinding.instance.addPostFrameCallback((_) => Future<void>.delayed(const Duration(seconds: 1), () {
-          name.dispose();
-          mb.dispose();
-        }));
     if (made == null) {
       return;
     }
@@ -359,6 +309,71 @@ class _ShrinkToSendScreenState extends State<ShrinkToSendScreen> {
         ),
       ),
       bottomNavigationBar: ResultBar(onShare: _share, onSave: _save, onUndo: _undo),
+    );
+  }
+}
+
+/// Dialog for a new preset. It owns its text fields and disposes them with
+/// its own state, so nothing outlives the route.
+class _NewPresetDialog extends StatefulWidget {
+  const _NewPresetDialog();
+
+  @override
+  State<_NewPresetDialog> createState() => _NewPresetDialogState();
+}
+
+class _NewPresetDialogState extends State<_NewPresetDialog> {
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _mb = TextEditingController();
+  bool _kb = false;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _mb.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final double? v = double.tryParse(_mb.text.trim());
+    if (v == null || v <= 0 || _name.text.trim().isEmpty) {
+      return;
+    }
+    Navigator.pop(
+      context,
+      ShrinkPreset(
+        id: 'p${DateTime.now().microsecondsSinceEpoch}',
+        label: _name.text.trim(),
+        targetBytes: _kb ? (v * 1024).round() : (v * 1000 * 1000).round(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('New preset'),
+      content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        TextField(key: const Key('preset-name'), controller: _name, decoration: const InputDecoration(labelText: 'Name')),
+        TextField(
+          key: const Key('preset-size'),
+          controller: _mb,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: InputDecoration(labelText: _kb ? 'Limit in KB' : 'Limit in MB'),
+        ),
+        Row(children: <Widget>[
+          const Expanded(child: Text('Limit in KB instead of MB')),
+          Switch(
+            key: const Key('preset-kb'),
+            value: _kb,
+            onChanged: (bool v) => setState(() => _kb = v),
+          ),
+        ]),
+      ]),
+      actions: <Widget>[
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        FilledButton(key: const Key('preset-ok'), onPressed: _submit, child: const Text('Add')),
+      ],
     );
   }
 }
