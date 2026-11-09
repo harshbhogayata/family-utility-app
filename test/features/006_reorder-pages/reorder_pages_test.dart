@@ -212,7 +212,7 @@ void main() {
       final SemanticsNode node = tester.getSemantics(find.bySemanticsLabel(RegExp(r'^Page 1, place 1 of 4')));
       final Set<String> labels = <String>{
         for (final int id in node.getSemanticsData().customSemanticsActionIds ?? <int>[])
-          CustomSemanticsAction.getAction(id)!.label,
+          CustomSemanticsAction.getAction(id)?.label ?? '',
       };
       expect(labels, containsAll(<String>['Move later', 'Add blank page before', 'Add blank page after']));
       expect(labels, isNot(contains('Move earlier')));
