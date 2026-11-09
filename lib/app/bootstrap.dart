@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../engines/platform/action_history.dart';
+import '../engines/platform/versions.dart';
 import '../engines/platform/file_manager.dart';
 import '../engines/platform/first_run.dart';
 import '../engines/platform/one_search.dart';
@@ -49,6 +50,7 @@ import '../tools/video_link/video_link_screen.dart';
 import '../tools/audio_link/audio_link_screen.dart';
 import '../tools/batch_convert/batch_convert_screen.dart';
 import '../tools/batch/batch_screen.dart';
+import '../tools/versions/versions_screen.dart';
 import '../engines/image/heic_convert.dart';
 import '../engines/share/shared_files.dart';
 import '../platform/heic_platform.dart';
@@ -145,6 +147,14 @@ void bootstrap() {
   );
   ActionHistory.install(history);
   unawaited(history.load());
+
+  // 108: each recorded run keeps its originals until the trash is emptied.
+  final Versions versions = Versions(
+    store: DirectoryVersionStore(() => appFolder('versions')),
+    index: FileVersionIndexStore(() => appFolder('versions')),
+  )..attach(history);
+  Versions.install(versions);
+  unawaited(versions.load());
 
   final FileManager files = FileManager(
     source: const LocalFileSource(),
@@ -572,6 +582,14 @@ void bootstrap() {
       icon: Icons.library_add_check_outlined,
       featureNumber: 107,
       builder: (BuildContext context) => const BatchScreen(),
+    ),
+    ToolEntry(
+      id: 'versions',
+      name: 'Versions',
+      section: ToolSection.platform,
+      icon: Icons.history_toggle_off_outlined,
+      featureNumber: 108,
+      builder: (BuildContext context) => const VersionsScreen(),
     ),
     ToolEntry(
       id: 'word-pdf',

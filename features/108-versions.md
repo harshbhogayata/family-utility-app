@@ -3,7 +3,7 @@
 **Section:** 10. Platform
 **Phase:** 1
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [118 Action history and trash](./118-action-history-and-trash.md)
 
 ## What the person gets

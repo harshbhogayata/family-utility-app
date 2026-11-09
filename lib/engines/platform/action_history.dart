@@ -250,6 +250,13 @@ class ActionHistory extends ChangeNotifier {
   List<TrashItem> _trash = <TrashItem>[];
   int _seq = 0;
 
+  /// Feature 108: called after each recorded run, so Versions can keep the
+  /// originals. Errors are swallowed; history never fails because of it.
+  Future<void> Function(HistoryEntry entry)? onRecorded;
+
+  /// Feature 108: called after the trash is emptied, when kept originals go too.
+  Future<void> Function()? onTrashEmptied;
+
   /// Newest first.
   List<HistoryEntry> get entries => List<HistoryEntry>.unmodifiable(_entries);
 
@@ -310,6 +317,7 @@ class ActionHistory extends ChangeNotifier {
     _entries = <HistoryEntry>[e, ..._entries].take(keepEntries).toList();
     await _save();
     notifyListeners();
+    await _hook(() => onRecorded?.call(e));
     return e;
   }
 
@@ -410,6 +418,15 @@ class ActionHistory extends ChangeNotifier {
     _trash = <TrashItem>[];
     await _save();
     notifyListeners();
+    await _hook(() => onTrashEmptied?.call());
+  }
+
+  static Future<void> _hook(Future<void>? Function() call) async {
+    try {
+      await call();
+    } catch (_) {
+      // A hook must never break history.
+    }
   }
 
   /// Plain-text log for Share and Save.
