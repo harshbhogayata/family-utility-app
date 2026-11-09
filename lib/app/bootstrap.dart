@@ -24,6 +24,10 @@ import '../tools/document_scanner/document_scanner_screen.dart';
 import '../engines/image/scan_entry.dart';
 import 'app.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
+import '../tools/word_pdf/word_pdf_screen.dart';
+import '../engines/convert/convert_registry.dart';
+import '../engines/convert/word_converters.dart';
+import '../platform/pdfrx_text_source.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
 import '../tools/crop/crop_screen.dart';
@@ -44,6 +48,8 @@ import 'tool_registry.dart';
 /// Registers every tool with the registry and installs app-wide state.
 /// Each feature adds its entry here so the home grid is driven by one list.
 void bootstrap() {
+  registerWordConverters(ConvertRegistry.instance, const PdfrxTextSource());
+
   final OnDeviceMode mode = OnDeviceMode(const PrefsOnDeviceModeStore());
   OnDeviceMode.install(mode);
   // Default is on; a saved "off" is applied once preferences load.
@@ -244,6 +250,14 @@ void bootstrap() {
       icon: Icons.swap_horiz,
       featureNumber: 30,
       builder: (BuildContext context) => const ConvertAnythingScreen(),
+    ),
+    ToolEntry(
+      id: 'word-pdf',
+      name: 'Word to PDF and back',
+      section: ToolSection.convert,
+      icon: Icons.description_outlined,
+      featureNumber: 18,
+      builder: (BuildContext context) => const WordPdfScreen(),
     ),
     ToolEntry(
       id: 'archives',

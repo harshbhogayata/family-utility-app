@@ -14,6 +14,8 @@ enum FileKind {
   tiff('TIFF', 'tiff', 'image/tiff'),
   heic('HEIC', 'heic', 'image/heic'),
   pdf('PDF', 'pdf', 'application/pdf'),
+  docx('Word document', 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+  doc('Word 97-2003 document', 'doc', 'application/msword'),
   zip('ZIP', 'zip', 'application/zip'),
   rar('RAR', 'rar', 'application/vnd.rar'),
   sevenZip('7Z', '7z', 'application/x-7z-compressed'),
@@ -56,6 +58,16 @@ bool _at(Uint8List b, int offset, List<int> sig) {
   return true;
 }
 
+bool _contains(Uint8List b, List<int> needle) {
+  final int last = b.length - needle.length;
+  for (int i = 0; i <= last; i++) {
+    if (b[i] == needle[0] && _at(b, i, needle)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /// Reads the type from the first bytes (and, for text, the content).
 FileKind sniffFileKind(Uint8List b) {
   if (_at(b, 0, const <int>[0xFF, 0xD8, 0xFF])) {
@@ -87,7 +99,11 @@ FileKind sniffFileKind(Uint8List b) {
     return FileKind.pdf;
   }
   if (_at(b, 0, const <int>[0x50, 0x4B, 0x03, 0x04]) || _at(b, 0, const <int>[0x50, 0x4B, 0x05, 0x06])) {
-    return FileKind.zip;
+    return _contains(b, ascii.encode('word/document.xml')) ? FileKind.docx : FileKind.zip;
+  }
+  if (_at(b, 0, const <int>[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]) &&
+      _contains(b, <int>[for (final int c in ascii.encode('WordDocument')) ...<int>[c, 0]])) {
+    return FileKind.doc;
   }
   if (_at(b, 0, const <int>[0x52, 0x61, 0x72, 0x21, 0x1A, 0x07])) {
     return FileKind.rar;

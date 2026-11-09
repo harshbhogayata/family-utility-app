@@ -287,8 +287,8 @@ class WordPdfRenderer {
       final PdfFontFamily fam = fontFamilyFor(r.font ?? o.defaultFont);
       final String font = baseFontName(fam, bold: run.bold, italic: run.italic);
       final double size = r.sizePt ?? base;
-      final String text = winAnsi(r.text.replaceAll('\t', '    ').replaceAll('\r', ''));
-      final List<String> hard = text.split('\n');
+      final List<String> hard =
+          r.text.replaceAll('\t', '    ').replaceAll('\r', '').split('\n').map(winAnsi).toList();
       for (int h = 0; h < hard.length; h++) {
         // Keep the trailing space with each word so runs join naturally.
         final RegExp tokens = RegExp(r'\S+\s*|\s+');
@@ -352,22 +352,46 @@ class WordPdfRenderer {
       case DocAlign.left:
         break;
     }
-    for (int i = 0; i < l.words.length; i++) {
+    final int n = l.words.length;
+    int i = 0;
+    while (i < n) {
       final _Word w = l.words[i];
-      final String text = i == l.words.length - 1 ? w.text.trimRight() : w.text;
-      if (text.isEmpty) {
-        continue;
+      // One text object per stretch of words with the same look.
+      int j = i + 1;
+      while (j < n &&
+          l.words[j].font == w.font &&
+          l.words[j].size == w.size &&
+          l.words[j].run.color == w.run.color &&
+          l.words[j].run.underline == w.run.underline) {
+        j++;
       }
-      page.fonts.add(w.font);
-      final String color = _rgb(w.run.color);
-      page.ops.write('BT $color /${_fontKey(w.font)} ${_n(w.size)} Tf ${_n(x)} ${_n(baseline)} Td (${_esc(text)}) Tj ET\n');
-      final double drawn = i == l.words.length - 1 ? w.width - trailing : w.width;
-      if (w.run.underline) {
-        final String stroke = color.replaceFirst(' rg', ' RG');
-        page.ops.write('$stroke ${_n(w.size / 18)} w ${_n(x)} ${_n(baseline - w.size * 0.12)} m '
-            '${_n(x + drawn)} ${_n(baseline - w.size * 0.12)} l S\n');
+      final StringBuffer sb = StringBuffer();
+      double drawn = 0;
+      for (int k = i; k < j; k++) {
+        final _Word g = l.words[k];
+        if (k == n - 1) {
+          sb.write(g.text.trimRight());
+          drawn += g.width - trailing;
+        } else {
+          sb.write(g.text);
+          drawn += g.width + (g.text.endsWith(' ') ? extraPerSpace : 0);
+        }
       }
-      x += drawn + (w.text.endsWith(' ') ? extraPerSpace : 0);
+      final String text = sb.toString();
+      if (text.trim().isNotEmpty) {
+        page.fonts.add(w.font);
+        final String color = _rgb(w.run.color);
+        final String tw = extraPerSpace > 0 ? '${_n(extraPerSpace)} Tw ' : '';
+        page.ops.write('BT $color /${_fontKey(w.font)} ${_n(w.size)} Tf $tw${_n(x)} ${_n(baseline)} Td (${_esc(text)}) Tj ET\n');
+        if (w.run.underline) {
+          final String stroke = color.replaceFirst(' rg', ' RG');
+          final double end = x + drawn - (j < n && text.endsWith(' ') ? textWidth(' ', fontFamilyFor(w.run.font), w.size) + extraPerSpace : 0);
+          page.ops.write('$stroke ${_n(w.size / 18)} w ${_n(x)} ${_n(baseline - w.size * 0.12)} m '
+              '${_n(end)} ${_n(baseline - w.size * 0.12)} l S\n');
+        }
+      }
+      x += drawn;
+      i = j;
     }
   }
 
