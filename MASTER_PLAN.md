@@ -149,7 +149,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 007 | [Rotate pages](features/007-rotate-pages.md) | 1. PDF basics | 27 | done 7a0efef |
 | 024 | [Text to PDF](features/024-text-to-pdf.md) | 2. Convert | 27 | done 1c5ba86 |
 | 012 | [Unlock a known password](features/012-unlock-a-known-password.md) | 1. PDF basics | 24 | done 2a524de |
-| 013 | [Redact](features/013-redact.md) | 1. PDF basics | 24 | not started |
+| 013 | [Redact](features/013-redact.md) | 1. PDF basics | 24 | done 6b65c18 |
 | 058 | [Encrypt any file](features/058-encrypt-any-file.md) | 6. Security | 24 | not started |
 | 023 | [Web page to PDF](features/023-web-page-to-pdf.md) | 2. Convert | 18 | not started |
 | 028 | [AVIF to JPG or PNG](features/028-avif-to-jpg-or-png.md) | 2. Convert | 18 | not started |

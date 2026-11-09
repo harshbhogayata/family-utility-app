@@ -1,12 +1,12 @@
 # Progress
 
-Done: 70 / 130  (53%)
+Done: 71 / 130  (54%)
 In progress: none
-Updated: 2026-11-09 14:13 UTC
+Updated: 2026-11-09 14:29 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 70 |
+| 1 — file chores and platform core | 86 | 71 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -22,6 +22,7 @@ Updated: 2026-11-09 14:13 UTC
 - 010 Sign PDF — done 2fbb457
 - 011 Protect with password — done 75b311c
 - 012 Unlock a known password — done 2a524de
+- 013 Redact — done 6b65c18
 - 015 Remove blank pages and straighten — done fe57ee1
 - 016 Search inside PDFs — done 3e2b2f4
 - 018 Word to PDF and back — done 6a5f2ee
