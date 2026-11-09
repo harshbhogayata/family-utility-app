@@ -98,6 +98,7 @@ import '../tools/rotate_flip/rotate_flip_screen.dart';
 import '../engines/convert/sheet_converters.dart';
 import '../tools/redact/redact_screen.dart';
 import '../tools/redact_pdf/redact_pdf_screen.dart';
+import '../tools/page_numbers/page_numbers_screen.dart';
 import '../tools/encrypt_file/encrypt_file_screen.dart';
 import '../engines/image/scan_namer.dart';
 import '../engines/image/one_tap_scan.dart';
@@ -550,6 +551,14 @@ void bootstrap() {
       icon: Icons.format_color_fill,
       featureNumber: 13,
       builder: (BuildContext context) => const RedactPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'page-numbers',
+      name: 'Page numbers',
+      section: ToolSection.pdf,
+      icon: Icons.format_list_numbered,
+      featureNumber: 14,
+      builder: (BuildContext context) => const PageNumbersScreen(),
     ),
     ToolEntry(
       id: 'qr-scanner',
