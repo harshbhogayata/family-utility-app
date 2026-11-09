@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../platform/home_layout.dart';
 import '../platform/tool_order.dart';
 import '../security/app_lock.dart';
 
@@ -39,6 +40,8 @@ class MemberProfile {
     this.pinSalt,
     this.recents = const <String>[],
     this.favourites = const <String>[],
+    this.arranged = const <String>[],
+    this.hidden = const <String>[],
   });
 
   final String id;
@@ -53,6 +56,14 @@ class MemberProfile {
   /// Tool ids in the order they were starred.
   final List<String> favourites;
 
+  /// The member's own order for unpinned tools on home; empty = default (116).
+  final List<String> arranged;
+
+  /// Tools this member hid from home (116).
+  final List<String> hidden;
+
+  HomeLayout get layout => HomeLayout(pinned: favourites, arranged: arranged, hidden: hidden);
+
   bool get hasPin => pinHash != null && pinSalt != null;
 
   String get initial => name.trim().isEmpty ? '?' : name.trim().substring(0, 1).toUpperCase();
@@ -65,6 +76,8 @@ class MemberProfile {
     bool clearPin = false,
     List<String>? recents,
     List<String>? favourites,
+    List<String>? arranged,
+    List<String>? hidden,
   }) {
     return MemberProfile(
       id: id,
@@ -74,6 +87,8 @@ class MemberProfile {
       pinSalt: clearPin ? null : (pinSalt ?? this.pinSalt),
       recents: recents ?? this.recents,
       favourites: favourites ?? this.favourites,
+      arranged: arranged ?? this.arranged,
+      hidden: hidden ?? this.hidden,
     );
   }
 
@@ -85,6 +100,8 @@ class MemberProfile {
         'pinSalt': pinSalt,
         'recents': recents,
         'favourites': favourites,
+        'arranged': arranged,
+        'hidden': hidden,
       };
 
   static MemberProfile fromJson(Map<String, Object?> json) {
@@ -99,6 +116,8 @@ class MemberProfile {
       pinSalt: json['pinSalt'] as String?,
       recents: strings(json['recents']),
       favourites: strings(json['favourites']),
+      arranged: strings(json['arranged']),
+      hidden: strings(json['hidden']),
     );
   }
 }
@@ -309,14 +328,8 @@ class MemberProfiles extends ChangeNotifier {
 
   bool isFavourite(String toolId) => active.favourites.contains(toolId);
 
-  Future<void> toggleFavourite(String toolId) async {
-    final MemberProfile p = active;
-    final List<String> next = p.favourites.contains(toolId)
-        ? p.favourites.where((String t) => t != toolId).toList()
-        : <String>[...p.favourites, toolId];
-    _replace(p.copyWith(favourites: next));
-    await _save();
-  }
+  /// Pins or unpins [toolId]. Pinning a hidden tool shows it again (116).
+  Future<void> toggleFavourite(String toolId) => setLayout(active.layout.togglePinned(toolId));
 
   /// Moves a pinned tool to [index] in the active member's pins (115).
   Future<void> movePin(String toolId, int index) async {
@@ -325,9 +338,25 @@ class MemberProfiles extends ChangeNotifier {
     await _save();
   }
 
-  /// The home grid order for the active member (115).
-  List<String> orderTools(List<String> all) =>
-      ToolOrder.order(all: all, pinned: active.favourites, recents: active.recents);
+  /// The active member's home layout: pins, own order, hidden tools (116).
+  HomeLayout get layout => active.layout;
+
+  /// Replaces the active member's home layout (116).
+  Future<void> setLayout(HomeLayout layout) async {
+    _replace(active.copyWith(
+      favourites: List<String>.of(layout.pinned),
+      arranged: List<String>.of(layout.arranged),
+      hidden: List<String>.of(layout.hidden),
+    ));
+    await _save();
+  }
+
+  /// The home grid order for the active member: pinned first, then their own
+  /// order (or recents when they never arranged), hidden tools left out.
+  List<String> orderTools(List<String> all) => active.layout.visible(all: all, recents: active.recents);
+
+  /// Every tool in home order, hidden ones included (the 116 editor).
+  List<String> fullToolOrder(List<String> all) => active.layout.fullOrder(all: all, recents: active.recents);
 
   static MemberProfiles instance = MemberProfiles(MemoryProfileStore());
 

@@ -3,7 +3,7 @@
 **Section:** 10. Platform
 **Phase:** 2
 **Priority score:** 45 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [115 Recents and favourites](./115-recents-and-favourites.md)
 
 ## What the person gets

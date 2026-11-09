@@ -9,6 +9,7 @@ import '../engines/platform/first_run.dart';
 import '../engines/privacy/on_device_mode.dart';
 import 'app_lock/app_lock_settings_screen.dart';
 import 'app_lock/lock_screen.dart';
+import 'custom_home/custom_home_screen.dart';
 import 'one_search/one_search_screen.dart';
 import 'paste_anything/paste_sheet.dart';
 import 'privacy/privacy_screen.dart';
@@ -28,7 +29,7 @@ class ToolsHome extends StatelessWidget {
   }
 
   Widget _build(BuildContext context) {
-    // 115: pinned tools first, then recently used, then the rest.
+    // 115/116: pinned first, then the member's own order (or recents), hidden left out.
     final List<ToolEntry> registered = ToolRegistry.all;
     final List<ToolEntry> tools = <ToolEntry>[];
     for (final String id in MemberProfiles.instance.orderTools(
@@ -61,6 +62,14 @@ class ToolsHome extends StatelessWidget {
                     icon: const Icon(Icons.search),
                     onPressed: () => Navigator.of(context).push<void>(
                       MaterialPageRoute<void>(builder: (BuildContext _) => const OneSearchScreen()),
+                    ),
+                  ),
+                  IconButton(
+                    key: const Key('home-edit'),
+                    tooltip: 'Arrange home: reorder, hide or pin tools',
+                    icon: const Icon(Icons.dashboard_customize_outlined),
+                    onPressed: () => Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(builder: (BuildContext _) => const CustomHomeScreen()),
                     ),
                   ),
                   const SizedBox(width: 4),
@@ -147,11 +156,30 @@ class ToolsHome extends StatelessWidget {
                 ),
               ),
             ),
+          if (MemberProfiles.instance.layout.hidden.isNotEmpty)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    key: const Key('home-hidden-count'),
+                    icon: const Icon(Icons.visibility_off_outlined),
+                    label: Text(_hiddenLabel(MemberProfiles.instance.layout.hidden.length)),
+                    onPressed: () => Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(builder: (BuildContext _) => const CustomHomeScreen()),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 }
+
+String _hiddenLabel(int n) => n == 1 ? '1 tool hidden. Arrange home' : '$n tools hidden. Arrange home';
 
 /// Feature 111 — one-time card on first run: there is no account to make.
 /// Dismissed once, never shown again. Never blocks the grid below it.

@@ -130,6 +130,7 @@ import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/nearby_share/nearby_share_screen.dart';
 import '../tools/accessibility/accessibility_screen.dart';
+import '../tools/custom_home/custom_home_screen.dart';
 import '../tools/language/language_screen.dart';
 import '../engines/platform/home_widgets.dart';
 import '../platform/speed_dial_store.dart';
@@ -1241,6 +1242,15 @@ void bootstrap() {
       featureNumber: 109,
       touches: const <DataTouch>{},
       builder: (BuildContext context) => const AccessibilityScreen(),
+    ),
+    ToolEntry(
+      id: 'custom-home',
+      name: 'Arrange home',
+      section: ToolSection.platform,
+      icon: Icons.dashboard_customize_outlined,
+      featureNumber: 116,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const CustomHomeScreen(),
     ),
     ToolEntry(
       id: 'language',
