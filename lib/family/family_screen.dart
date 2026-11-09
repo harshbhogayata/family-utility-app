@@ -15,6 +15,7 @@ import '../platform/calendar_platform.dart';
 import 'board/family_board_screen.dart';
 import 'calendar/shared_calendar_screen.dart';
 import 'documents/document_vault_screen.dart';
+import 'location/family_location_screen.dart';
 import 'shopping/shared_shopping_screen.dart';
 
 /// Opens the camera and returns the first QR text, or null on cancel.
@@ -292,6 +293,16 @@ class _FamilyScreenState extends State<FamilyScreen> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           minTileHeight: 48,
+          leading: const Icon(Icons.location_on_outlined),
+          title: const Text('Family location'),
+          subtitle: const Text('Live location with arrive and leave alerts'),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => const FamilyLocationScreen(),
+          ))),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
           leading: const Icon(Icons.folder_shared_outlined),
           title: const Text('Sync folder (your own Drive or iCloud)'),
           subtitle: Text(id.syncFolder ?? 'Off · Wi-Fi only'),
@@ -337,6 +348,8 @@ class _FamilyScreenState extends State<FamilyScreen> {
       FamilyBoard.tasksCollection: 'Task',
       FamilyBoard.notesCollection: 'Note',
       'documents': 'Document',
+      'locations': 'Location',
+      'places': 'Place',
     };
     return '${names[c.collection] ?? c.collection} ${c.deleted ? 'removed' : 'changed'}';
   }

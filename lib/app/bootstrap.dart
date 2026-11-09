@@ -13,6 +13,7 @@ import '../engines/platform/one_search.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
 import '../engines/family/document_vault.dart';
+import '../engines/family/family_location.dart';
 import '../engines/security/private_vault.dart';
 import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
@@ -23,6 +24,7 @@ import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
 import '../platform/document_vault_platform.dart';
+import '../platform/location_platform.dart';
 import '../platform/vault_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
@@ -319,6 +321,18 @@ void bootstrap() {
     space: family,
   );
   DocumentVault.install(documents);
+  // 076: live location on the family store; the 7-day trail stays here.
+  final FamilyLocation location = FamilyLocation(
+    space: family,
+    history: FileLocationHistoryStore(() => appFolder('location')),
+  );
+  FamilyLocation.install(location);
+  unawaited(location.load());
+  LocationTracker.instance = LocationTracker(
+    location: location,
+    source: const GeolocatorPositionSource(),
+    sink: NotificationPlaceEvents(),
+  );
   DocumentReminderWatcher.instance = DocumentReminderWatcher(
     vault: documents,
     sink: NotificationDocumentReminders(),

@@ -186,6 +186,8 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Share where you are with your family, only when you turn it on. It goes to your family's phones and nowhere else.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Family space syncs with your family's phones on the same Wi-Fi. Nothing goes to the internet.</string>
 	<!-- 130 Video player: picture-in-picture keeps playing outside the app. -->
