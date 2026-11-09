@@ -1,12 +1,12 @@
 # Progress
 
-Done: 37 / 130  (28%)
+Done: 38 / 130  (29%)
 In progress: none
-Updated: 2026-11-09 06:21 UTC
+Updated: 2026-11-09 06:29 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 37 |
+| 1 — file chores and platform core | 86 | 38 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -26,6 +26,7 @@ Updated: 2026-11-09 06:21 UTC
 - 034 Compress images — done 494703f
 - 035 Image to exact KB — done 678b67d
 - 037 Zip with optional password — done e559ab8
+- 039 Before and after preview — done f5ee72f
 - 040 Resize — done 4369d50
 - 041 Crop with ratios — done 63f712a
 - 043 Passport photo maker — done d567b9f
