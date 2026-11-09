@@ -73,6 +73,8 @@ abstract final class BatchPolicy {
   static const Map<int, BatchSupport> byFeature = <int, BatchSupport>{
     1: BatchSupport.single('Reads one document at a time; open the next from the Files tab.'),
     2: BatchSupport.multiPicker(),
+    3: BatchSupport.single('Each PDF is cut with its own page ranges.'),
+    11: BatchSupport.single('Each protected PDF gets its own password, typed twice.'),
     10: BatchSupport.single('You place the signature by hand on one document.'),
     18: BatchSupport.viaBatch('batch-convert'),
     21: BatchSupport.multiPicker(),

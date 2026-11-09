@@ -231,13 +231,14 @@ void main() {
       expect(files.written.keys.where((String k) => k.endsWith('.pdf')), hasLength(2));
       expect(files.written.keys.where((String k) => k.endsWith('report parts.zip')), hasLength(1));
       expect(tester.getSize(find.byKey(const Key('split-run'))).height, greaterThanOrEqualTo(44));
-      expect(find.bySemanticsLabel('Share the parts as separate PDFs'), findsOneWidget);
 
       await tester.tap(find.byKey(const Key('result-share')));
       await tester.pumpAndSettle();
       expect(sheet.requests.single.files.single.path, endsWith('report parts.zip'));
 
       await tester.ensureVisible(find.byKey(const Key('split-share-parts')));
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('Share the parts as separate PDFs'), findsOneWidget);
       await tester.tap(find.byKey(const Key('split-share-parts')));
       await tester.pumpAndSettle();
       expect(sheet.requests.last.files, hasLength(2));
