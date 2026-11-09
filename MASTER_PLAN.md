@@ -102,7 +102,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 038 | [Shrink-to-send presets](features/038-shrink-to-send-presets.md) | 3. Compress | 80 | done 6558d5c |
 | 040 | [Resize](features/040-resize.md) | 4. Image basics | 80 | done 4369d50 |
 | 062 | [Phone to laptop](features/062-phone-to-laptop.md) | 7. Share and transfer | 80 | done ddae934 |
-| 127 | [Download queue](features/127-download-queue.md) | 11. Links and WhatsApp essentials | 80 | not started |
+| 127 | [Download queue](features/127-download-queue.md) | 11. Links and WhatsApp essentials | 80 | done 7311ffc |
 | 128 | [Send at original quality](features/128-send-at-original-quality.md) | 11. Links and WhatsApp essentials | 80 | done e65f4c8 |
 | 049 | [ID scan](features/049-id-scan.md) | 5. Scan and QR | 75 | done cedf8ab |
 | 118 | [Action history and trash](features/118-action-history-and-trash.md) | 10. Platform | 75 | done bfeeaf5 |
