@@ -13,6 +13,7 @@ enum FileKind {
   bmp('BMP', 'bmp', 'image/bmp'),
   tiff('TIFF', 'tiff', 'image/tiff'),
   heic('HEIC', 'heic', 'image/heic'),
+  avif('AVIF', 'avif', 'image/avif'),
   pdf('PDF', 'pdf', 'application/pdf'),
   docx('Word document', 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
   doc('Word 97-2003 document', 'doc', 'application/msword'),
@@ -43,6 +44,7 @@ enum FileKind {
         FileKind.bmp,
         FileKind.tiff,
         FileKind.heic,
+        FileKind.avif,
       }.contains(this);
 
   bool get isText => this == FileKind.json || this == FileKind.csv || this == FileKind.text;
@@ -64,6 +66,26 @@ bool _contains(Uint8List b, List<int> needle) {
   final int last = b.length - needle.length;
   for (int i = 0; i <= last; i++) {
     if (b[i] == needle[0] && _at(b, i, needle)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/// AVIF: major brand `avif`/`avis`, or a generic HEIF major brand
+/// (`mif1`/`msf1`) whose compatible brands list `avif`/`avis`.
+bool _isAvif(Uint8List b, String major) {
+  const Set<String> avif = <String>{'avif', 'avis'};
+  if (avif.contains(major)) {
+    return true;
+  }
+  if (major != 'mif1' && major != 'msf1') {
+    return false;
+  }
+  final int boxSize = (b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3];
+  final int end = boxSize < b.length ? boxSize : b.length;
+  for (int i = 16; i + 4 <= end; i += 4) {
+    if (avif.contains(latin1.decode(b.sublist(i, i + 4)))) {
       return true;
     }
   }
@@ -92,6 +114,9 @@ FileKind sniffFileKind(Uint8List b) {
   }
   if (_at(b, 4, ascii.encode('ftyp'))) {
     final String brand = b.length >= 12 ? latin1.decode(b.sublist(8, 12)) : '';
+    if (_isAvif(b, brand)) {
+      return FileKind.avif;
+    }
     if (const <String>{'heic', 'heix', 'hevc', 'mif1', 'msf1', 'heim', 'heis'}.contains(brand)) {
       return FileKind.heic;
     }

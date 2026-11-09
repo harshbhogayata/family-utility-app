@@ -77,6 +77,7 @@ const Map<String, int> folderFeature = <String, int>{
   'copy_result': 66,
   'crop': 41,
   'heic': 25,
+  'avif': 28,
   'history': 118,
   'id_card': 44,
   'images_to_pdf': 21,

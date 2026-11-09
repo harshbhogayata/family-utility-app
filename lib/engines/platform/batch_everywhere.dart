@@ -95,6 +95,7 @@ abstract final class BatchPolicy {
     25: BatchSupport.multiPicker(),
     26: BatchSupport.viaBatch('batch-convert'),
     27: BatchSupport.multiPicker(),
+    28: BatchSupport.multiPicker(),
     29: BatchSupport.multiPicker(),
     30: BatchSupport.viaBatch('batch-convert'),
     31: BatchSupport.multiPicker(),

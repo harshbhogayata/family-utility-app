@@ -62,6 +62,9 @@ import '../engines/image/heic_convert.dart';
 import '../engines/share/shared_files.dart';
 import '../platform/heic_platform.dart';
 import '../tools/heic/heic_screen.dart';
+import '../engines/image/avif_convert.dart';
+import '../platform/avif_platform.dart';
+import '../tools/avif/avif_screen.dart';
 import '../engines/download/clipboard_watch.dart';
 import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
@@ -142,6 +145,9 @@ void bootstrap() {
 
   // 025: HEIC through the phone's codec, also for Convert anything / Batch.
   registerHeicConverters(ConvertRegistry.instance, const PlatformHeicCodec());
+
+  // 028: AVIF through the phone's codec (Android 12+, iOS 16+).
+  registerAvifConverters(ConvertRegistry.instance, const PlatformAvifCodec(), support: platformAvifSupport());
 
   // 024: plain text files to PDF, drawn by the phone's text engine.
   ConvertRegistry.instance.register(const TextToPdfConverter());
@@ -806,6 +812,14 @@ void bootstrap() {
       icon: Icons.photo_outlined,
       featureNumber: 25,
       builder: (BuildContext context) => const HeicScreen(),
+    ),
+    ToolEntry(
+      id: 'avif',
+      name: 'AVIF to JPG or PNG',
+      section: ToolSection.convert,
+      icon: Icons.image_outlined,
+      featureNumber: 28,
+      builder: (BuildContext context) => const AvifScreen(),
     ),
     ToolEntry(
       id: 'batch-convert',
