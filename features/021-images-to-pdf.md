@@ -3,18 +3,18 @@
 **Section:** 2. Convert
 **Phase:** 1
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 1995985
 **Depends on:** [030 Convert anything](./030-convert-anything.md)
 
 ## What the person gets
 Any images into one PDF with page size, margins and orientation.
 
 ## Acceptance criteria
-- [ ] Multi-select from gallery or camera; reorder; A4/Letter/fit-to-image; margins
-- [ ] HEIC and WebP accepted without a separate conversion step
-- [ ] Output under 2 s for 20 photos
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Multi-select from gallery or camera; reorder; A4/Letter/fit-to-image; margins
+- [x] HEIC and WebP accepted without a separate conversion step
+- [x] Output under 2 s for 20 photos
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
