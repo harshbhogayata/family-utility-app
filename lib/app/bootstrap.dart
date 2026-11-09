@@ -122,6 +122,11 @@ import '../engines/platform/job_notifications.dart';
 import '../tools/background_jobs/background_jobs_screen.dart';
 import '../tools/compress_video/compress_video_screen.dart';
 import '../tools/shrink_to_send/shrink_to_send_screen.dart';
+import '../engines/family/family_identity.dart';
+import '../engines/family/family_space.dart';
+import '../engines/family/family_store.dart';
+import '../engines/family/family_sync.dart';
+import '../family/sync/lan_family_sync.dart';
 import 'tool_registry.dart';
 
 /// 113: main() attaches it once the binding is up; tests never do.
@@ -269,6 +274,18 @@ void bootstrap() {
   );
   DownloadQueue.install(downloads);
   unawaited(downloads.load());
+
+  // 068: the family space; Wi-Fi sync always, own-cloud folder when picked.
+  final FamilySpace family = FamilySpace(
+    identityStore: FileFamilyIdentityStore(() => appFolder('family')),
+    storage: FileFamilyStoreStorage(() => appFolder('family')),
+    transportsFor: (FamilyIdentity id) => <FamilySyncTransport>[
+      LanFamilySync(),
+      if (id.syncFolder != null) FolderFamilySync(id.syncFolder!),
+    ],
+  );
+  FamilySpace.install(family);
+  unawaited(family.load());
 
   // 123: video from a link; one plugin per site, saved through the queue.
   VideoLinks.install(VideoLinkDownloader(

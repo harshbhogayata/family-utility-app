@@ -15,7 +15,7 @@ abstract final class OfflinePolicy {
 
   /// Features that talk only to devices on the same Wi-Fi (no internet).
   /// They stay off the network list: airplane mode with Wi-Fi back on works.
-  static const Set<int> lanFeatures = <int>{61, 62};
+  static const Set<int> lanFeatures = <int>{61, 62, 68};
 
   /// Folders (relative to the repo root) that may contain network code.
   static const List<String> networkSourceFolders = <String>[

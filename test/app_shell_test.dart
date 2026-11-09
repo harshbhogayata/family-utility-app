@@ -22,7 +22,7 @@ void main() {
     await tester.tap(navLabel('Family'));
     await tester.pumpAndSettle();
     expect(
-      find.text('Your family space lives here. Nothing leaves your devices.'),
+      find.text('Start a family space'),
       findsOneWidget,
     );
 
