@@ -17,6 +17,7 @@ import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/secure_notes/secure_notes_screen.dart';
+import '../tools/send_original/send_original_screen.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -87,6 +88,14 @@ void bootstrap() {
       featureNumber: 62,
       touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
       builder: (BuildContext context) => const PhoneToLaptopScreen(),
+    ),
+    ToolEntry(
+      id: 'send-original',
+      name: 'Send original',
+      section: ToolSection.links,
+      icon: Icons.high_quality_outlined,
+      featureNumber: 128,
+      builder: (BuildContext context) => const SendOriginalScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',

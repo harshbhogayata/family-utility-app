@@ -3,7 +3,7 @@
 **Section:** 11. Links and WhatsApp essentials
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [060 Share to any app](./060-share-to-any-app.md)
 
 ## What the person gets
