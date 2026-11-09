@@ -30,6 +30,7 @@ import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/secure_notes/secure_notes_screen.dart';
 import '../tools/send_original/send_original_screen.dart';
+import '../tools/sign_pdf/sign_pdf_screen.dart';
 import '../engines/share/save_anywhere.dart';
 import '../platform/save_platform.dart';
 import 'tool_registry.dart';
@@ -167,6 +168,14 @@ void bootstrap() {
       icon: Icons.straighten,
       featureNumber: 33,
       builder: (BuildContext context) => const PdfTargetSizeScreen(),
+    ),
+    ToolEntry(
+      id: 'sign-pdf',
+      name: 'Sign PDF',
+      section: ToolSection.pdf,
+      icon: Icons.draw_outlined,
+      featureNumber: 10,
+      builder: (BuildContext context) => const SignPdfScreen(),
     ),
     ToolEntry(
       id: 'compress-images',

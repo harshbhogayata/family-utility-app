@@ -3,7 +3,7 @@
 **Section:** 1. PDF basics
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [001 PDF viewer](./001-pdf-viewer.md)
 
 ## What the person gets
