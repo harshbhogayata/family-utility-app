@@ -272,8 +272,29 @@ class _FamilyScreenState extends State<FamilyScreen> {
             child: const Text('Leave family on this phone'),
           ),
         ),
+        // 079: which path each change took (this phone, Wi-Fi, own folder).
+        const SizedBox(height: 16),
+        Text('Recent changes', style: text.titleMedium),
+        for (final FamilyChange c in _space.store.recentChanges.take(5))
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              '${changeLabel(c)} · via ${c.via} · ${c.at.hour.toString().padLeft(2, '0')}:${c.at.minute.toString().padLeft(2, '0')}',
+              style: text.bodySmall,
+            ),
+          ),
       ],
     );
+  }
+
+  /// "Calendar event removed", "Shopping item changed"...
+  static String changeLabel(FamilyChange c) {
+    const Map<String, String> names = <String, String>{
+      FamilySpace.members: 'Member',
+      'calendar': 'Calendar event',
+      'shopping': 'Shopping item',
+    };
+    return '${names[c.collection] ?? c.collection} ${c.deleted ? 'removed' : 'changed'}';
   }
 
   static String _initial(Object? name) {

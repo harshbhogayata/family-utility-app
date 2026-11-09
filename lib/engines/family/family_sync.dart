@@ -163,7 +163,7 @@ class FolderFamilySync extends FamilySyncTransport {
           try {
             final List<FamilyRecord> records = await ctx.openRecords(await f.readAsString());
             _merging = true;
-            changed += ctx.store.mergeAll(records);
+            changed += ctx.store.mergeAll(records, via: FamilyPath.folder);
           } catch (_) {
             // Not ours (another family's key) or half-synced; skip it.
           } finally {

@@ -174,7 +174,7 @@ class LanFamilySync extends FamilySyncTransport {
               .toList();
           _merging = peer;
           try {
-            ctx.store.mergeAll(records);
+            ctx.store.mergeAll(records, via: FamilyPath.wifi);
           } finally {
             _merging = null;
           }

@@ -90,6 +90,27 @@ class FamilyRecord {
   String toString() => 'FamilyRecord($key, $fields, $clock${deleted ? ', deleted' : ''})';
 }
 
+/// Feature 079 — one change as it landed on this phone, and the path it
+/// took: made here, over the home Wi-Fi, or through the own-cloud folder.
+@immutable
+class FamilyChange {
+  const FamilyChange({required this.collection, required this.id, required this.via, required this.at, this.deleted = false});
+
+  final String collection;
+  final String id;
+  final String via;
+  final DateTime at;
+  final bool deleted;
+}
+
+/// Names of the paths a change can take (feature 079).
+abstract final class FamilyPath {
+  static const String thisPhone = 'This phone';
+  static const String wifi = 'Home Wi-Fi';
+  static const String folder = 'Own folder';
+  static const String otherPhone = 'Another phone';
+}
+
 /// Where the store keeps its records between launches.
 abstract class FamilyStoreStorage {
   Future<List<FamilyRecord>> load();
@@ -155,6 +176,17 @@ class FamilyStore extends ChangeNotifier {
   final Duration saveDelay;
 
   final Map<String, FamilyRecord> _records = <String, FamilyRecord>{};
+  final Map<String, String> _via = <String, String>{};
+  final List<FamilyChange> _recent = <FamilyChange>[];
+
+  /// How many recent changes [recentChanges] keeps.
+  static const int keepRecent = 50;
+
+  /// Changes as they landed here, newest first, with the path each took.
+  List<FamilyChange> get recentChanges => List<FamilyChange>.unmodifiable(_recent);
+
+  /// The path the current state of a record arrived by, if known this run.
+  String? pathOf(String collection, String id) => _via['$collection/$id'];
   final StreamController<FamilyRecord> _changes = StreamController<FamilyRecord>.broadcast(sync: true);
   Timer? _saveTimer;
 
@@ -214,20 +246,21 @@ class FamilyStore extends ChangeNotifier {
       writer: deviceId,
       deleted: deleted,
     );
-    _apply(r);
+    _apply(r, FamilyPath.thisPhone);
     return r;
   }
 
   /// Merges a record from another phone. Returns true when it changed ours.
-  bool merge(FamilyRecord incoming) {
+  /// [via] names the path it took (a [FamilyPath] value).
+  bool merge(FamilyRecord incoming, {String via = FamilyPath.otherPhone}) {
     final FamilyRecord? local = _records[incoming.key];
     if (local == null) {
-      _apply(incoming);
+      _apply(incoming, via);
       return true;
     }
     switch (incoming.clock.compare(local.clock)) {
       case ClockOrder.after:
-        _apply(incoming);
+        _apply(incoming, via);
         return true;
       case ClockOrder.before:
       case ClockOrder.equal:
@@ -235,16 +268,16 @@ class FamilyStore extends ChangeNotifier {
       case ClockOrder.concurrent:
         final VectorClock joined = incoming.clock.merge(local.clock);
         final FamilyRecord winner = incoming.winsTieAgainst(local) ? incoming : local;
-        _apply(winner.copyWith(clock: joined));
+        _apply(winner.copyWith(clock: joined), identical(winner, incoming) ? via : (_via[local.key] ?? FamilyPath.thisPhone));
         return true;
     }
   }
 
   /// Merges many records; returns how many changed ours.
-  int mergeAll(Iterable<FamilyRecord> records) {
+  int mergeAll(Iterable<FamilyRecord> records, {String via = FamilyPath.otherPhone}) {
     int n = 0;
     for (final FamilyRecord r in records) {
-      if (merge(r)) {
+      if (merge(r, via: via)) {
         n++;
       }
     }
@@ -254,13 +287,20 @@ class FamilyStore extends ChangeNotifier {
   /// Forgets everything (leaving a family). Not propagated.
   Future<void> clear() async {
     _records.clear();
+    _via.clear();
+    _recent.clear();
     _saveTimer?.cancel();
     await _storage.save(<FamilyRecord>[]);
     notifyListeners();
   }
 
-  void _apply(FamilyRecord r) {
+  void _apply(FamilyRecord r, String via) {
     _records[r.key] = r;
+    _via[r.key] = via;
+    _recent.insert(0, FamilyChange(collection: r.collection, id: r.id, via: via, at: _now(), deleted: r.deleted));
+    if (_recent.length > keepRecent) {
+      _recent.removeRange(keepRecent, _recent.length);
+    }
     _changes.add(r);
     notifyListeners();
     _saveTimer?.cancel();
