@@ -48,6 +48,10 @@ import '../platform/video_notice_prefs.dart';
 import '../tools/video_link/video_link_screen.dart';
 import '../tools/audio_link/audio_link_screen.dart';
 import '../tools/batch_convert/batch_convert_screen.dart';
+import '../engines/image/heic_convert.dart';
+import '../engines/share/shared_files.dart';
+import '../platform/heic_platform.dart';
+import '../tools/heic/heic_screen.dart';
 import '../engines/download/clipboard_watch.dart';
 import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
@@ -93,6 +97,9 @@ void bootstrap() {
     const PdfrxTextSource(),
     loadUnicodeFont: () async => (await rootBundle.load('assets/fonts/Inter.ttf')).buffer.asUint8List(),
   );
+
+  // 025: HEIC through the phone's codec, also for Convert anything / Batch.
+  registerHeicConverters(ConvertRegistry.instance, const PlatformHeicCodec());
 
   final OnDeviceMode mode = OnDeviceMode(const PrefsOnDeviceModeStore());
   OnDeviceMode.install(mode);
@@ -198,6 +205,29 @@ void bootstrap() {
   }
 
   inbox.onLink = (String _) => openShared(true);
+
+  // 025: pictures shared from Photos open the HEIC converter, in order.
+  final SharedFilesInbox pictures = SharedFilesInbox();
+  SharedFilesInbox.install(pictures);
+  void openPictures(bool retry) {
+    final NavigatorState? nav = appNavigatorKey.currentState;
+    if (nav == null) {
+      if (retry) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => openPictures(false));
+      }
+      return;
+    }
+    final List<String>? paths = pictures.take();
+    if (paths == null) {
+      return;
+    }
+    unawaited(nav.push<void>(MaterialPageRoute<void>(
+      builder: (BuildContext context) => HeicScreen(initialPaths: paths),
+    )));
+  }
+
+  pictures.onFiles = (List<String> _) => openPictures(true);
+  unawaited(pictures.attach());
   unawaited(inbox.attach());
 
   // 126: opt-in; looks at the clipboard only when the app comes to the front.
@@ -517,6 +547,14 @@ void bootstrap() {
       icon: Icons.swap_horiz,
       featureNumber: 30,
       builder: (BuildContext context) => const ConvertAnythingScreen(),
+    ),
+    ToolEntry(
+      id: 'heic',
+      name: 'HEIC to JPG or PNG',
+      section: ToolSection.convert,
+      icon: Icons.photo_outlined,
+      featureNumber: 25,
+      builder: (BuildContext context) => const HeicScreen(),
     ),
     ToolEntry(
       id: 'batch-convert',
