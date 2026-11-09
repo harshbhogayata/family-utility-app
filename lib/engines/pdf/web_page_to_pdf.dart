@@ -277,7 +277,7 @@ abstract final class HtmlText {
       }
       final bool closing = lt + 1 < n && html[lt + 1] == '/';
       final int nameStart = closing ? lt + 2 : lt + 1;
-      final RegExpMatch? name = RegExp(r'[a-zA-Z][a-zA-Z0-9:-]*').matchAsPrefix(html, nameStart);
+      final Match? name = RegExp(r'[a-zA-Z][a-zA-Z0-9:-]*').matchAsPrefix(html, nameStart);
       if (name == null) {
         addText('<');
         i = lt + 1;
