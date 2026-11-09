@@ -670,7 +670,7 @@ class PdfDocumentModel {
       }
     }
     final Map<String, Object> t = <String, Object>{'Size': PdfNum('$size')};
-    for (final String k in <String>['Root', 'Info', 'ID']) {
+    for (final String k in <String>['Root', 'Info', 'ID', 'Encrypt']) {
       final Object? v = trailer[k];
       if (v != null) {
         t[k] = v;

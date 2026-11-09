@@ -60,6 +60,7 @@ import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/split_pdf/split_pdf_screen.dart';
+import '../tools/protect_pdf/protect_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
 import '../engines/convert/convert_registry.dart';
@@ -382,6 +383,14 @@ void bootstrap() {
       icon: Icons.call_split,
       featureNumber: 3,
       builder: (BuildContext context) => const SplitPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'protect-pdf',
+      name: 'Protect with password',
+      section: ToolSection.pdf,
+      icon: Icons.lock_outline,
+      featureNumber: 11,
+      builder: (BuildContext context) => const ProtectPdfScreen(),
     ),
     ToolEntry(
       id: 'qr-scanner',
