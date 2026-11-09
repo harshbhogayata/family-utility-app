@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../family/calendar/calendar_reminder_host.dart';
 import '../tools/app_lock/lock_screen.dart';
 import 'shell.dart';
 import 'theme.dart';
@@ -18,7 +19,7 @@ class FamilyUtilityApp extends StatelessWidget {
       title: 'Family Utility',
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
-      home: const LockGate(child: AppShell()),
+      home: const LockGate(child: CalendarReminderHost(child: AppShell())),
     );
   }
 }

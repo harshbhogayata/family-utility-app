@@ -431,4 +431,8 @@ class CalendarReminderWatcher {
     _timer?.cancel();
     _timer = null;
   }
+
+  /// Installed by bootstrap; started and stopped by the app's widget tree
+  /// (CalendarReminderHost) so no timer outlives the app.
+  static CalendarReminderWatcher? instance;
 }

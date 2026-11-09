@@ -305,7 +305,7 @@ void bootstrap() {
   // 071: shared calendar on the family store; reminders while the app runs.
   final SharedCalendar calendar = SharedCalendar(space: family);
   SharedCalendar.install(calendar);
-  CalendarReminderWatcher(calendar: calendar, sink: NotificationCalendarReminders()).start();
+  CalendarReminderWatcher.instance = CalendarReminderWatcher(calendar: calendar, sink: NotificationCalendarReminders());
 
   // 123: video from a link; one plugin per site, saved through the queue.
   VideoLinks.install(VideoLinkDownloader(
