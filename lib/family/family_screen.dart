@@ -6,11 +6,13 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../app/theme.dart';
+import '../engines/family/family_board.dart';
 import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/calendar_platform.dart';
+import 'board/family_board_screen.dart';
 import 'calendar/shared_calendar_screen.dart';
 import 'shopping/shared_shopping_screen.dart';
 
@@ -190,6 +192,24 @@ class _FamilyScreenState extends State<FamilyScreen> {
           '${members.length} ${members.length == 1 ? 'member' : 'members'} · ${_space.store.liveCount} shared items',
           style: text.bodyMedium?.copyWith(color: AppColors.muted),
         ),
+        // 073: notes pinned to the family screen.
+        for (final FamilyNote n in FamilyBoard.pinnedIn(_space.store))
+          Card(
+            key: Key('pinned-${n.id}'),
+            margin: const EdgeInsets.only(top: 8),
+            child: Semantics(
+              label: 'Pinned note: ${n.text}',
+              excludeSemantics: true,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(children: <Widget>[
+                  const Icon(Icons.push_pin, size: 18, color: AppColors.accent),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(n.text, style: text.bodyMedium)),
+                ]),
+              ),
+            ),
+          ),
         const SizedBox(height: 12),
         for (final String line in _space.statusLines)
           Semantics(
@@ -251,6 +271,16 @@ class _FamilyScreenState extends State<FamilyScreen> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           minTileHeight: 48,
+          leading: const Icon(Icons.checklist_outlined),
+          title: const Text('To-do and notices'),
+          subtitle: const Text('Tasks with an owner and due date; pinned notes'),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => FamilyBoardScreen(board: FamilyBoard(space: _space)),
+          ))),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
           leading: const Icon(Icons.folder_shared_outlined),
           title: const Text('Sync folder (your own Drive or iCloud)'),
           subtitle: Text(id.syncFolder ?? 'Off · Wi-Fi only'),
@@ -293,6 +323,8 @@ class _FamilyScreenState extends State<FamilyScreen> {
       FamilySpace.members: 'Member',
       'calendar': 'Calendar event',
       'shopping': 'Shopping item',
+      FamilyBoard.tasksCollection: 'Task',
+      FamilyBoard.notesCollection: 'Note',
     };
     return '${names[c.collection] ?? c.collection} ${c.deleted ? 'removed' : 'changed'}';
   }
