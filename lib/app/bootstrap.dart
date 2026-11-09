@@ -32,6 +32,7 @@ import '../tools/id_card/id_card_screen.dart';
 import '../tools/id_scan/id_scan_screen.dart';
 import '../tools/pdf_to_images/pdf_to_images_screen.dart';
 import '../tools/webp/webp_screen.dart';
+import '../tools/raster/raster_screen.dart';
 import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
@@ -297,6 +298,14 @@ void bootstrap() {
       icon: Icons.swap_horiz,
       featureNumber: 26,
       builder: (BuildContext context) => const WebpScreen(),
+    ),
+    ToolEntry(
+      id: 'raster',
+      name: 'Convert pictures',
+      section: ToolSection.convert,
+      icon: Icons.image_outlined,
+      featureNumber: 27,
+      builder: (BuildContext context) => const RasterScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',
