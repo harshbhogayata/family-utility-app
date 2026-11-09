@@ -10,6 +10,8 @@
         <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
         <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <!-- 129: read WhatsApp media folders on Android 12 and older. -->
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
         <uses-feature android:name="android.hardware.camera" android:required="false" />
     <application
         android:label="family_utility_app"
@@ -21,6 +23,16 @@
             android:exported="false"
             android:stopWithTask="false"
             android:foregroundServiceType="dataSync" />
+        <!-- 129 Recover deleted messages: opt-in notification listener. -->
+        <service
+            android:name=".MessageHistoryService"
+            android:label="Message history"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
         <receiver
             android:exported="false"
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />

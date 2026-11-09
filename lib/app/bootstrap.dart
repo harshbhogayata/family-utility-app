@@ -40,6 +40,7 @@ import '../tools/qr_generator/qr_generator_screen.dart';
 import '../engines/image/exif_strip.dart';
 import '../platform/strip_on_share_prefs.dart';
 import '../tools/status_saver/status_saver_screen.dart';
+import '../tools/deleted_messages/deleted_messages_screen.dart';
 import '../engines/download/download_queue.dart';
 import '../engines/privacy/offline_policy.dart';
 import '../tools/download_queue/download_queue_screen.dart';
@@ -822,6 +823,15 @@ void bootstrap() {
       icon: Icons.amp_stories_outlined,
       featureNumber: 125,
       builder: (BuildContext context) => const StatusSaverScreen(),
+    ),
+    ToolEntry(
+      id: LockableIds.deletedMessages,
+      name: 'Recover deleted messages',
+      section: ToolSection.links,
+      icon: Icons.restore_from_trash_outlined,
+      featureNumber: 129,
+      touches: const <DataTouch>{DataTouch.notifications, DataTouch.files},
+      builder: (BuildContext context) => const DeletedMessagesScreen(),
     ),
     ToolEntry(
       id: 'history',

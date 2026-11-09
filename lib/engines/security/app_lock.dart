@@ -40,12 +40,14 @@ abstract final class LockableIds {
   static const String vault = 'private-vault';
   static const String secureNotes = 'secure-notes';
   static const String receipts = 'receipt-vault';
+  static const String deletedMessages = 'deleted-messages';
 
   static const Map<String, String> labels = <String, String>{
     records: 'Records tab (money, health, home, documents)',
     vault: 'Private vault',
     secureNotes: 'Secure notes',
     receipts: 'Receipt vault',
+    deletedMessages: 'Recover deleted messages',
   };
 }
 

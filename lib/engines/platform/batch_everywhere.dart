@@ -124,6 +124,7 @@ abstract final class BatchPolicy {
     126: BatchSupport.noPicker(),
     127: BatchSupport.noPicker(),
     128: BatchSupport.multiPicker(),
+    129: BatchSupport.noPicker(),
   };
 
   static BatchSupport? of(ToolEntry tool) {

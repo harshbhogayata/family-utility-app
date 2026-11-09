@@ -175,6 +175,7 @@ IconData iconForTouch(DataTouch t) {
     DataTouch.clipboard => Icons.content_paste_outlined,
     DataTouch.microphone => Icons.mic_none_outlined,
     DataTouch.location => Icons.location_on_outlined,
+    DataTouch.notifications => Icons.notifications_none_outlined,
     DataTouch.lan => Icons.router_outlined,
     DataTouch.network => Icons.wifi,
   };
