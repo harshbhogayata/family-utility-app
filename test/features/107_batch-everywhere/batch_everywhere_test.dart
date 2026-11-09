@@ -244,6 +244,9 @@ void main() {
       BatchInput('/p/notes.txt', Uint8List(3)),
     ]);
     final FakeSheet sheet = FakeSheet();
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
     await tester.pumpWidget(MaterialApp(
       home: BatchScreen(
         io: io,
@@ -264,7 +267,6 @@ void main() {
     expect(pick.height, greaterThanOrEqualTo(44));
     expect(find.bySemanticsLabel(RegExp('Resize photos to 50%')), findsOneWidget);
 
-    await tester.ensureVisible(find.byKey(const Key('batch-run')));
     await tester.tap(find.byKey(const Key('batch-run')));
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
     await tester.pumpAndSettle();
