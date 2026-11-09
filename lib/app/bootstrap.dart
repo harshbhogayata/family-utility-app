@@ -164,6 +164,7 @@ import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
 import '../engines/records/expense_tracker.dart';
+import '../engines/records/shared_expenses.dart';
 import '../engines/records/medicine_reminders.dart';
 import '../platform/medicine_alarm_platform.dart';
 import '../records/medicines/medicine_screen.dart';
@@ -373,6 +374,11 @@ void bootstrap() {
   final ExpenseTracker expenses = ExpenseTracker(store: FileExpenseStore(() => appFolder('expenses')));
   ExpenseTracker.install(expenses);
   unawaited(expenses.load());
+
+  // 081: shared bills and settle-up, kept beside the ledger.
+  final SharedExpenses shared = SharedExpenses(store: FileSharedExpenseStore(() => appFolder('expenses')));
+  SharedExpenses.install(shared);
+  unawaited(shared.load());
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => medicines.reschedule()));
 
   // 071: shared calendar on the family store; reminders while the app runs.

@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [080 Expense tracker](./080-expense-tracker.md), [068 Family space](./068-family-space.md)
 
 ## What the person gets

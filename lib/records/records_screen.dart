@@ -4,6 +4,7 @@ import 'expenses/expense_screen.dart';
 import 'medicines/medicine_screen.dart';
 import 'profile/autofill_profile_screen.dart';
 import 'quick_add/quick_add_screen.dart';
+import 'shared_expenses/shared_expenses_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
 /// Filled in by Phase 3 features (080 onwards).
@@ -61,6 +62,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Quick-add, receipts, monthly totals, CSV'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const ExpenseScreen()),
+              ),
+            ),
+            // 081: split with family or friends, balances, settle-up.
+            ListTile(
+              key: const Key('records-shared-expenses'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.call_split),
+              title: const Text('Shared expenses'),
+              subtitle: const Text('Split bills, balances, settle-up reminders'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const SharedExpensesScreen()),
               ),
             ),
             const SizedBox(height: 8),
