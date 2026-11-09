@@ -130,7 +130,11 @@ void main() {
           '4 0 obj\n<< /Type /XObject /Subtype /Image /Width 4096 /Height 6400 /ColorSpace /DeviceGray '
           '/BitsPerComponent 8 /Length $n >>\nstream\n'));
       final Uint8List tail = Uint8List.fromList(latin1.encode('\nendstream\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF\n'));
-      return Uint8List.fromList(<int>[...head, ...data, ...tail]);
+      return (BytesBuilder(copy: false)
+            ..add(head)
+            ..add(data)
+            ..add(tail))
+          .takeBytes();
     }
 
     final PdfMergeResult r = PdfMerger.merge(<MergeInput>[MergeInput('a.pdf', big(1)), MergeInput('b.pdf', big(2))]);
