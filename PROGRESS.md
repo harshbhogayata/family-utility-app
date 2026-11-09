@@ -1,12 +1,12 @@
 # Progress
 
-Done: 72 / 130  (55%)
+Done: 73 / 130  (56%)
 In progress: none
-Updated: 2026-11-09 14:39 UTC
+Updated: 2026-11-09 14:57 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 72 |
+| 1 — file chores and platform core | 86 | 73 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -59,6 +59,7 @@ Updated: 2026-11-09 14:39 UTC
 - 053 Auto-name scans — done 32adde0
 - 054 One-tap searchable scan — done 6232042
 - 055 App lock — done d092d46
+- 056 Private vault — done 3aa5d75
 - 057 Secure notes — done e9c143f
 - 058 Encrypt any file — done d74c332
 - 059 On-device mode — done 5fbcce5
