@@ -572,7 +572,7 @@ abstract final class HtmlText {
   }
 
   /// True when the page is a login wall rather than content.
-  static bool looksLikeLogin(HtmlNode doc, List<WebBlock> blocks) {
+  static bool isPasswordWall(HtmlNode doc, List<WebBlock> blocks) {
     final bool password = doc.descendants
         .any((HtmlNode d) => d.tag == 'input' && (d.attrs['type'] ?? '').toLowerCase() == 'password');
     int words = 0;
@@ -585,7 +585,7 @@ abstract final class HtmlText {
   static WebArticle article(String html, Uri url, WebPdfMode mode) {
     final HtmlNode doc = parse(html);
     final List<WebBlock> b = blocks(doc, mode);
-    if (looksLikeLogin(doc, b)) {
+    if (isPasswordWall(doc, b)) {
       throw const WebPdfError('This page asks you to sign in. Only pages that open without a login can be saved.');
     }
     String t = title(doc);
