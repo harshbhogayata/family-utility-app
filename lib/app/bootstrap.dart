@@ -89,6 +89,7 @@ import '../tools/excel_pdf/excel_pdf_screen.dart';
 import '../tools/rotate_flip/rotate_flip_screen.dart';
 import '../engines/convert/sheet_converters.dart';
 import '../tools/redact/redact_screen.dart';
+import '../tools/redact_pdf/redact_pdf_screen.dart';
 import '../engines/image/scan_namer.dart';
 import '../engines/image/one_tap_scan.dart';
 import '../platform/mlkit_text_platform.dart';
@@ -516,6 +517,14 @@ void bootstrap() {
       icon: Icons.lock_open_outlined,
       featureNumber: 12,
       builder: (BuildContext context) => const UnlockPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'redact-pdf',
+      name: 'Redact PDF',
+      section: ToolSection.pdf,
+      icon: Icons.format_color_fill,
+      featureNumber: 13,
+      builder: (BuildContext context) => const RedactPdfScreen(),
     ),
     ToolEntry(
       id: 'qr-scanner',

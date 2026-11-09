@@ -80,6 +80,7 @@ abstract final class BatchPolicy {
     7: BatchSupport.single('You turn the pages of one PDF by hand, page by page or all at once.'),
     11: BatchSupport.single('Each protected PDF gets its own password, typed twice.'),
     12: BatchSupport.single('Each locked PDF has its own password, typed for that file.'),
+    13: BatchSupport.single('You mark what to black out by hand on each page of one PDF.'),
     10: BatchSupport.single('You place the signature by hand on one document.'),
     8: BatchSupport.single('One scan at a time: every page is read by the on-device model.'),
     15: BatchSupport.single('You check each page of a scan before blank ones are removed.'),
