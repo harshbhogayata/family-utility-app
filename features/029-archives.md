@@ -3,17 +3,17 @@
 **Section:** 2. Convert
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done f5d36ba
 **Depends on:** [117 File manager](./117-file-manager.md)
 
 ## What the person gets
 Open, extract and create ZIP, RAR and 7Z.
 
 ## Acceptance criteria
-- [ ] Browse inside an archive without extracting; extract selected files
-- [ ] Create ZIP with optional AES password
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Browse inside an archive without extracting; extract selected files
+- [x] Create ZIP with optional AES password
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
