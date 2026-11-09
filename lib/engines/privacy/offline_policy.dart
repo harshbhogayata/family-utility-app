@@ -9,8 +9,9 @@ import 'on_device_mode.dart';
 /// outside the folders those features own. [NetworkGuard] is the one choke
 /// point a network tool must go through, so on-device mode (059) always wins.
 abstract final class OfflinePolicy {
-  /// Features allowed to use the internet: cloud import/save and downloads.
-  static const Set<int> networkFeatures = <int>{63, 123, 124, 127};
+  /// Features allowed to use the internet: web page to PDF, cloud import/save
+  /// and downloads.
+  static const Set<int> networkFeatures = <int>{23, 63, 123, 124, 127};
 
   /// Features that talk only to devices on the same Wi-Fi (no internet).
   /// They stay off the network list: airplane mode with Wi-Fi back on works.

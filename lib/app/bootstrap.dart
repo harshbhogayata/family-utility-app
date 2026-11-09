@@ -25,6 +25,7 @@ import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/archives/archives_screen.dart';
 import '../tools/images_to_pdf/images_to_pdf_screen.dart';
 import '../tools/text_to_pdf/text_to_pdf_screen.dart';
+import '../tools/web_page_pdf/web_page_pdf_screen.dart';
 import '../engines/pdf/text_to_pdf.dart';
 import '../tools/document_scanner/document_scanner_screen.dart';
 import '../engines/image/scan_entry.dart';
@@ -769,6 +770,17 @@ void bootstrap() {
       icon: Icons.text_snippet_outlined,
       featureNumber: 24,
       builder: (BuildContext context) => const TextToPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'web-page-pdf',
+      name: 'Web page to PDF',
+      section: ToolSection.convert,
+      icon: Icons.web_outlined,
+      featureNumber: 23,
+      needsNetwork: true,
+      networkReason: 'Fetches the public page you paste. Nothing of yours is uploaded.',
+      touches: const <DataTouch>{DataTouch.files, DataTouch.network},
+      builder: (BuildContext context) => const WebPagePdfScreen(),
     ),
     ToolEntry(
       id: 'document-scanner',

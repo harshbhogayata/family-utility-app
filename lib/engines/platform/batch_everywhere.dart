@@ -89,6 +89,7 @@ abstract final class BatchPolicy {
     18: BatchSupport.viaBatch('batch-convert'),
     19: BatchSupport.viaBatch('batch-convert'),
     21: BatchSupport.multiPicker(),
+    23: BatchSupport.noPicker(),
     24: BatchSupport.noPicker(),
     22: BatchSupport.single('Each PDF gets its own page range and image size.'),
     25: BatchSupport.multiPicker(),
