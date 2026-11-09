@@ -119,7 +119,7 @@ void main() {
     await tester.pump();
     expect(shared.last, contains('To settle up:'));
     await tester.tap(find.byKey(const Key('result-save')));
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.text('Saved to /x/Goa trip.txt'), findsOneWidget);
     await tester.pump(const Duration(seconds: 5));
   });
