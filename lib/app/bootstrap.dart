@@ -59,6 +59,7 @@ import '../engines/download/clipboard_watch.dart';
 import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
+import '../tools/split_pdf/split_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
 import '../engines/convert/convert_registry.dart';
@@ -373,6 +374,14 @@ void bootstrap() {
       icon: Icons.merge_type,
       featureNumber: 2,
       builder: (BuildContext context) => const MergePdfScreen(),
+    ),
+    ToolEntry(
+      id: 'split-pdf',
+      name: 'Split PDF',
+      section: ToolSection.pdf,
+      icon: Icons.call_split,
+      featureNumber: 3,
+      builder: (BuildContext context) => const SplitPdfScreen(),
     ),
     ToolEntry(
       id: 'qr-scanner',
