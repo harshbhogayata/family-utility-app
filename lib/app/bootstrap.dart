@@ -17,6 +17,7 @@ import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
+import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/history/history_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
@@ -114,6 +115,14 @@ void bootstrap() {
       featureNumber: 57,
       touches: const <DataTouch>{DataTouch.files, DataTouch.clipboard},
       builder: (BuildContext context) => const SecureNotesScreen(),
+    ),
+    ToolEntry(
+      id: 'compress-images',
+      name: 'Compress images',
+      section: ToolSection.compress,
+      icon: Icons.photo_size_select_large_outlined,
+      featureNumber: 34,
+      builder: (BuildContext context) => const CompressImagesScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',
