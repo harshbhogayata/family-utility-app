@@ -1,12 +1,12 @@
 # Progress
 
-Done: 39 / 130  (30%)
+Done: 40 / 130  (30%)
 In progress: none
-Updated: 2026-11-09 06:37 UTC
+Updated: 2026-11-09 06:45 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 39 |
+| 1 — file chores and platform core | 86 | 40 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -36,6 +36,7 @@ Updated: 2026-11-09 06:37 UTC
 - 048 Scan filters — done cb126a8
 - 049 ID scan — done cedf8ab
 - 051 QR scanner — done 012db23
+- 052 QR generator — done e0c8180
 - 055 App lock — done d092d46
 - 057 Secure notes — done e9c143f
 - 059 On-device mode — done 5fbcce5

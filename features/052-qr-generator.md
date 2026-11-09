@@ -3,16 +3,16 @@
 **Section:** 5. Scan and QR
 **Phase:** 1
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done e0c8180
 **Depends on:** none
 
 ## What the person gets
 Make QR codes for URL, Wi-Fi, UPI, vCard and WhatsApp links.
 
 ## Acceptance criteria
-- [ ] Logo and colour options; export PNG and SVG; print sheet
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Logo and colour options; export PNG and SVG; print sheet
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
