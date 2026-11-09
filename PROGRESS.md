@@ -1,13 +1,13 @@
 # Progress
 
-Done: 91 / 130  (70%)
+Done: 92 / 130  (70%)
 In progress: none
-Updated: 2026-11-09 19:40 UTC
+Updated: 2026-11-09 20:04 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 84 |
-| 2 — family layer | 20 | 7 |
+| 2 — family layer | 20 | 8 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
@@ -82,6 +82,7 @@ Updated: 2026-11-09 19:40 UTC
 - 072 Shared shopping list — done d94d2bc
 - 073 Shared to-do and notice board — done 4cd4908
 - 074 Shared document vault with expiry — done d47e0c6
+- 076 Live family location — done 7ed778a
 - 079 Sync through your own Drive or home Wi-Fi — done 83d0f04
 - 104 Offline first — done 12c34d3
 - 105 Paste anything — done 1516ef8
