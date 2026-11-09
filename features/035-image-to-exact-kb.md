@@ -3,7 +3,7 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [034 Compress images](./034-compress-images.md), [040 Resize](./040-resize.md)
 
 ## What the person gets

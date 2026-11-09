@@ -27,6 +27,7 @@ import 'app.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/word_pdf/word_pdf_screen.dart';
 import '../tools/resize/resize_screen.dart';
+import '../tools/exact_kb/exact_kb_screen.dart';
 import '../engines/convert/convert_registry.dart';
 import '../engines/convert/word_converters.dart';
 import '../platform/pdfrx_text_source.dart';
@@ -214,6 +215,14 @@ void bootstrap() {
       icon: Icons.photo_size_select_large_outlined,
       featureNumber: 34,
       builder: (BuildContext context) => const CompressImagesScreen(),
+    ),
+    ToolEntry(
+      id: 'exact-kb',
+      name: 'Image to exact KB',
+      section: ToolSection.compress,
+      icon: Icons.straighten,
+      featureNumber: 35,
+      builder: (BuildContext context) => const ExactKbScreen(),
     ),
     ToolEntry(
       id: 'resize',
