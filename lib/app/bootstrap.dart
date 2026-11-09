@@ -34,6 +34,9 @@ import '../tools/pdf_to_images/pdf_to_images_screen.dart';
 import '../tools/webp/webp_screen.dart';
 import '../tools/raster/raster_screen.dart';
 import '../tools/zip/zip_screen.dart';
+import '../tools/exif/exif_screen.dart';
+import '../engines/image/exif_strip.dart';
+import '../platform/strip_on_share_prefs.dart';
 import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
@@ -74,6 +77,10 @@ void bootstrap() {
 
   final ShareEngine share = ShareEngine(const SystemShareSheet(), const PrefsShareTargetStore());
   ShareEngine.install(share);
+  share.prepare = StripOnShare(
+    const PrefsStripOnShareStore(),
+    () async => Directory('${Directory.systemTemp.path}/clean_share'),
+  ).prepare;
   unawaited(share.load());
 
   final SaveAnywhere saver = SaveAnywhere(
@@ -307,6 +314,14 @@ void bootstrap() {
       icon: Icons.image_outlined,
       featureNumber: 27,
       builder: (BuildContext context) => const RasterScreen(),
+    ),
+    ToolEntry(
+      id: 'exif',
+      name: 'Photo details (EXIF)',
+      section: ToolSection.image,
+      icon: Icons.location_off_outlined,
+      featureNumber: 46,
+      builder: (BuildContext context) => const ExifScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',

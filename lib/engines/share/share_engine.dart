@@ -256,8 +256,13 @@ class ShareEngine {
     }
   }
 
+  /// Runs before every share; feature 046 uses it to strip photo metadata
+  /// when the person asked for that. Null means share as given.
+  Future<ShareRequest> Function(ShareRequest request)? prepare;
+
   Future<ShareOutcome> share(ShareRequest request) async {
-    final ShareOutcome outcome = await _sheet.share(request);
+    final Future<ShareRequest> Function(ShareRequest request)? hook = prepare;
+    final ShareOutcome outcome = await _sheet.share(hook == null ? request : await hook(request));
     final String? target = outcome.target;
     if (outcome.completed && target != null && target.isNotEmpty) {
       await remember(ShareTarget(target));
