@@ -108,8 +108,9 @@ class _OpenedFileScreenState extends State<OpenedFileScreen> {
   }
 
   Future<void> _openSettings() async {
-    final bool ok = await (widget.inbox ?? OpenWithInbox.instance).openDefaultAppSettings();
+    // Answered either way: the card never comes back.
     await _prompt.dismiss();
+    final bool ok = await (widget.inbox ?? OpenWithInbox.instance).openDefaultAppSettings();
     if (!ok) {
       _toast('Open Settings > Apps > Default apps to choose this app');
     }
