@@ -13,7 +13,7 @@ import '../../engines/transfer/nearby_share.dart';
 import '../../platform/network/nearby_share_net.dart';
 
 typedef NearbyServiceBuilder = Future<NearbyShareService> Function(FamilyIdentity identity);
-typedef NearbyFilePick = Future<String?> Function();
+typedef NearbyFilePick = Future<List<String>> Function();
 
 Future<NearbyShareService> _defaultService(FamilyIdentity identity) async {
   final Directory base = await getApplicationDocumentsDirectory();
@@ -25,9 +25,9 @@ Future<NearbyShareService> _defaultService(FamilyIdentity identity) async {
   return s;
 }
 
-Future<String?> _pickFile() async {
-  final FilePickerResult? r = await FilePicker.platform.pickFiles();
-  return r?.files.single.path;
+Future<List<String>> _pickFiles() async {
+  final FilePickerResult? r = await FilePicker.platform.pickFiles(allowMultiple: true);
+  return r?.files.map((PlatformFile f) => f.path).whereType<String>().toList() ?? <String>[];
 }
 
 /// Feature 061 — Nearby share: pick a family phone by name, send a file
@@ -96,27 +96,34 @@ class _NearbyShareScreenState extends State<NearbyShareScreen> {
     if (s == null) {
       return;
     }
-    final String? path = await (widget.pick ?? _pickFile)();
-    if (path == null || !mounted) {
+    final List<String> paths = await (widget.pick ?? _pickFiles)();
+    if (paths.isEmpty || !mounted) {
       return;
     }
-    setState(() {
-      _status = 'Sending to ${to.name}…';
-      _progress = 0;
-    });
     try {
-      final NearbySendResult r = await s.send(to, path, onProgress: (int sent, int total) {
-        if (mounted) {
-          setState(() => _progress = total == 0 ? 1 : sent / total);
-        }
-      });
-      if (mounted) {
+      int resumed = 0;
+      double speed = 0;
+      for (int i = 0; i < paths.length; i++) {
         setState(() {
-          _progress = null;
-          _status = 'Sent to ${to.name} at ${r.megabytesPerSecond.toStringAsFixed(1)} MB/s'
-              '${r.attempts > 1 ? ' (resumed ${r.attempts - 1}×)' : ''}';
+          _status = 'Sending ${i + 1} of ${paths.length} to ${to.name}…';
+          _progress = 0;
         });
+        final NearbySendResult r = await s.send(to, paths[i], onProgress: (int sent, int total) {
+          if (mounted) {
+            setState(() => _progress = total == 0 ? 1 : sent / total);
+          }
+        });
+        resumed += r.attempts - 1;
+        speed = r.megabytesPerSecond;
+        if (!mounted) {
+          return;
+        }
       }
+      setState(() {
+        _progress = null;
+        _status = 'Sent ${paths.length} to ${to.name} at ${speed.toStringAsFixed(1)} MB/s'
+            '${resumed > 0 ? ' (resumed $resumed×)' : ''}';
+      });
     } on NearbyShareException catch (e) {
       if (mounted) {
         setState(() {

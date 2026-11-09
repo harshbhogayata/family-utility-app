@@ -85,6 +85,7 @@ const Map<String, int> folderFeature = <String, int>{
   'pdf_to_images': 22,
   'pdf_viewer': 1,
   'phone_to_laptop': 62,
+  'nearby_share': 61,
   'qr_generator': 52,
   'raster': 27,
   'send_original': 128,

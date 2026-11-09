@@ -124,6 +124,7 @@ abstract final class BatchPolicy {
     57: BatchSupport.noPicker(),
     59: BatchSupport.noPicker(),
     62: BatchSupport.multiPicker(),
+    61: BatchSupport.multiPicker(),
     63: BatchSupport.multiPicker(),
     66: BatchSupport.single('The clipboard holds one picture.'),
     67: BatchSupport.noPicker(),
