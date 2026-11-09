@@ -204,7 +204,7 @@ void main() {
       final FakeTextSource source = FakeTextSource();
       registerSheetConverters(r, source);
       expect(r.targetsFor(FileKind.pdf).map((Converter c) => c.id), contains('pdf-to-xlsx'));
-      final ConvertOutput out = await r.convert(ConvertInput(name: 'budget.pdf', bytes: Uint8List(0)), 'pdf-to-xlsx');
+      final ConvertOutput out = await r.convert(ConvertInput(name: 'budget.pdf', bytes: xml('%PDF-1.4\n%%EOF\n')), 'pdf-to-xlsx');
       expect(out.name, 'budget.xlsx');
       expect(out.kind, FileKind.xlsx);
       expect(source.calls, 1);
