@@ -12,6 +12,7 @@ import '../engines/platform/first_run.dart';
 import '../engines/platform/one_search.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
+import '../engines/family/document_vault.dart';
 import '../engines/security/private_vault.dart';
 import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
@@ -21,6 +22,7 @@ import '../engines/family/member_profiles.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
+import '../platform/document_vault_platform.dart';
 import '../platform/vault_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
@@ -309,6 +311,19 @@ void bootstrap() {
   // 072: shared shopping list on the same store.
   SharedShoppingList.install(SharedShoppingList(space: family));
   CalendarReminderWatcher.instance = CalendarReminderWatcher(calendar: calendar, sink: NotificationCalendarReminders());
+  // 074: family documents encrypted on this phone; expiry reminders at
+  // 30, 7 and 1 day, checked by CalendarReminderHost at start and hourly.
+  final DocumentVault documents = DocumentVault(
+    cipher: VaultCipher(const SecureVaultKeyStore('family_documents_key')),
+    blobs: FileDocumentBlobStore(() => appFolder('family_documents')),
+    space: family,
+  );
+  DocumentVault.install(documents);
+  DocumentReminderWatcher.instance = DocumentReminderWatcher(
+    vault: documents,
+    sink: NotificationDocumentReminders(),
+    marks: FileDocumentReminderMarks(() => appFolder('family_documents')),
+  );
 
   // 123: video from a link; one plugin per site, saved through the queue.
   VideoLinks.install(VideoLinkDownloader(

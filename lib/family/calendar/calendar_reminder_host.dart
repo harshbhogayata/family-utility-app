@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../engines/family/document_vault.dart';
 import '../../engines/family/shared_calendar.dart';
 
 /// Feature 071 — runs the shared calendar's reminder check while the app's
@@ -18,11 +19,13 @@ class _CalendarReminderHostState extends State<CalendarReminderHost> {
   void initState() {
     super.initState();
     CalendarReminderWatcher.instance?.start();
+    DocumentReminderWatcher.instance?.start(); // 074
   }
 
   @override
   void dispose() {
     CalendarReminderWatcher.instance?.stop();
+    DocumentReminderWatcher.instance?.stop();
     super.dispose();
   }
 

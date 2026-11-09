@@ -3,7 +3,7 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [056 Private vault](./056-private-vault.md), [068 Family space](./068-family-space.md), [045 Blur faces, plates and Aadhaar numbers](./045-blur-faces-plates-and-aadhaar-numbers.md)
 
 ## What the person gets

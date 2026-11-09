@@ -14,6 +14,7 @@ import '../engines/share/share_engine.dart';
 import '../platform/calendar_platform.dart';
 import 'board/family_board_screen.dart';
 import 'calendar/shared_calendar_screen.dart';
+import 'documents/document_vault_screen.dart';
 import 'shopping/shared_shopping_screen.dart';
 
 /// Opens the camera and returns the first QR text, or null on cancel.
@@ -281,6 +282,16 @@ class _FamilyScreenState extends State<FamilyScreen> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           minTileHeight: 48,
+          leading: const Icon(Icons.badge_outlined),
+          title: const Text('Documents'),
+          subtitle: const Text('ID papers per member, with expiry reminders'),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => const DocumentVaultScreen(),
+          ))),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
           leading: const Icon(Icons.folder_shared_outlined),
           title: const Text('Sync folder (your own Drive or iCloud)'),
           subtitle: Text(id.syncFolder ?? 'Off · Wi-Fi only'),
@@ -325,6 +336,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
       'shopping': 'Shopping item',
       FamilyBoard.tasksCollection: 'Task',
       FamilyBoard.notesCollection: 'Note',
+      'documents': 'Document',
     };
     return '${names[c.collection] ?? c.collection} ${c.deleted ? 'removed' : 'changed'}';
   }
