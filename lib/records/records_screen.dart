@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'expenses/expense_screen.dart';
+import 'health_log/health_log_screen.dart';
 import 'medicines/medicine_screen.dart';
 import 'profile/autofill_profile_screen.dart';
 import 'quick_add/quick_add_screen.dart';
@@ -88,6 +89,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Dose reminders, tablets left, refills'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const MedicineScreen()),
+              ),
+            ),
+            // 089: BP and sugar readings, trend chart, PDF for the doctor.
+            ListTile(
+              key: const Key('records-health-log'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.monitor_heart_outlined),
+              title: const Text('BP and sugar'),
+              subtitle: const Text('Readings, trend chart, PDF for the doctor'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const HealthLogScreen()),
               ),
             ),
           ],
