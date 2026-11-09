@@ -1,12 +1,12 @@
 # Progress
 
-Done: 74 / 130  (56%)
+Done: 75 / 130  (57%)
 In progress: none
-Updated: 2026-11-09 15:27 UTC
+Updated: 2026-11-09 15:46 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 74 |
+| 1 — file chores and platform core | 86 | 75 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -34,6 +34,7 @@ Updated: 2026-11-09 15:27 UTC
 - 025 HEIC to JPG or PNG — done 8a74947
 - 026 WebP to JPG or PNG and back — done 012d5cd
 - 027 Raster any to any — done bbf5ab1
+- 028 AVIF to JPG or PNG — done 8db1c9d
 - 029 Archives — done f5d36ba
 - 030 Convert anything — done 068831f
 - 031 Batch convert — done 72d3259
