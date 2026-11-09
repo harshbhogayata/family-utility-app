@@ -34,6 +34,7 @@ import '../platform/location_platform.dart';
 import '../platform/vault_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
+import '../tools/fill_forms/fill_forms_screen.dart';
 import '../tools/archives/archives_screen.dart';
 import '../tools/images_to_pdf/images_to_pdf_screen.dart';
 import '../tools/text_to_pdf/text_to_pdf_screen.dart';
@@ -909,6 +910,14 @@ void bootstrap() {
       icon: Icons.print_outlined,
       featureNumber: 17,
       builder: (BuildContext context) => const PrintToPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'fill-forms',
+      name: 'Fill forms',
+      section: ToolSection.pdf,
+      icon: Icons.edit_note_outlined,
+      featureNumber: 9,
+      builder: (BuildContext context) => const FillFormsScreen(),
     ),
     ToolEntry(
       id: 'sign-pdf',
