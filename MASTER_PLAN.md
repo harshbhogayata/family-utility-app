@@ -98,7 +98,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 025 | [HEIC to JPG or PNG](features/025-heic-to-jpg-or-png.md) | 2. Convert | 80 | not started |
 | 029 | [Archives](features/029-archives.md) | 2. Convert | 80 | done f5d36ba |
 | 030 | [Convert anything](features/030-convert-anything.md) | 2. Convert | 80 | done 068831f |
-| 036 | [Compress video](features/036-compress-video.md) | 3. Compress | 80 | not started |
+| 036 | [Compress video](features/036-compress-video.md) | 3. Compress | 80 | done ad80377 |
 | 038 | [Shrink-to-send presets](features/038-shrink-to-send-presets.md) | 3. Compress | 80 | not started |
 | 040 | [Resize](features/040-resize.md) | 4. Image basics | 80 | done 4369d50 |
 | 062 | [Phone to laptop](features/062-phone-to-laptop.md) | 7. Share and transfer | 80 | done ddae934 |
