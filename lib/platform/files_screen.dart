@@ -4,6 +4,7 @@ import '../app/widgets/result_bar.dart';
 import '../engines/platform/action_history.dart';
 import '../engines/platform/file_manager.dart';
 import '../engines/share/share_engine.dart';
+import '../tools/smart_suggestions/suggestions_bar.dart';
 
 enum _Kind { rename, move, delete }
 
@@ -128,7 +129,8 @@ class _FilesScreenState extends State<FilesScreen> {
   }
 
   Future<void> _openFile(String path) async {
-    _selected = path;
+    // 106: selecting the file shows the tools suggested for it.
+    setState(() => _selected = path);
     await _fm.touch(path);
     await _share.shareFiles(<String>[path]);
   }
@@ -335,6 +337,10 @@ class _FilesScreenState extends State<FilesScreen> {
     final List<Widget> body = <Widget>[];
     final List<SearchHit>? hits = _hits;
     final String? cwd = _cwd;
+    final String? picked = _selected;
+    if (picked != null) {
+      body.add(SuggestionsBar(key: ValueKey<String>('suggest-for-$picked'), path: picked));
+    }
 
     if (hits != null) {
       body.add(Text('${hits.length} found', style: text.titleMedium));
