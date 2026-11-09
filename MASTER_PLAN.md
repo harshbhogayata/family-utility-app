@@ -169,7 +169,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 074 | [Shared document vault with expiry](features/074-shared-document-vault-with-expiry.md) | 8. Family — shared live data | 100 | done d47e0c6 |
 | 121 | [Quick-add](features/121-quick-add.md) | 10. Platform | 100 | not started |
 | 076 | [Live family location](features/076-live-family-location.md) | 8. Family — shared live data | 80 | done 7ed778a |
-| 077 | [Auto check-in](features/077-auto-check-in.md) | 8. Family — shared live data | 80 | not started |
+| 077 | [Auto check-in](features/077-auto-check-in.md) | 8. Family — shared live data | 80 | done 14439cb |
 | 109 | [Accessibility](features/109-accessibility.md) | 10. Platform | 80 | not started |
 | 110 | [Indian languages per profile](features/110-indian-languages-per-profile.md) | 10. Platform | 80 | not started |
 | 112 | [Widgets and quick-settings tile](features/112-widgets-and-quick-settings-tile.md) | 10. Platform | 80 | not started |

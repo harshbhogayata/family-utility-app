@@ -3,16 +3,16 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 14439cb
 **Depends on:** [076 Live family location](./076-live-family-location.md)
 
 ## What the person gets
 'Reached safely' in one tap, and automatic on arriving at a saved place.
 
 ## Acceptance criteria
-- [ ] Manual button posts to the family feed; automatic check-in uses the places from 76
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Manual button posts to the family feed; automatic check-in uses the places from 76
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
