@@ -3,16 +3,16 @@
 **Section:** 10. Platform
 **Phase:** 2
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done e643735
 **Depends on:** [069 Profile per member](./069-profile-per-member.md)
 
 ## What the person gets
 UI in Hindi, Tamil, Telugu, Bengali, Marathi, Gujarati and more.
 
 ## Acceptance criteria
-- [ ] Strings externalised; 7 languages at launch; per-profile choice
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Strings externalised; 7 languages at launch; per-profile choice
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

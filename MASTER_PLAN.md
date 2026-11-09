@@ -171,7 +171,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 076 | [Live family location](features/076-live-family-location.md) | 8. Family — shared live data | 80 | done 7ed778a |
 | 077 | [Auto check-in](features/077-auto-check-in.md) | 8. Family — shared live data | 80 | done 14439cb |
 | 109 | [Accessibility](features/109-accessibility.md) | 10. Platform | 80 | done 8173048 |
-| 110 | [Indian languages per profile](features/110-indian-languages-per-profile.md) | 10. Platform | 80 | not started |
+| 110 | [Indian languages per profile](features/110-indian-languages-per-profile.md) | 10. Platform | 80 | done e643735 |
 | 112 | [Widgets and quick-settings tile](features/112-widgets-and-quick-settings-tile.md) | 10. Platform | 80 | not started |
 | 075 | [Shared contacts](features/075-shared-contacts.md) | 8. Family — shared live data | 75 | not started |
 | 120 | [Backup and export](features/120-backup-and-export.md) | 10. Platform | 75 | not started |
