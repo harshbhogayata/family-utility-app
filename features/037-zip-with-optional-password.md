@@ -3,16 +3,16 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done e559ab8
 **Depends on:** [029 Archives](./029-archives.md)
 
 ## What the person gets
 Bundle several files into one archive.
 
 ## Acceptance criteria
-- [ ] Multi-select from files or results; AES password optional
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Multi-select from files or results; AES password optional
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
