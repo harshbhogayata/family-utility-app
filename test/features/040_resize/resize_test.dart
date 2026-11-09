@@ -76,7 +76,7 @@ void main() {
     await tester.tap(find.byKey(const Key('resize-run')));
     await tester.pumpAndSettle();
     expect(files.written.keys, <String>['/out/one 400x400.jpg', '/out/two 400x400.png']);
-    expect(find.text('Resized 2 pictures'), findsOneWidget);
+    expect(find.text('Resized 2 pictures', skipOffstage: false), findsOneWidget);
     expect(find.byKey(const Key('result-share')), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('result-undo')));
