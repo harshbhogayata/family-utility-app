@@ -59,6 +59,7 @@ void main() {
     expect(tester.getSize(find.widgetWithText(FilledButton, 'Invite a member')).height, greaterThanOrEqualTo(44));
 
     await tester.ensureVisible(find.text('Leave family on this phone', skipOffstage: false));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Leave family on this phone'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilledButton, 'Leave'));
