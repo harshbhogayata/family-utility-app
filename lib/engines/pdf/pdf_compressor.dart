@@ -406,6 +406,9 @@ class _Out {
 class PdfDocumentModel {
   PdfDocumentModel._(this.objects, this.trailer);
 
+  /// A document built in memory (used by 002 Merge PDF).
+  PdfDocumentModel.build(this.objects, this.trailer);
+
   final Map<int, PdfObject> objects;
   final PdfDict trailer;
 

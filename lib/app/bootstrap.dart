@@ -28,6 +28,7 @@ import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/word_pdf/word_pdf_screen.dart';
 import '../tools/resize/resize_screen.dart';
 import '../tools/status_saver/status_saver_screen.dart';
+import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
 import '../engines/convert/convert_registry.dart';
 import '../engines/convert/word_converters.dart';
@@ -151,6 +152,14 @@ void bootstrap() {
       icon: Icons.picture_as_pdf_outlined,
       featureNumber: 1,
       builder: (BuildContext context) => const PdfViewerScreen(),
+    ),
+    ToolEntry(
+      id: 'merge-pdf',
+      name: 'Merge PDF',
+      section: ToolSection.pdf,
+      icon: Icons.merge_type,
+      featureNumber: 2,
+      builder: (BuildContext context) => const MergePdfScreen(),
     ),
     ToolEntry(
       id: 'qr-scanner',
