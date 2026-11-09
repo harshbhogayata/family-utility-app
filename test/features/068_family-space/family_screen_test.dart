@@ -58,7 +58,7 @@ void main() {
     // Touch targets of the main actions are at least 44 px tall.
     expect(tester.getSize(find.widgetWithText(FilledButton, 'Invite a member')).height, greaterThanOrEqualTo(44));
 
-    await tester.ensureVisible(find.text('Leave family on this phone'));
+    await tester.ensureVisible(find.text('Leave family on this phone', skipOffstage: false));
     await tester.tap(find.text('Leave family on this phone'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilledButton, 'Leave'));
