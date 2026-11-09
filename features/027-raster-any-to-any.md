@@ -3,16 +3,16 @@
 **Section:** 2. Convert
 **Phase:** 1
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done bbf5ab1
 **Depends on:** [030 Convert anything](./030-convert-anything.md)
 
 ## What the person gets
 PNG, JPG, GIF, BMP, TIFF in any direction.
 
 ## Acceptance criteria
-- [ ] Multi-page TIFF handled; quality slider for lossy targets
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Multi-page TIFF handled; quality slider for lossy targets
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

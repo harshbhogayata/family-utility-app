@@ -121,7 +121,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 044 | [ID card to A4](features/044-id-card-to-a4.md) | 4. Image basics | 50 | done ce3fade |
 | 022 | [PDF to images](features/022-pdf-to-images.md) | 2. Convert | 48 | done 07812c7 |
 | 026 | [WebP to JPG or PNG and back](features/026-webp-to-jpg-or-png-and-back.md) | 2. Convert | 48 | done 012d5cd |
-| 027 | [Raster any to any](features/027-raster-any-to-any.md) | 2. Convert | 48 | not started |
+| 027 | [Raster any to any](features/027-raster-any-to-any.md) | 2. Convert | 48 | done bbf5ab1 |
 | 031 | [Batch convert](features/031-batch-convert.md) | 2. Convert | 48 | not started |
 | 037 | [Zip with optional password](features/037-zip-with-optional-password.md) | 3. Compress | 48 | not started |
 | 039 | [Before and after preview](features/039-before-and-after-preview.md) | 3. Compress | 48 | not started |
