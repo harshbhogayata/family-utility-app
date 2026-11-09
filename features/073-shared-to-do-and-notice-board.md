@@ -3,16 +3,16 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 4cd4908
 **Depends on:** [068 Family space](./068-family-space.md)
 
 ## What the person gets
 Household tasks with an owner, and pinned notes everyone sees.
 
 ## Acceptance criteria
-- [ ] Tasks with owner, due date and done state; notes pinned to the family screen
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Tasks with owner, due date and done state; notes pinned to the family screen
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
