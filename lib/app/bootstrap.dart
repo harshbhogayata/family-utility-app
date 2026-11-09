@@ -66,6 +66,7 @@ import '../tools/copy_result/copy_result_screen.dart';
 import '../engines/platform/background_jobs.dart';
 import '../platform/job_host_platform.dart';
 import '../tools/background_jobs/background_jobs_screen.dart';
+import '../tools/compress_video/compress_video_screen.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -251,6 +252,14 @@ void bootstrap() {
       icon: Icons.photo_size_select_large_outlined,
       featureNumber: 34,
       builder: (BuildContext context) => const CompressImagesScreen(),
+    ),
+    ToolEntry(
+      id: 'compress-video',
+      name: 'Compress video',
+      section: ToolSection.compress,
+      icon: Icons.video_settings_outlined,
+      featureNumber: 36,
+      builder: (BuildContext context) => const CompressVideoScreen(),
     ),
     ToolEntry(
       id: 'exact-kb',

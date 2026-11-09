@@ -3,7 +3,7 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [067 Background jobs](./067-background-jobs.md)
 
 ## What the person gets
