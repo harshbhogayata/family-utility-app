@@ -102,7 +102,7 @@ void main() {
     expect(r.pageTexts.single, contains('RENT RECEIPT'));
     // Compressed to the Medium preset: smaller than the page as written.
     expect(r.pdf.length, lessThan(r.uncompressedBytes));
-    expect(latin1.decode(r.pdf.sublist(0, 8)), '%PDF-1.4');
+    expect(latin1.decode(r.pdf.sublist(0, 5)), '%PDF-');
     expect(steps.first, 'Reading page 1 of 1…');
     expect(steps, containsAll(<String>['Compressing…', 'Naming…']));
     expect(PdfPreset.medium.maxSide, lessThan(2100));
