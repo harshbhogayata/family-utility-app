@@ -47,6 +47,7 @@ import '../engines/download/video_link.dart';
 import '../platform/video_notice_prefs.dart';
 import '../tools/video_link/video_link_screen.dart';
 import '../tools/audio_link/audio_link_screen.dart';
+import '../tools/batch_convert/batch_convert_screen.dart';
 import '../engines/download/clipboard_watch.dart';
 import '../platform/clipboard_watch_platform.dart';
 import '../tools/clipboard_watch/clipboard_watch_screen.dart';
@@ -516,6 +517,14 @@ void bootstrap() {
       icon: Icons.swap_horiz,
       featureNumber: 30,
       builder: (BuildContext context) => const ConvertAnythingScreen(),
+    ),
+    ToolEntry(
+      id: 'batch-convert',
+      name: 'Batch convert',
+      section: ToolSection.convert,
+      icon: Icons.dynamic_feed_outlined,
+      featureNumber: 31,
+      builder: (BuildContext context) => const BatchConvertScreen(),
     ),
     ToolEntry(
       id: 'word-pdf',
