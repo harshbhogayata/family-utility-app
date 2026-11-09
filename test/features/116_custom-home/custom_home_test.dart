@@ -6,6 +6,7 @@ import 'package:family_utility_app/tools/custom_home/custom_home_screen.dart';
 import 'package:family_utility_app/tools/tools_home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 int _n = 0;
@@ -135,7 +136,7 @@ void main() {
 
       // Drag: alpha to after delta, through the list's own reorder callback.
       final ReorderableListView list = tester.widget<ReorderableListView>(find.byType(ReorderableListView));
-      list.onReorder(0, 4);
+      list.onReorderItem!(0, 3);
       await tester.pumpAndSettle();
       expect(ps.orderTools(ids), <String>['gamma', 'delta', 'alpha']);
 
@@ -192,9 +193,8 @@ void main() {
       await tester.pumpWidget(MaterialApp(theme: buildAppTheme(), home: CustomHomeScreen(profiles: ps)));
       expect(find.bySemanticsLabel(RegExp('Tool beta, position 2 of 4, shown')), findsOneWidget);
       final SemanticsNode node = tester.getSemantics(find.byKey(const ValueKey<String>('arrange-beta')));
-      final SemanticsOwner owner = tester.binding.pipelineOwner.semanticsOwner!;
       final int up = CustomSemanticsAction.getIdentifier(const CustomSemanticsAction(label: 'Move Tool beta up'));
-      owner.performAction(node.id, SemanticsAction.customAction, up);
+      node.owner!.performAction(node.id, SemanticsAction.customAction, up);
       await tester.pumpAndSettle();
       expect(ps.orderTools(ids), <String>['beta', 'alpha', 'gamma', 'delta']);
       sem.dispose();

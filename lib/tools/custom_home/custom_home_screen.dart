@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../app/theme.dart';
@@ -150,7 +151,7 @@ class _CustomHomeScreenState extends State<CustomHomeScreen> {
                         buildDefaultDragHandles: false,
                         padding: const EdgeInsets.only(bottom: 8),
                         itemCount: order.length,
-                        onReorder: (int from, int to) => unawaited(_apply(layout.reorder(order, from, to))),
+                        onReorderItem: (int from, int to) => unawaited(_apply(layout.moveTo(order, from, to))),
                         itemBuilder: (BuildContext context, int i) =>
                             _row(context, layout, order, i),
                       ),

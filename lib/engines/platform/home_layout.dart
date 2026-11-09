@@ -48,23 +48,19 @@ class HomeLayout {
   /// [oldIndex] to [newIndex] (ReorderableListView numbering: [newIndex] is
   /// the slot before removal). Pins keep their new relative order and stay on
   /// top; everything else keeps exactly the dragged order.
-  HomeLayout reorder(List<String> order, int oldIndex, int newIndex) {
-    if (oldIndex < 0 || oldIndex >= order.length) {
+  HomeLayout reorder(List<String> order, int oldIndex, int newIndex) =>
+      moveTo(order, oldIndex, newIndex > oldIndex ? newIndex - 1 : newIndex);
+
+  /// Like [reorder], but [to] is the final index of the moved tool
+  /// (ReorderableListView.onReorderItem numbering).
+  HomeLayout moveTo(List<String> order, int from, int to) {
+    if (from < 0 || from >= order.length) {
       return this;
     }
-    int to = newIndex;
-    if (to > oldIndex) {
-      to -= 1;
-    }
-    if (to < 0) {
-      to = 0;
-    }
     final List<String> next = List<String>.of(order);
-    final String id = next.removeAt(oldIndex);
-    if (to > next.length) {
-      to = next.length;
-    }
-    next.insert(to, id);
+    final String id = next.removeAt(from);
+    final int at = to < 0 ? 0 : (to > next.length ? next.length : to);
+    next.insert(at, id);
     return arrange(next);
   }
 
