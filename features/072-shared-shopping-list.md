@@ -3,7 +3,7 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [068 Family space](./068-family-space.md)
 
 ## What the person gets

@@ -12,6 +12,7 @@ import '../engines/family/family_store.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/calendar_platform.dart';
 import 'calendar/shared_calendar_screen.dart';
+import 'shopping/shared_shopping_screen.dart';
 
 /// Opens the camera and returns the first QR text, or null on cancel.
 typedef FamilyQrScan = Future<String?> Function(BuildContext context);
@@ -235,6 +236,16 @@ class _FamilyScreenState extends State<FamilyScreen> {
           subtitle: const Text('Events, repeats and reminders for everyone'),
           onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
             builder: (BuildContext context) => SharedCalendarScreen(export: Add2CalendarExport()),
+          ))),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
+          leading: const Icon(Icons.shopping_cart_outlined),
+          title: const Text('Shopping list'),
+          subtitle: const Text('Ticked live by whoever is at the shop'),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => const SharedShoppingScreen(),
           ))),
         ),
         ListTile(

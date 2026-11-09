@@ -33,6 +33,7 @@ import '../tools/document_scanner/document_scanner_screen.dart';
 import '../engines/image/scan_entry.dart';
 import 'app.dart';
 import '../engines/family/shared_calendar.dart';
+import '../engines/family/shared_shopping_list.dart';
 import '../platform/calendar_platform.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/unlock_pdf/unlock_pdf_screen.dart';
@@ -305,6 +306,8 @@ void bootstrap() {
   // 071: shared calendar on the family store; reminders while the app runs.
   final SharedCalendar calendar = SharedCalendar(space: family);
   SharedCalendar.install(calendar);
+  // 072: shared shopping list on the same store.
+  SharedShoppingList.install(SharedShoppingList(space: family));
   CalendarReminderWatcher.instance = CalendarReminderWatcher(calendar: calendar, sink: NotificationCalendarReminders());
 
   // 123: video from a link; one plugin per site, saved through the queue.
