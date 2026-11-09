@@ -122,7 +122,7 @@ void main() {
 
     // Without the font, the same text degrades to question marks but still renders.
     final String bare = latin1.decode(await WordPdfRenderer().render(doc));
-    expect(bare, contains('(??????'));
+    expect(bare, contains('(Plain words and ?????? ???) Tj'));
     expect(bare, isNot(contains('/Type0')));
   });
 }
