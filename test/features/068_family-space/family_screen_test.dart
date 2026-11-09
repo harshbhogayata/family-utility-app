@@ -50,6 +50,8 @@ void main() {
     expect(find.text('This phone'), findsOneWidget);
     expect(find.bySemanticsLabel('Sync status: Wi-Fi: looking for family phones'), findsOneWidget);
 
+    await tester.ensureVisible(find.text('Sync folder (your own Drive or iCloud)', skipOffstage: false));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Sync folder (your own Drive or iCloud)'));
     await tester.pumpAndSettle();
     expect(s.identity!.syncFolder, '/storage/Drive/Family');
