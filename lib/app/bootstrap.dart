@@ -31,6 +31,7 @@ import '../tools/passport_photo/passport_photo_screen.dart';
 import '../tools/id_card/id_card_screen.dart';
 import '../tools/id_scan/id_scan_screen.dart';
 import '../tools/pdf_to_images/pdf_to_images_screen.dart';
+import '../tools/webp/webp_screen.dart';
 import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
@@ -288,6 +289,14 @@ void bootstrap() {
       icon: Icons.collections_outlined,
       featureNumber: 22,
       builder: (BuildContext context) => const PdfToImagesScreen(),
+    ),
+    ToolEntry(
+      id: 'webp',
+      name: 'WebP to JPG or PNG',
+      section: ToolSection.convert,
+      icon: Icons.swap_horiz,
+      featureNumber: 26,
+      builder: (BuildContext context) => const WebpScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',
