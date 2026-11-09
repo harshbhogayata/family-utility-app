@@ -124,6 +124,10 @@ import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/nearby_share/nearby_share_screen.dart';
 import '../tools/accessibility/accessibility_screen.dart';
 import '../tools/language/language_screen.dart';
+import '../engines/platform/home_widgets.dart';
+import '../platform/speed_dial_store.dart';
+import '../tools/home_widget/home_widget_screen.dart';
+import '../tools/paste_anything/paste_sheet.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/private_vault/private_vault_screen.dart';
@@ -451,6 +455,28 @@ void bootstrap() {
   }
   unawaited(pictures.attach());
   unawaited(inbox.attach());
+
+  // 112: home-screen widget and quick-settings tile open the app on an action.
+  final HomeWidgets homeWidgets = HomeWidgets(bridge: ChannelWidgetBridge(), store: const PrefsSpeedDialStore());
+  HomeWidgets.install(homeWidgets);
+  homeWidgets.onAction = (WidgetAction action) => whenNavigator((NavigatorState nav) {
+        if (action == WidgetAction.paste) {
+          unawaited(showPasteSheet(nav.context));
+          return;
+        }
+        final String? id = action.toolId;
+        final ToolEntry? tool = id == null ? null : ToolRegistry.byId(id);
+        unawaited(nav.push<void>(MaterialPageRoute<void>(
+          builder: tool?.builder ?? (BuildContext context) => const HomeWidgetScreen(),
+        )));
+      });
+  unawaited(homeWidgets.load().then((_) => homeWidgets.attach()));
+  if (Platform.isIOS) {
+    // iOS widget taps are deep links (FlutterDeepLinkingEnabled).
+    WidgetsBinding.instance.addObserver(_WidgetLinkObserver(homeWidgets));
+    homeWidgets.handleRoute(WidgetsBinding.instance.platformDispatcher.defaultRouteName);
+  }
+  AppLifecycleListener(onResume: () => unawaited(homeWidgets.refresh()));
 
   // 126: opt-in; looks at the clipboard only when the app comes to the front.
   final ClipboardLinkWatch watch = ClipboardLinkWatch(
@@ -1154,6 +1180,15 @@ void bootstrap() {
       builder: (BuildContext context) => const LanguageScreen(),
     ),
     ToolEntry(
+      id: 'home-widget',
+      name: 'Widgets and tile',
+      section: ToolSection.platform,
+      icon: Icons.widgets_outlined,
+      featureNumber: 112,
+      touches: const <DataTouch>{},
+      builder: (BuildContext context) => const HomeWidgetScreen(),
+    ),
+    ToolEntry(
       id: 'on-device-mode',
       name: 'On-device mode',
       section: ToolSection.security,
@@ -1177,4 +1212,15 @@ Future<void> _resolveRoots(FileManager files) async {
   } catch (_) {
     // No platform folders (tests): the Files tab shows no roots.
   }
+}
+
+/// 112: claims widget deep links before the Navigator sees them as routes.
+class _WidgetLinkObserver with WidgetsBindingObserver {
+  _WidgetLinkObserver(this.widgets);
+
+  final HomeWidgets widgets;
+
+  @override
+  Future<bool> didPushRouteInformation(RouteInformation routeInformation) async =>
+      widgets.handleRoute(routeInformation.uri.toString());
 }

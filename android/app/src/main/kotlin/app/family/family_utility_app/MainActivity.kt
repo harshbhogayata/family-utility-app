@@ -23,6 +23,8 @@ class MainActivity : FlutterActivity() {
     private var openChannel: MethodChannel? = null
     private var pendingOpened: List<String>? = null
     private var playerChannel: MethodChannel? = null
+    private var widgetChannel: MethodChannel? = null
+    private var pendingWidget: String? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -119,6 +121,37 @@ class MainActivity : FlutterActivity() {
         }
         playerChannel = player
 
+        // 112 Widgets: the app hands the widget its snapshot; taps come back.
+        pendingWidget = widgetAction(intent)
+        val widgets = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/home_widget")
+        widgets.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "publish" -> {
+                    val data = HashMap<String, String>()
+                    val args = call.arguments
+                    if (args is Map<*, *>) {
+                        for ((k, v) in args) {
+                            if (k is String && v is String) {
+                                data[k] = v
+                            }
+                        }
+                    }
+                    try {
+                        FamilyWidgetProvider.publish(applicationContext, data)
+                        result.success(true)
+                    } catch (e: Exception) {
+                        result.success(false)
+                    }
+                }
+                "initialAction" -> {
+                    result.success(pendingWidget)
+                    pendingWidget = null
+                }
+                else -> result.notImplemented()
+            }
+        }
+        widgetChannel = widgets
+
         // 129 Recover deleted messages: is the notification listener allowed?
         val history = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/message_history")
         history.setMethodCallHandler { call, result ->
@@ -140,6 +173,14 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    /// 112: the action a widget button or the quick-settings tile asked for.
+    private fun widgetAction(intent: Intent?): String? {
+        if (intent == null || intent.action != FamilyWidgetProvider.ACTION_WIDGET) {
+            return null
+        }
+        return intent.getStringExtra(FamilyWidgetProvider.EXTRA_ACTION)
+    }
+
     private fun pipSupported(): Boolean =
         packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
 
@@ -151,6 +192,11 @@ class MainActivity : FlutterActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        val widget = widgetAction(intent)
+        if (widget != null) {
+            widgetChannel?.invokeMethod("action", widget)
+            return
+        }
         val text = sharedText(intent)
         if (text != null) {
             linkChannel?.invokeMethod("link", text)

@@ -134,6 +134,7 @@ abstract final class BatchPolicy {
     108: BatchSupport.noPicker(),
     109: BatchSupport.noPicker(),
     110: BatchSupport.noPicker(),
+    112: BatchSupport.noPicker(),
     114: BatchSupport.noPicker(),
     118: BatchSupport.multiPicker(),
     123: BatchSupport.noPicker(),

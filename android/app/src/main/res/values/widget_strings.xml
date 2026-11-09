@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="family_widget_label">Family</string>
+    <string name="family_widget_description">Scan, paste, speed dial and your next medicine</string>
+    <string name="scan_tile_label">Scan</string>
+    <string name="widget_scan">Scan</string>
+    <string name="widget_paste">Paste</string>
+    <string name="widget_no_medicine">No medicine due</string>
+</resources>

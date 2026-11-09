@@ -1,6 +1,7 @@
 import AVKit
 import Flutter
 import UIKit
+import WidgetKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
@@ -41,6 +42,30 @@ import UIKit
           }
           let ms = (args["positionMs"] as? Int) ?? 0
           self.startPip(path: path, positionMs: ms, result: result)
+        default:
+          result(FlutterMethodNotImplemented)
+        }
+      }
+    }
+    // 112 Widgets: the app's snapshot goes to the App Group the widget reads.
+    // Taps arrive as familyapp://widget/<action> deep links (Dart side).
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "FamilyHomeWidget") {
+      let channel = FlutterMethodChannel(name: "app.family/home_widget", binaryMessenger: registrar.messenger())
+      channel.setMethodCallHandler { call, result in
+        switch call.method {
+        case "publish":
+          guard let data = call.arguments as? [String: String],
+                let defaults = UserDefaults(suiteName: "group.app.family.familyUtilityApp") else {
+            result(false)
+            return
+          }
+          for (key, value) in data {
+            defaults.set(value, forKey: key)
+          }
+          WidgetCenter.shared.reloadAllTimelines()
+          result(true)
+        case "initialAction":
+          result(nil)
         default:
           result(FlutterMethodNotImplemented)
         }
