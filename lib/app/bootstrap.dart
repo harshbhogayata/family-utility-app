@@ -26,6 +26,7 @@ import '../engines/image/scan_entry.dart';
 import 'app.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/word_pdf/word_pdf_screen.dart';
+import '../tools/resize/resize_screen.dart';
 import '../engines/convert/convert_registry.dart';
 import '../engines/convert/word_converters.dart';
 import '../platform/pdfrx_text_source.dart';
@@ -213,6 +214,14 @@ void bootstrap() {
       icon: Icons.photo_size_select_large_outlined,
       featureNumber: 34,
       builder: (BuildContext context) => const CompressImagesScreen(),
+    ),
+    ToolEntry(
+      id: 'resize',
+      name: 'Resize',
+      section: ToolSection.image,
+      icon: Icons.aspect_ratio,
+      featureNumber: 40,
+      builder: (BuildContext context) => const ResizeScreen(),
     ),
     ToolEntry(
       id: 'crop',
