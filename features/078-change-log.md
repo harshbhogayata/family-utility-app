@@ -3,16 +3,16 @@
 **Section:** 8. Family — shared live data
 **Phase:** 2
 **Priority score:** 36 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 95b0144
 **Depends on:** [068 Family space](./068-family-space.md)
 
 ## What the person gets
 Who changed what, in order, with undo for recent changes.
 
 ## Acceptance criteria
-- [ ] Every shared record keeps its last 20 changes with author and time
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Every shared record keeps its last 20 changes with author and time
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

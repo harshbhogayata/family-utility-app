@@ -178,7 +178,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 122 | [Cross-links](features/122-cross-links.md) | 10. Platform | 64 | done 1ad6efe |
 | 070 | [Family roles](features/070-family-roles.md) | 8. Family — shared live data | 60 | done 9b5bd93 |
 | 116 | [Custom home](features/116-custom-home.md) | 10. Platform | 45 | done 219cf45 |
-| 078 | [Change log](features/078-change-log.md) | 8. Family — shared live data | 36 | not started |
+| 078 | [Change log](features/078-change-log.md) | 8. Family — shared live data | 36 | done 95b0144 |
 | 119 | [Guest mode](features/119-guest-mode.md) | 10. Platform | 24 | not started |
 
 ### Phase 3

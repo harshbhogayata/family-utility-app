@@ -1,13 +1,13 @@
 # Progress
 
-Done: 101 / 130  (77%)
+Done: 102 / 130  (78%)
 In progress: none
-Updated: 2026-11-09 21:59 UTC
+Updated: 2026-11-09 22:07 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 84 |
-| 2 — family layer | 20 | 17 |
+| 2 — family layer | 20 | 18 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
@@ -86,6 +86,7 @@ Updated: 2026-11-09 21:59 UTC
 - 075 Shared contacts — done a6a4f49
 - 076 Live family location — done 7ed778a
 - 077 Auto check-in — done 14439cb
+- 078 Change log — done 95b0144
 - 079 Sync through your own Drive or home Wi-Fi — done 83d0f04
 - 104 Offline first — done 12c34d3
 - 105 Paste anything — done 1516ef8
