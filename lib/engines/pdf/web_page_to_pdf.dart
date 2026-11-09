@@ -311,7 +311,7 @@ abstract final class HtmlText {
       cur.children.add(el);
       final bool selfClosed = inside.trimRight().endsWith('/');
       if (_raw.contains(tag)) {
-        final RegExpMatch? closeTag = RegExp('</$tag', caseSensitive: false).allMatches(html, i).firstOrNull;
+        final Match? closeTag = RegExp('</$tag', caseSensitive: false).allMatches(html, i).firstOrNull;
         final int end = closeTag == null ? -1 : closeTag.start;
         final String body = html.substring(i, end < 0 ? n : end);
         if (tag == 'title') {
