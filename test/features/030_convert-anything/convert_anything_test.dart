@@ -44,14 +44,14 @@ class ShoutConverter extends Converter {
   @override
   String get id => 'shout';
   @override
-  String get label => 'Shouted text';
+  String get label => 'Shouted JSON string';
   @override
-  FileKind get target => FileKind.text;
+  FileKind get target => FileKind.json;
   @override
   bool accepts(FileKind kind) => kind == FileKind.text;
   @override
   Future<ConvertOutput> convert(ConvertInput input, FileKind kind) async =>
-      output(input, Uint8List.fromList(utf8.encode(utf8.decode(input.bytes).toUpperCase())));
+      output(input, Uint8List.fromList(utf8.encode(jsonEncode(utf8.decode(input.bytes).toUpperCase()))));
 }
 
 Uint8List bytesOf(String s) => Uint8List.fromList(utf8.encode(s));
