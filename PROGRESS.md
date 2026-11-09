@@ -1,12 +1,12 @@
 # Progress
 
-Done: 49 / 130  (37%)
+Done: 50 / 130  (38%)
 In progress: none
-Updated: 2026-11-09 09:39 UTC
+Updated: 2026-11-09 09:49 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 49 |
+| 1 — file chores and platform core | 86 | 50 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -17,6 +17,7 @@ Updated: 2026-11-09 09:39 UTC
 - 018 Word to PDF and back — done 6a5f2ee
 - 021 Images to PDF — done 1995985
 - 022 PDF to images — done 07812c7
+- 025 HEIC to JPG or PNG — done 8a74947
 - 026 WebP to JPG or PNG and back — done 012d5cd
 - 027 Raster any to any — done bbf5ab1
 - 029 Archives — done f5d36ba

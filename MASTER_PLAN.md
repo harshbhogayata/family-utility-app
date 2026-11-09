@@ -95,7 +95,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 130 | [Universal video player](features/130-universal-video-player.md) | 11. Links and WhatsApp essentials | 100 | not started |
 | 010 | [Sign PDF](features/010-sign-pdf.md) | 1. PDF basics | 80 | done 2fbb457 |
 | 018 | [Word to PDF and back](features/018-word-to-pdf-and-back.md) | 2. Convert | 80 | done 6a5f2ee |
-| 025 | [HEIC to JPG or PNG](features/025-heic-to-jpg-or-png.md) | 2. Convert | 80 | not started |
+| 025 | [HEIC to JPG or PNG](features/025-heic-to-jpg-or-png.md) | 2. Convert | 80 | done 8a74947 |
 | 029 | [Archives](features/029-archives.md) | 2. Convert | 80 | done f5d36ba |
 | 030 | [Convert anything](features/030-convert-anything.md) | 2. Convert | 80 | done 068831f |
 | 036 | [Compress video](features/036-compress-video.md) | 3. Compress | 80 | done ad80377 |
