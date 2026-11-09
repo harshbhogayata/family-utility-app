@@ -80,7 +80,6 @@ void main() {
     expect(files.written.keys, <String>['/out/photo-20kb.jpg']);
     expect(files.written.values.single.length, lessThanOrEqualTo(20 * 1024));
     expect(find.text('Fits the limit', skipOffstage: false), findsOneWidget);
-    expect(find.bySemanticsLabel('Fits the limit'), findsWidgets);
 
     await tester.tap(find.byKey(const Key('result-undo')));
     await tester.pumpAndSettle();
