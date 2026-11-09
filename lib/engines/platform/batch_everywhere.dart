@@ -76,6 +76,7 @@ abstract final class BatchPolicy {
     3: BatchSupport.single('Each PDF is cut with its own page ranges.'),
     11: BatchSupport.single('Each protected PDF gets its own password, typed twice.'),
     10: BatchSupport.single('You place the signature by hand on one document.'),
+    16: BatchSupport.single('One PDF at a time here; the All PDFs tab searches every saved PDF at once.'),
     18: BatchSupport.viaBatch('batch-convert'),
     21: BatchSupport.multiPicker(),
     22: BatchSupport.single('Each PDF gets its own page range and image size.'),

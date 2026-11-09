@@ -73,6 +73,8 @@ import '../tools/pdf_target_size/pdf_target_size_screen.dart';
 import '../tools/history/history_screen.dart';
 import '../tools/one_search/one_search_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
+import '../engines/pdf/pdf_text_search.dart';
+import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
@@ -329,12 +331,19 @@ void bootstrap() {
   OcrTextStore.install(ocr);
   unawaited(ocr.load());
 
+  // 016: the text of every saved PDF, plus OCR'd scans, kept on the phone.
+  final PdfLibraryIndex pdfIndex = PdfLibraryIndex(FilePdfIndexBackend(() => appFolder('search')));
+  PdfLibraryIndex.install(pdfIndex);
+  unawaited(pdfIndex.load().then((_) => pdfIndex.syncOcr(ocr.all)));
+  ocr.addListener(() => pdfIndex.syncOcr(ocr.all));
+
   OneSearch.install(OneSearch(<SearchSource>[
     ToolSearchSource(() => ToolRegistry.all
         .map((ToolEntry t) => ToolInfo(id: t.id, name: t.name, section: t.section.label))
         .toList()),
     FileSearchSource(files),
     ocr,
+    pdfIndex,
     HistorySearchSource(history),
     RecordSearchSource(SecureNotes.instance),
   ]));
@@ -367,6 +376,14 @@ void bootstrap() {
       icon: Icons.picture_as_pdf_outlined,
       featureNumber: 1,
       builder: (BuildContext context) => const PdfViewerScreen(),
+    ),
+    ToolEntry(
+      id: 'pdf-search',
+      name: 'Search inside PDFs',
+      section: ToolSection.pdf,
+      icon: Icons.manage_search,
+      featureNumber: 16,
+      builder: (BuildContext context) => const PdfSearchScreen(),
     ),
     ToolEntry(
       id: 'merge-pdf',
