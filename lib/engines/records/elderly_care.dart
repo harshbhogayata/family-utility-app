@@ -54,7 +54,7 @@ class CareCircle {
   final String name;
 
   /// Member id when the parent is in the family (so their own phone sees
-  /// their medicines), else "care:<id>".
+  /// their medicines), else `care:<id>`.
   final String parentKey;
 
   /// Member id to role.
@@ -122,7 +122,6 @@ class CareEntry {
 class ElderlyCare extends ChangeNotifier {
   ElderlyCare({FamilySpace? space, FamilyStore? soloStore, MedicineReminders? medicines, DateTime Function()? now})
       : _space = space,
-        _solo = soloStore,
         _now = now ?? DateTime.now {
     _meds = medicines ?? MedicineReminders(space: space, soloStore: soloStore, now: now);
   }
@@ -131,7 +130,6 @@ class ElderlyCare extends ChangeNotifier {
   static const String entries = 'care_log';
 
   final FamilySpace? _space;
-  final FamilyStore? _solo;
   final DateTime Function() _now;
   late final MedicineReminders _meds;
   int _seq = 0;
