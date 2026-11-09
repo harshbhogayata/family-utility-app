@@ -1,12 +1,12 @@
 # Progress
 
-Done: 75 / 130  (57%)
+Done: 76 / 130  (58%)
 In progress: none
-Updated: 2026-11-09 15:46 UTC
+Updated: 2026-11-09 15:56 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 75 |
+| 1 — file chores and platform core | 86 | 76 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -27,6 +27,7 @@ Updated: 2026-11-09 15:46 UTC
 - 016 Search inside PDFs — done 3e2b2f4
 - 018 Word to PDF and back — done 6a5f2ee
 - 019 Excel to PDF and back — done 28e7f65
+- 020 PowerPoint to PDF and back — done cca7309
 - 021 Images to PDF — done 1995985
 - 022 PDF to images — done 07812c7
 - 023 Web page to PDF — done f802eac

@@ -3,16 +3,16 @@
 **Section:** 2. Convert
 **Phase:** 1
 **Priority score:** 16 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done cca7309
 **Depends on:** [030 Convert anything](./030-convert-anything.md)
 
 ## What the person gets
 PPT/PPTX to PDF, one slide per page, and back.
 
 ## Acceptance criteria
-- [ ] Slides keep layout; notes optional
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Slides keep layout; notes optional
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
