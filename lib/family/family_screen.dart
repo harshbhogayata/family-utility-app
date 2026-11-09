@@ -187,6 +187,8 @@ class _FamilyScreenState extends State<FamilyScreen> {
     final List<FamilyRecord> members = _space.memberRecords;
     return ListView(
       padding: const EdgeInsets.all(16),
+      // Short list: build it all, so every row is reachable by screen readers.
+      cacheExtent: 2000,
       children: <Widget>[
         Text(id.familyName, style: text.titleLarge),
         const SizedBox(height: 4),
