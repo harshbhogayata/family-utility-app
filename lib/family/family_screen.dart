@@ -18,6 +18,7 @@ import 'checkin/check_in_screen.dart';
 import 'documents/document_vault_screen.dart';
 import 'location/family_location_screen.dart';
 import 'shopping/shared_shopping_screen.dart';
+import 'contacts/shared_contacts_screen.dart';
 
 /// Opens the camera and returns the first QR text, or null on cancel.
 typedef FamilyQrScan = Future<String?> Function(BuildContext context);
@@ -276,6 +277,16 @@ class _FamilyScreenState extends State<FamilyScreen> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           minTileHeight: 48,
+          leading: const Icon(Icons.contact_phone_outlined),
+          title: const Text('Family contacts'),
+          subtitle: const Text('Plumber, doctor, neighbour and the speed dial'),
+          onTap: () => unawaited(Navigator.of(context).push<void>(MaterialPageRoute<void>(
+            builder: (BuildContext context) => const SharedContactsScreen(),
+          ))),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          minTileHeight: 48,
           leading: const Icon(Icons.checklist_outlined),
           title: const Text('To-do and notices'),
           subtitle: const Text('Tasks with an owner and due date; pinned notes'),
@@ -358,6 +369,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
       FamilySpace.members: 'Member',
       'calendar': 'Calendar event',
       'shopping': 'Shopping item',
+      'contacts': 'Contact',
       FamilyBoard.tasksCollection: 'Task',
       FamilyBoard.notesCollection: 'Note',
       'documents': 'Document',

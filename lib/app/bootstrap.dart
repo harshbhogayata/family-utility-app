@@ -41,6 +41,7 @@ import '../engines/image/scan_entry.dart';
 import 'app.dart';
 import '../engines/family/shared_calendar.dart';
 import '../engines/family/shared_shopping_list.dart';
+import '../engines/family/shared_contacts.dart';
 import '../platform/calendar_platform.dart';
 import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/unlock_pdf/unlock_pdf_screen.dart';
@@ -477,6 +478,22 @@ void bootstrap() {
     homeWidgets.handleRoute(WidgetsBinding.instance.platformDispatcher.defaultRouteName);
   }
   AppLifecycleListener(onResume: () => unawaited(homeWidgets.refresh()));
+
+  // 075: family contacts pinned with the star become the widget's speed dial.
+  final SharedContacts contacts = SharedContacts(space: family);
+  SharedContacts.install(contacts);
+  String lastDial = '';
+  void syncDial() {
+    final List<SpeedDialEntry> pinned = contacts.speedDialEntries;
+    final String key = pinned.map((SpeedDialEntry e) => '${e.label}|${e.number}').join(',');
+    if (key == lastDial) {
+      return;
+    }
+    lastDial = key;
+    unawaited(homeWidgets.setSpeedDial(pinned));
+  }
+
+  family.store.addListener(syncDial);
 
   // 126: opt-in; looks at the clipboard only when the app comes to the front.
   final ClipboardLinkWatch watch = ClipboardLinkWatch(
