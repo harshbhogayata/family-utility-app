@@ -62,6 +62,7 @@ import '../tools/clipboard_watch/clipboard_watch_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/split_pdf/split_pdf_screen.dart';
 import '../tools/extract_pages/extract_pages_screen.dart';
+import '../tools/remove_pages/remove_pages_screen.dart';
 import '../tools/protect_pdf/protect_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
@@ -467,6 +468,14 @@ void bootstrap() {
       icon: Icons.library_add_check_outlined,
       featureNumber: 4,
       builder: (BuildContext context) => const ExtractPagesScreen(),
+    ),
+    ToolEntry(
+      id: 'remove-pages',
+      name: 'Remove pages',
+      section: ToolSection.pdf,
+      icon: Icons.delete_sweep_outlined,
+      featureNumber: 5,
+      builder: (BuildContext context) => const RemovePagesScreen(),
     ),
     ToolEntry(
       id: 'protect-pdf',

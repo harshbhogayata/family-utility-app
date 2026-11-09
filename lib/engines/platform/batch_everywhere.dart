@@ -75,6 +75,7 @@ abstract final class BatchPolicy {
     2: BatchSupport.multiPicker(),
     3: BatchSupport.single('Each PDF is cut with its own page ranges.'),
     4: BatchSupport.single('You choose and order the pages of one PDF by hand.'),
+    5: BatchSupport.single('You mark the pages to drop in one PDF at a time.'),
     11: BatchSupport.single('Each protected PDF gets its own password, typed twice.'),
     10: BatchSupport.single('You place the signature by hand on one document.'),
     8: BatchSupport.single('One scan at a time: every page is read by the on-device model.'),
