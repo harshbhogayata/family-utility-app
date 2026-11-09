@@ -25,4 +25,4 @@ All acceptance boxes are ticked, the test passes in CI, and this file's status i
 
 ## Implementation notes (run of 2026-11-09)
 - Built and green in CI at 1fb22f0: `lib/engines/image/exact_kb.dart` (binary search on JPG quality, then scale; px or mm lock at 300 dpi; refuses plainly when a locked size cannot fit), `lib/tools/exact_kb/exact_kb_screen.dart` (20/50/100/200 KB chips + custom, 'Fits the limit' tick, Share/Save/Undo), registry id `exact-kb`, test in `test/features/035_image-to-exact-kb/`.
-- Remains: guarantee "within 5% under target" — after the quality search, nudge scale up (or quality via finer steps) until size >= 95% of the limit, and assert it in the test (currently asserts > 80%).
+- Within 5%: `_fill` trades a slightly smaller scale for one to four more quality steps (or grows a shrunk picture back) by binary search until the file is 95–100% of the limit; tested at 12, 20, 35 and 50 KB. With a size lock only quality can move, so the result is the best quality that fits.

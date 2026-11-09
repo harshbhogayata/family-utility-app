@@ -51,7 +51,12 @@ void main() {
     final ExactKbResult r = ExactKb.fit(photo, 20);
     expect(r.fits, isTrue);
     expect(r.bytes.length, lessThanOrEqualTo(20 * 1024));
-    expect(r.bytes.length, greaterThan(20 * 1024 * 0.8), reason: 'uses most of the allowance');
+    expect(r.close, isTrue, reason: 'within 5% under the limit');
+    expect(r.bytes.length, greaterThanOrEqualTo(20 * 1024 * 0.95));
+    for (final int kb in <int>[12, 35, 50]) {
+      final ExactKbResult k = ExactKb.fit(photo, kb);
+      expect(k.bytes.length, inInclusiveRange(kb * 1024 * 0.95, kb * 1024), reason: '$kb KB');
+    }
     expect(img.decodeJpg(r.bytes), isNotNull);
 
     final ExactKbResult big = ExactKb.fit(photo, 200);

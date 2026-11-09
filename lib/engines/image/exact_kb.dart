@@ -102,6 +102,48 @@ abstract final class ExactKb {
     if (best == null) {
       throw ExactKbError('This picture cannot get under $targetKb KB');
     }
+    if (!locked) {
+      best = _fill(src, best, scale, target);
+    }
     return best;
+  }
+
+  /// Quality comes in whole steps, so the best fit can sit well under the
+  /// limit. Trade a slightly smaller picture for one more quality step (or,
+  /// when already shrunk, grow it back) until the file is within 5% under.
+  static ExactKbResult _fill(img.Image src, ExactKbResult best, double scale, int target) {
+    ExactKbResult result = best;
+    final List<(int, double, double)> tries = <(int, double, double)>[
+      if (scale < 1) (best.quality, scale, math.min(1.0, scale * 1.3)),
+      for (int dq = 1; dq <= 4; dq++)
+        if (best.quality + dq <= 95) (best.quality + dq, scale * 0.6, scale),
+    ];
+    for (final (int q, double lowScale, double highScale) in tries) {
+      if (result.close) {
+        break;
+      }
+      double lo = lowScale;
+      double hi = highScale;
+      for (int i = 0; i < 10; i++) {
+        final double mid = (lo + hi) / 2;
+        final img.Image im = img.copyResize(src,
+            width: math.max(1, (src.width * mid).round()),
+            height: math.max(1, (src.height * mid).round()),
+            interpolation: img.Interpolation.average);
+        final Uint8List b = img.encodeJpg(im, quality: q);
+        if (b.length <= target) {
+          if (b.length > result.bytes.length) {
+            result = ExactKbResult(b, im.width, im.height, q, target);
+          }
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+        if (result.close) {
+          break;
+        }
+      }
+    }
+    return result;
   }
 }
