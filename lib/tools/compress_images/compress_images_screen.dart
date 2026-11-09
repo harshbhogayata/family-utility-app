@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../app/widgets/before_after_view.dart';
 import '../../app/widgets/result_bar.dart';
 import '../../engines/image/image_compressor.dart';
 import '../../engines/share/share_engine.dart';
@@ -174,6 +175,16 @@ class _CompressImagesScreenState extends State<CompressImagesScreen> {
     setState(() => _working = false);
   }
 
+  void _compare(_Item it) {
+    final CompressResult? r = it.result;
+    if (r == null) {
+      return;
+    }
+    Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (BuildContext context) => BeforeAfterScreen(title: it.name, before: it.bytes, after: r.bytes),
+    ));
+  }
+
   int get _before => _items.fold<int>(0, (int a, _Item i) => a + i.bytes.length);
 
   int get _after => _items.fold<int>(
@@ -281,6 +292,14 @@ class _CompressImagesScreenState extends State<CompressImagesScreen> {
             ListTile(
               leading: const Icon(Icons.image_outlined, semanticLabel: 'Image'),
               title: Text(it.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+              trailing: it.result == null || it.result!.noGain
+                  ? null
+                  : IconButton(
+                      key: Key('compress-compare-${it.name}'),
+                      tooltip: 'Compare before and after',
+                      icon: const Icon(Icons.compare),
+                      onPressed: () => _compare(it),
+                    ),
               subtitle: Text(
                 it.error ??
                     (it.result == null
