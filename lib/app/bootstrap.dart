@@ -105,6 +105,7 @@ import '../engines/image/one_tap_scan.dart';
 import '../platform/mlkit_text_platform.dart';
 import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
+import '../tools/nearby_share/nearby_share_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
 import '../tools/private_vault/private_vault_screen.dart';
@@ -791,6 +792,15 @@ void bootstrap() {
       featureNumber: 62,
       touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
       builder: (BuildContext context) => const PhoneToLaptopScreen(),
+    ),
+    ToolEntry(
+      id: 'nearby-share',
+      name: 'Nearby share',
+      section: ToolSection.share,
+      icon: Icons.share_location_outlined,
+      featureNumber: 61,
+      touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
+      builder: (BuildContext context) => const NearbyShareScreen(),
     ),
     ToolEntry(
       id: 'images-to-pdf',
