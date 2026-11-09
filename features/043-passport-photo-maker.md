@@ -3,18 +3,18 @@
 **Section:** 4. Image basics
 **Phase:** 1
 **Priority score:** 50 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done d567b9f
 **Depends on:** [035 Image to exact KB](./035-image-to-exact-kb.md), [041 Crop with ratios](./041-crop-with-ratios.md)
 
 ## What the person gets
 Country presets, face auto-centre, plain background, print sheet.
 
 ## Acceptance criteria
-- [ ] Presets: India 35x45 mm, US 2x2 in, UK 35x45, Schengen; custom mm
-- [ ] On-device face detection centres and scales the head to spec
-- [ ] Export single image at exact KB and a 4x6 or A4 sheet of 6 or 8
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Presets: India 35x45 mm, US 2x2 in, UK 35x45, Schengen; custom mm
+- [x] On-device face detection centres and scales the head to spec
+- [x] Export single image at exact KB and a 4x6 or A4 sheet of 6 or 8
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

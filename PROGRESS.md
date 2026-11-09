@@ -1,12 +1,12 @@
 # Progress
 
-Done: 30 / 130  (23%)
+Done: 31 / 130  (23%)
 In progress: none
-Updated: 2026-11-09 05:28 UTC
+Updated: 2026-11-09 05:36 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 30 |
+| 1 — file chores and platform core | 86 | 31 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -24,6 +24,7 @@ Updated: 2026-11-09 05:28 UTC
 - 035 Image to exact KB — done 678b67d
 - 040 Resize — done 4369d50
 - 041 Crop with ratios — done 63f712a
+- 043 Passport photo maker — done d567b9f
 - 047 Document scanner — done d7ded95
 - 048 Scan filters — done cb126a8
 - 051 QR scanner — done 012db23
