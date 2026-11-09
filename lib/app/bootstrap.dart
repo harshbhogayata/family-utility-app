@@ -19,6 +19,7 @@ import '../platform/secure_notes_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/archives/archives_screen.dart';
+import '../tools/convert_anything/convert_anything_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
 import '../tools/crop/crop_screen.dart';
@@ -202,6 +203,14 @@ void bootstrap() {
       featureNumber: 62,
       touches: const <DataTouch>{DataTouch.files, DataTouch.lan},
       builder: (BuildContext context) => const PhoneToLaptopScreen(),
+    ),
+    ToolEntry(
+      id: 'convert-anything',
+      name: 'Convert anything',
+      section: ToolSection.convert,
+      icon: Icons.swap_horiz,
+      featureNumber: 30,
+      builder: (BuildContext context) => const ConvertAnythingScreen(),
     ),
     ToolEntry(
       id: 'archives',
