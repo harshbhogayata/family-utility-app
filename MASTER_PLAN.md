@@ -139,7 +139,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 011 | [Protect with password](features/011-protect-with-password.md) | 1. PDF basics | 36 | done 75b311c |
 | 015 | [Remove blank pages and straighten](features/015-remove-blank-pages-and-straighten.md) | 1. PDF basics | 36 | done fe57ee1 |
 | 016 | [Search inside PDFs](features/016-search-inside-pdfs.md) | 1. PDF basics | 36 | done 3e2b2f4 |
-| 019 | [Excel to PDF and back](features/019-excel-to-pdf-and-back.md) | 2. Convert | 36 | not started |
+| 019 | [Excel to PDF and back](features/019-excel-to-pdf-and-back.md) | 2. Convert | 36 | done 28e7f65 |
 | 042 | [Rotate and flip](features/042-rotate-and-flip.md) | 4. Image basics | 36 | not started |
 | 050 | [Receipt scan into the receipt vault](features/050-receipt-scan-into-the-receipt-vault.md) | 5. Scan and QR | 36 | not started |
 | 129 | [Recover deleted messages](features/129-recover-deleted-messages.md) | 11. Links and WhatsApp essentials | 36 | not started |
