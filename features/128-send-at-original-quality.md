@@ -3,16 +3,16 @@
 **Section:** 11. Links and WhatsApp essentials
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done e65f4c8
 **Depends on:** [060 Share to any app](./060-share-to-any-app.md)
 
 ## What the person gets
 Share a photo or video to WhatsApp as a document in one tap, with no compression.
 
 ## Acceptance criteria
-- [ ] Share-sheet action 'Send original'; wraps the file so WhatsApp treats it as a document
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Share-sheet action 'Send original'; wraps the file so WhatsApp treats it as a document
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
