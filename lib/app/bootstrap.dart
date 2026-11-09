@@ -78,6 +78,7 @@ import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
 import '../tools/clean_scan/clean_scan_screen.dart';
 import '../tools/excel_pdf/excel_pdf_screen.dart';
+import '../tools/rotate_flip/rotate_flip_screen.dart';
 import '../engines/convert/sheet_converters.dart';
 import '../tools/redact/redact_screen.dart';
 import '../engines/image/scan_namer.dart';
@@ -432,6 +433,14 @@ void bootstrap() {
       icon: Icons.blur_on,
       featureNumber: 45,
       builder: (BuildContext context) => const RedactScreen(),
+    ),
+    ToolEntry(
+      id: 'rotate-flip',
+      name: 'Rotate and flip',
+      section: ToolSection.image,
+      icon: Icons.rotate_90_degrees_cw_outlined,
+      featureNumber: 42,
+      builder: (BuildContext context) => const RotateFlipScreen(),
     ),
     ToolEntry(
       id: 'merge-pdf',

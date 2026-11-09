@@ -98,6 +98,7 @@ abstract final class BatchPolicy {
     38: BatchSupport.viaBatch(batchToolId),
     40: BatchSupport.viaBatch(batchToolId),
     41: BatchSupport.single('You frame each crop by hand.'),
+    42: BatchSupport.multiPicker(),
     43: BatchSupport.single('Frames one face to the passport rules.'),
     44: BatchSupport.single('Front and back of one card on one page.'),
     45: BatchSupport.single('Each picture needs its own boxes checked before it is covered.'),
