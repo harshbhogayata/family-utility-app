@@ -1,18 +1,19 @@
 # Progress
 
-Done: 24 / 130  (18%)
-In progress: 018
-Updated: 2026-11-09 04:29 UTC
+Done: 25 / 130  (19%)
+In progress: none
+Updated: 2026-11-09 04:49 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 24 |
+| 1 — file chores and platform core | 86 | 25 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
 ## Done
 - 001 PDF viewer — done 1555094
 - 010 Sign PDF — done 2fbb457
+- 018 Word to PDF and back — done 6a5f2ee
 - 021 Images to PDF — done 1995985
 - 029 Archives — done f5d36ba
 - 030 Convert anything — done 068831f
