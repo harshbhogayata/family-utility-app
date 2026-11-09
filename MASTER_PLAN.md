@@ -83,7 +83,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 032 | [Compress PDF](features/032-compress-pdf.md) | 3. Compress | 100 | done d697bdf |
 | 033 | [PDF to target size](features/033-pdf-to-target-size.md) | 3. Compress | 100 | done dc2c45a |
 | 035 | [Image to exact KB](features/035-image-to-exact-kb.md) | 3. Compress | 100 | not started |
-| 041 | [Crop with ratios](features/041-crop-with-ratios.md) | 4. Image basics | 100 | in progress |
+| 041 | [Crop with ratios](features/041-crop-with-ratios.md) | 4. Image basics | 100 | done 63f712a |
 | 048 | [Scan filters](features/048-scan-filters.md) | 5. Scan and QR | 100 | not started |
 | 055 | [App lock](features/055-app-lock.md) | 6. Security | 100 | done d092d46 |
 | 057 | [Secure notes](features/057-secure-notes.md) | 6. Security | 100 | done e9c143f |
