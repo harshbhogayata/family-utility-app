@@ -29,6 +29,7 @@ import '../tools/word_pdf/word_pdf_screen.dart';
 import '../tools/resize/resize_screen.dart';
 import '../tools/status_saver/status_saver_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
+import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
 import '../engines/convert/convert_registry.dart';
 import '../engines/convert/word_converters.dart';
@@ -307,6 +308,14 @@ void bootstrap() {
       icon: Icons.high_quality_outlined,
       featureNumber: 128,
       builder: (BuildContext context) => const SendOriginalScreen(),
+    ),
+    ToolEntry(
+      id: 'cloud',
+      name: 'Cloud import and save',
+      section: ToolSection.share,
+      icon: Icons.cloud_outlined,
+      featureNumber: 63,
+      builder: (BuildContext context) => const CloudScreen(),
     ),
     ToolEntry(
       id: 'status-saver',

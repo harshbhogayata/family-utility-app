@@ -3,7 +3,7 @@
 **Section:** 7. Share and transfer
 **Phase:** 1
 **Priority score:** 64 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** none
 
 ## What the person gets
