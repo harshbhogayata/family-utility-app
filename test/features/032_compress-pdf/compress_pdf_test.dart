@@ -74,7 +74,7 @@ void expectValidXref(Uint8List pdf) {
   final String t = latin1.decode(pdf);
   final int start = int.parse(RegExp(r'startxref\s+(\d+)').firstMatch(t)!.group(1)!);
   expect(t.substring(start, start + 4), 'xref');
-  final RegExpMatch head = RegExp(r'xref\s+0 (\d+)\s+').matchAsPrefix(t, start)!;
+  final Match head = RegExp(r'xref\s+0 (\d+)\s+').matchAsPrefix(t, start)!;
   final int size = int.parse(head.group(1)!);
   int at = head.end;
   for (int n = 0; n < size; n++) {
@@ -131,7 +131,7 @@ void main() {
     const String inner = '<< /Type /Catalog /Pages 2 0 R >> << /Type /Pages /Kids [3 0 R] /Count 1 >>';
     const String header = '1 0 2 34 ';
     final List<int> objStm = z.encode(latin1.encode('$header$inner'));
-    final Uint8List pdf = buildPdf(<List<int>>[
+    final List<int> pdf = buildPdf(<List<int>>[
       latin1.encode('null'),
       latin1.encode('null'),
       latin1.encode('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>'),
