@@ -19,7 +19,24 @@ class ToolsHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ToolEntry> tools = ToolRegistry.all;
+    return ListenableBuilder(
+      listenable: MemberProfiles.instance,
+      builder: (BuildContext context, Widget? _) => _build(context),
+    );
+  }
+
+  Widget _build(BuildContext context) {
+    // 115: pinned tools first, then recently used, then the rest.
+    final List<ToolEntry> registered = ToolRegistry.all;
+    final List<ToolEntry> tools = <ToolEntry>[];
+    for (final String id in MemberProfiles.instance.orderTools(
+      registered.map((ToolEntry t) => t.id).toList(),
+    )) {
+      final ToolEntry? t = ToolRegistry.byId(id);
+      if (t != null) {
+        tools.add(t);
+      }
+    }
     final TextTheme text = Theme.of(context).textTheme;
     return SafeArea(
       child: CustomScrollView(
@@ -112,7 +129,7 @@ class ToolsHome extends StatelessWidget {
                   childAspectRatio: 1,
                 ),
                 delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int i) => ToolTile(tool: tools[i]),
+                  (BuildContext context, int i) => ToolTile(key: ValueKey<String>('tile-${tools[i].id}'), tool: tools[i]),
                   childCount: tools.length,
                 ),
               ),
@@ -230,6 +247,18 @@ class ToolTile extends StatelessWidget {
 
   Future<void> _open(BuildContext context) => openTool(context, tool);
 
+  /// 115: pin or unpin this tool for the active member.
+  Future<void> _togglePin(BuildContext context) async {
+    final MemberProfiles ps = MemberProfiles.instance;
+    final ScaffoldMessengerState? messenger = ScaffoldMessenger.maybeOf(context);
+    await ps.toggleFavourite(tool.id);
+    messenger?.showSnackBar(SnackBar(
+      content: Text(ps.isFavourite(tool.id)
+          ? '${tool.name} pinned for ${ps.active.name}'
+          : '${tool.name} unpinned for ${ps.active.name}'),
+    ));
+  }
+
   Future<void> _explain(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -270,10 +299,14 @@ class ToolTile extends StatelessWidget {
             : tool.needsNetwork
                 ? '${tool.name}, needs network'
                 : tool.name;
+        final bool pinned = MemberProfiles.instance.isFavourite(tool.id);
         return Semantics(
           button: true,
-          label: label,
-          onLongPressHint: 'Star for this profile',
+          label: pinned ? '$label, pinned' : label,
+          onLongPressHint: pinned ? 'Unpin' : 'Pin to the top',
+          customSemanticsActions: <CustomSemanticsAction, VoidCallback>{
+            CustomSemanticsAction(label: pinned ? 'Unpin ${tool.name}' : 'Pin ${tool.name}'): () => _togglePin(context),
+          },
           child: Card(
             clipBehavior: Clip.antiAlias,
             child: InkWell(
@@ -284,17 +317,7 @@ class ToolTile extends StatelessWidget {
                   _open(context);
                 }
               },
-              onLongPress: () async {
-                final MemberProfiles ps = MemberProfiles.instance;
-                await ps.toggleFavourite(tool.id);
-                if (context.mounted) {
-                  ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(
-                    content: Text(ps.isFavourite(tool.id)
-                        ? '${tool.name} starred for ${ps.active.name}'
-                        : '${tool.name} unstarred for ${ps.active.name}'),
-                  ));
-                }
-              },
+              onLongPress: () => _togglePin(context),
               child: Opacity(
                 opacity: blocked ? 0.45 : 1,
                 child: Padding(
@@ -306,6 +329,8 @@ class ToolTile extends StatelessWidget {
                         children: <Widget>[
                           Icon(tool.icon, color: blocked ? AppColors.muted : AppColors.accent),
                           const Spacer(),
+                          if (pinned)
+                            const Icon(Icons.push_pin, size: 16, color: AppColors.accentDark),
                           if (tool.needsNetwork)
                             const Tooltip(
                               message: 'Needs network',

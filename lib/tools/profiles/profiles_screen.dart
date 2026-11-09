@@ -203,7 +203,21 @@ class ProfileShortcuts extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('${me.name}: favourites and recent', style: Theme.of(context).textTheme.titleSmall),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text('${me.name}: pinned and recent', style: Theme.of(context).textTheme.titleSmall),
+                ),
+                if (me.favourites.isNotEmpty)
+                  TextButton(
+                    key: const Key('arrange-pins'),
+                    onPressed: () => Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(builder: (BuildContext _) => PinnedToolsScreen(profiles: ps)),
+                    ),
+                    child: const Text('Arrange pins'),
+                  ),
+              ],
+            ),
             const SizedBox(height: 6),
             Wrap(
               spacing: 8,
@@ -213,9 +227,9 @@ class ProfileShortcuts extends StatelessWidget {
                   ActionChip(
                     key: Key('recent-${t.id}'),
                     materialTapTargetSize: MaterialTapTargetSize.padded,
-                    avatar: Icon(me.favourites.contains(t.id) ? Icons.star : t.icon, size: 18),
+                    avatar: Icon(me.favourites.contains(t.id) ? Icons.push_pin : t.icon, size: 18),
                     label: Text(t.name),
-                    tooltip: me.favourites.contains(t.id) ? '${t.name}, favourite' : '${t.name}, recent',
+                    tooltip: me.favourites.contains(t.id) ? '${t.name}, pinned' : '${t.name}, recent',
                     onPressed: () => onOpen(t),
                   ),
               ],
@@ -395,6 +409,74 @@ class ProfilesScreen extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Feature 115 — put the active member's pinned tools in order, or unpin
+/// them. The order is saved with the profile and is the home grid's order.
+class PinnedToolsScreen extends StatelessWidget {
+  const PinnedToolsScreen({super.key, required this.profiles});
+
+  final MemberProfiles profiles;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Pinned tools')),
+      body: ListenableBuilder(
+        listenable: profiles,
+        builder: (BuildContext context, Widget? _) {
+          final List<String> pins = profiles.active.favourites;
+          if (pins.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: Text('Nothing pinned. Long-press a tool on the home screen to pin it.'),
+              ),
+            );
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            itemCount: pins.length,
+            itemBuilder: (BuildContext context, int i) {
+              final String id = pins[i];
+              final ToolEntry? t = ToolRegistry.byId(id);
+              final String name = t?.name ?? id;
+              return ListTile(
+                key: Key('pin-row-$id'),
+                minVerticalPadding: 12,
+                leading: Icon(t?.icon ?? Icons.push_pin),
+                title: Text(name),
+                subtitle: Text('Position ${i + 1} of ${pins.length}'),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      key: Key('pin-up-$id'),
+                      tooltip: 'Move $name up',
+                      icon: const Icon(Icons.arrow_upward),
+                      onPressed: i == 0 ? null : () => profiles.movePin(id, i - 1),
+                    ),
+                    IconButton(
+                      key: Key('pin-down-$id'),
+                      tooltip: 'Move $name down',
+                      icon: const Icon(Icons.arrow_downward),
+                      onPressed: i == pins.length - 1 ? null : () => profiles.movePin(id, i + 1),
+                    ),
+                    IconButton(
+                      key: Key('unpin-$id'),
+                      tooltip: 'Unpin $name',
+                      icon: const Icon(Icons.push_pin_outlined),
+                      onPressed: () => profiles.toggleFavourite(id),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

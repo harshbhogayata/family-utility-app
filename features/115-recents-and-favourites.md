@@ -3,7 +3,7 @@
 **Section:** 10. Platform
 **Phase:** 1
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [069 Profile per member](./069-profile-per-member.md)
 
 ## What the person gets
@@ -18,6 +18,8 @@ Used tools float to the top; pin favourites.
 - Flutter; platform channels only where Dart packages fall short.
 - Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
 - Add a golden test or integration test under `test/features/115_recents-and-favourites/`.
+
+- Build run 2026-11-09: order engine `lib/engines/platform/tool_order.dart` (pinned in the member's order, then recents newest first, then registry order); pins and recents live on the active `MemberProfile` (069) so they are per member and persist with it. Home grid follows that order; long-press a tile (or the screen-reader action) pins or unpins it; "Arrange pins" opens `PinnedToolsScreen` with labelled up, down and unpin buttons.
 
 ## Done when
 All acceptance boxes are ticked, the test passes in CI, and this file's status is set to `done` with the commit hash.

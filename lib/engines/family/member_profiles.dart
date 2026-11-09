@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../platform/tool_order.dart';
 import '../security/app_lock.dart';
 
 /// Feature 069 — Profile per member.
@@ -316,6 +317,17 @@ class MemberProfiles extends ChangeNotifier {
     _replace(p.copyWith(favourites: next));
     await _save();
   }
+
+  /// Moves a pinned tool to [index] in the active member's pins (115).
+  Future<void> movePin(String toolId, int index) async {
+    final MemberProfile p = active;
+    _replace(p.copyWith(favourites: ToolOrder.move(p.favourites, toolId, index)));
+    await _save();
+  }
+
+  /// The home grid order for the active member (115).
+  List<String> orderTools(List<String> all) =>
+      ToolOrder.order(all: all, pinned: active.favourites, recents: active.recents);
 
   static MemberProfiles instance = MemberProfiles(MemoryProfileStore());
 
