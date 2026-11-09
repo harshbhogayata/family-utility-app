@@ -39,6 +39,9 @@ import '../tools/qr_generator/qr_generator_screen.dart';
 import '../engines/image/exif_strip.dart';
 import '../platform/strip_on_share_prefs.dart';
 import '../tools/status_saver/status_saver_screen.dart';
+import '../engines/download/download_queue.dart';
+import '../engines/privacy/offline_policy.dart';
+import '../tools/download_queue/download_queue_screen.dart';
 import '../tools/merge_pdf/merge_pdf_screen.dart';
 import '../tools/cloud/cloud_screen.dart';
 import '../tools/exact_kb/exact_kb_screen.dart';
@@ -131,6 +134,23 @@ void bootstrap() {
   FileManager.install(files);
   unawaited(files.load());
   unawaited(_resolveRoots(files));
+
+  // 127: the download queue; on-device mode (059) keeps it waiting.
+  final DownloadQueue downloads = DownloadQueue(
+    fetcher: HttpDownloadFetcher(),
+    store: FileDownloadQueueStore(() => appFolder('downloads')),
+    defaultFolder: () async => (await appFolder('Downloads')).path,
+    blockedReason: () {
+      for (final ToolEntry t in ToolRegistry.all) {
+        if (t.id == 'download-queue') {
+          return NetworkGuard.blockedReason(t);
+        }
+      }
+      return null;
+    },
+  );
+  DownloadQueue.install(downloads);
+  unawaited(downloads.load());
 
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),
@@ -451,6 +471,17 @@ void bootstrap() {
       icon: Icons.cloud_outlined,
       featureNumber: 63,
       builder: (BuildContext context) => const CloudScreen(),
+    ),
+    ToolEntry(
+      id: 'download-queue',
+      name: 'Download queue',
+      section: ToolSection.links,
+      icon: Icons.download_outlined,
+      featureNumber: 127,
+      needsNetwork: true,
+      networkReason: 'Fetches the links you add. Nothing of yours is uploaded.',
+      touches: const <DataTouch>{DataTouch.files, DataTouch.network},
+      builder: (BuildContext context) => const DownloadQueueScreen(),
     ),
     ToolEntry(
       id: 'status-saver',
