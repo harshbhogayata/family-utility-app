@@ -1,12 +1,12 @@
 # Progress
 
-Done: 43 / 130  (33%)
-In progress: 038
-Updated: 2026-11-09 07:25 UTC
+Done: 44 / 130  (33%)
+In progress: none
+Updated: 2026-11-09 07:31 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 43 |
+| 1 — file chores and platform core | 86 | 44 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -27,6 +27,7 @@ Updated: 2026-11-09 07:25 UTC
 - 035 Image to exact KB — done 678b67d
 - 036 Compress video — done ad80377
 - 037 Zip with optional password — done e559ab8
+- 038 Shrink-to-send presets — done 6558d5c
 - 039 Before and after preview — done f5ee72f
 - 040 Resize — done 4369d50
 - 041 Crop with ratios — done 63f712a
