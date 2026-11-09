@@ -5,7 +5,7 @@ import 'dart:ui' as ui;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show compute;
-import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:flutter/gestures.dart' show DragStartBehavior, PointerMoveEvent;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -150,6 +150,7 @@ class _SignPdfScreenState extends State<SignPdfScreen> {
   int? _selected;
   String? _output;
   bool _working = false;
+  bool _dragging = false;
 
   @override
   void initState() {
@@ -335,6 +336,8 @@ class _SignPdfScreenState extends State<SignPdfScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign PDF')),
       body: ListView(
+        // Hold the list still while a stamp is being moved or resized.
+        physics: _dragging ? const NeverScrollableScrollPhysics() : null,
         padding: const EdgeInsets.all(16),
         children: <Widget>[
           OutlinedButton.icon(
@@ -491,12 +494,17 @@ class _SignPdfScreenState extends State<SignPdfScreen> {
         child: Semantics(
           label: 'Placed stamp ${i + 1}. Drag to move.',
           selected: selected,
-          child: GestureDetector(
+          // Raw pointer events, so the page list cannot steal a vertical move.
+          child: Listener(
             key: Key('sign-stamp-$i'),
-            dragStartBehavior: DragStartBehavior.down,
-            onTap: () => setState(() => _selected = i),
-            onPanStart: (_) => setState(() => _selected = i),
-            onPanUpdate: (DragUpdateDetails d) {
+            behavior: HitTestBehavior.opaque,
+            onPointerDown: (_) => setState(() {
+              _selected = i;
+              _dragging = true;
+            }),
+            onPointerUp: (_) => setState(() => _dragging = false),
+            onPointerCancel: (_) => setState(() => _dragging = false),
+            onPointerMove: (PointerMoveEvent d) {
               final Placement cur = _placements[i];
               _update(
                 i,
@@ -526,11 +534,13 @@ class _SignPdfScreenState extends State<SignPdfScreen> {
           height: handle,
           child: Semantics(
             label: 'Resize stamp',
-            child: GestureDetector(
+            child: Listener(
               key: Key('sign-resize-$i'),
               behavior: HitTestBehavior.opaque,
-              dragStartBehavior: DragStartBehavior.down,
-              onPanUpdate: (DragUpdateDetails d) {
+              onPointerDown: (_) => setState(() => _dragging = true),
+              onPointerUp: (_) => setState(() => _dragging = false),
+              onPointerCancel: (_) => setState(() => _dragging = false),
+              onPointerMove: (PointerMoveEvent d) {
                 final Placement cur = _placements[i];
                 final double ratio = cur.height / cur.width;
                 final double nw = (cur.width + d.delta.dx / w).clamp(0.05, 1 - cur.left).toDouble();
