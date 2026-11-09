@@ -76,6 +76,7 @@ import '../tools/pdf_viewer/pdf_viewer_screen.dart';
 import '../engines/pdf/pdf_text_search.dart';
 import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
+import '../tools/redact/redact_screen.dart';
 import '../engines/image/scan_namer.dart';
 import '../engines/image/one_tap_scan.dart';
 import '../platform/mlkit_text_platform.dart';
@@ -405,6 +406,14 @@ void bootstrap() {
       icon: Icons.document_scanner_outlined,
       featureNumber: 8,
       builder: (BuildContext context) => const OcrScanScreen(),
+    ),
+    ToolEntry(
+      id: 'redact',
+      name: 'Blur faces and numbers',
+      section: ToolSection.image,
+      icon: Icons.blur_on,
+      featureNumber: 45,
+      builder: (BuildContext context) => const RedactScreen(),
     ),
     ToolEntry(
       id: 'merge-pdf',

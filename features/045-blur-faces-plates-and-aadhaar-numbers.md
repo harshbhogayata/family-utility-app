@@ -3,7 +3,7 @@
 **Section:** 4. Image basics
 **Phase:** 1
 **Priority score:** 40 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [008 OCR a scan](./008-ocr-a-scan.md), [117 File manager](./117-file-manager.md)
 
 ## What the person gets
