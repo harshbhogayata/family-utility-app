@@ -209,6 +209,8 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>Reads birthdays and anniversaries from your contacts on this phone. Nothing is uploaded.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Share where you are with your family, only when you turn it on. It goes to your family's phones and nowhere else.</string>
 	<key>NSLocalNetworkUsageDescription</key>

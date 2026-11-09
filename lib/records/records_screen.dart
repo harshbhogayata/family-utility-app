@@ -4,6 +4,7 @@ import 'elderly_care/elderly_care_screen.dart';
 import 'expenses/expense_screen.dart';
 import 'health_log/health_log_screen.dart';
 import 'medicines/medicine_screen.dart';
+import 'occasions/occasions_screen.dart';
 import 'profile/autofill_profile_screen.dart';
 import 'quick_add/quick_add_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
@@ -76,6 +77,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Split bills, balances, settle-up reminders'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const SharedExpensesScreen()),
+              ),
+            ),
+            // 095: birthdays and anniversaries with gift ideas and a wish.
+            ListTile(
+              key: const Key('records-occasions'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.cake_outlined),
+              title: const Text('Birthdays and anniversaries'),
+              subtitle: const Text('Reminders a week ahead, gift ideas, wishes'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const OccasionsScreen()),
               ),
             ),
             const SizedBox(height: 8),

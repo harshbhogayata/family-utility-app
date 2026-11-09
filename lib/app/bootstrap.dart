@@ -166,10 +166,12 @@ import '../engines/family/family_sync.dart';
 import '../engines/records/elderly_care.dart';
 import '../engines/records/expense_tracker.dart';
 import '../engines/records/health_readings.dart';
+import '../engines/records/occasions.dart';
 import '../engines/records/shared_expenses.dart';
 import '../engines/records/medicine_reminders.dart';
 import '../platform/medicine_alarm_platform.dart';
 import '../records/medicines/medicine_screen.dart';
+import '../platform/occasion_platform.dart';
 import '../family/sync/lan_family_sync.dart';
 import 'tool_registry.dart';
 
@@ -374,6 +376,16 @@ void bootstrap() {
 
   // 093: care circles for a parent, on the same store as the medicines.
   ElderlyCare.install(ElderlyCare(space: family, soloStore: medicineSolo, medicines: medicines));
+
+  // 095: birthdays and anniversaries, reminders a week and a day ahead.
+  final Occasions occasions = Occasions(
+    space: family,
+    soloStore: medicineSolo,
+    reminders: NotificationOccasionReminders(),
+    contacts: const PhoneContactDates(),
+  );
+  Occasions.install(occasions);
+  unawaited(familyLoaded.then((_) => occasions.reschedule()));
 
   // 080: expenses and receipt photos in the app's own folder.
   final ExpenseTracker expenses = ExpenseTracker(store: FileExpenseStore(() => appFolder('expenses')));
