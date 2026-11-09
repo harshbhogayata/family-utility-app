@@ -16,8 +16,7 @@ class PdfrxTextSource implements PdfTextSource {
     try {
       final List<List<PdfTextPiece>> out = <List<PdfTextPiece>>[];
       for (final PdfPage page in doc.pages) {
-        // ignore: deprecated_member_use
-        final PdfPageText? text = _maybe(await page.loadText());
+        final PdfPageText? text = _maybe(await page.loadStructuredText());
         final List<PdfTextPiece> pieces = <PdfTextPiece>[];
         if (text != null) {
           for (final PdfPageTextFragment f in text.fragments) {

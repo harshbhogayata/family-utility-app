@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../engines/platform/action_history.dart';
@@ -48,7 +49,11 @@ import 'tool_registry.dart';
 /// Registers every tool with the registry and installs app-wide state.
 /// Each feature adds its entry here so the home grid is driven by one list.
 void bootstrap() {
-  registerWordConverters(ConvertRegistry.instance, const PdfrxTextSource());
+  registerWordConverters(
+    ConvertRegistry.instance,
+    const PdfrxTextSource(),
+    loadUnicodeFont: () async => (await rootBundle.load('assets/fonts/Inter.ttf')).buffer.asUint8List(),
+  );
 
   final OnDeviceMode mode = OnDeviceMode(const PrefsOnDeviceModeStore());
   OnDeviceMode.install(mode);

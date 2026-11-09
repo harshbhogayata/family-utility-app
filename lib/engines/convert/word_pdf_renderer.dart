@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io' show zlib;
 import 'dart:typed_data';
 
 import '../pdf/images_to_pdf.dart';
+import 'truetype_font.dart';
 import 'word_document.dart';
 
 /// Feature 018 — Word to PDF: lays a [WordDocument] out on A4 pages and
@@ -98,6 +100,14 @@ String winAnsi(String s) {
 String _esc(String s) => s.replaceAll(r'\', r'\\').replaceAll('(', r'\(').replaceAll(')', r'\)');
 String _n(double v) => v.toStringAsFixed(2);
 
+String _utf16Hex(int cp) {
+  if (cp < 0x10000) {
+    return cp.toRadixString(16).padLeft(4, '0');
+  }
+  final int v = cp - 0x10000;
+  return '${(0xD800 + (v >> 10)).toRadixString(16)}${(0xDC00 + (v & 0x3FF)).toRadixString(16)}';
+}
+
 class WordPdfOptions {
   const WordPdfOptions({
     this.pageWidth = 595.28,
@@ -122,7 +132,8 @@ class WordPdfOptions {
 const List<double> headingSizes = <double>[20, 16, 14, 13, 12, 11];
 
 class _Word {
-  _Word(this.text, this.run, this.font, this.size, this.width);
+  _Word(this.text, this.run, this.font, this.size, this.width, this.trimmedWidth);
+  final double trimmedWidth;
   final String text;
   final DocRun run;
   final String font;
@@ -146,9 +157,19 @@ class _Page {
 }
 
 class WordPdfRenderer {
-  WordPdfRenderer({ImagesToPdf? images}) : _images = images ?? ImagesToPdf();
+  WordPdfRenderer({ImagesToPdf? images, this.unicodeFont}) : _images = images ?? ImagesToPdf();
 
   final ImagesToPdf _images;
+
+  /// Embedded for text the base fonts cannot draw (Greek, Cyrillic, …).
+  final TrueTypeFont? unicodeFont;
+
+  /// Font resource name used for [unicodeFont].
+  static const String unicodeFontName = 'Embedded';
+
+  // Set for the length of one synchronous [layout] call.
+  static TrueTypeFont? _uni;
+  static Map<int, int> _usedGlyphs = <int, int>{};
 
   /// Renders the document. Pictures that cannot be read become a labelled box.
   Future<Uint8List> render(WordDocument doc, {WordPdfOptions options = const WordPdfOptions()}) async {
@@ -162,11 +183,22 @@ class WordPdfRenderer {
         }
       }
     }
-    return layout(doc, prepared, options);
+    return layout(doc, prepared, options, unicode: unicodeFont);
   }
 
   /// Synchronous layout and PDF writing once pictures are JPEG.
-  static Uint8List layout(WordDocument doc, Map<DocImage, PreparedImage?> pictures, WordPdfOptions o) {
+  static Uint8List layout(WordDocument doc, Map<DocImage, PreparedImage?> pictures, WordPdfOptions o,
+      {TrueTypeFont? unicode}) {
+    _uni = unicode;
+    _usedGlyphs = <int, int>{};
+    try {
+      return _layout(doc, pictures, o);
+    } finally {
+      _uni = null;
+    }
+  }
+
+  static Uint8List _layout(WordDocument doc, Map<DocImage, PreparedImage?> pictures, WordPdfOptions o) {
     final List<_Page> pages = <_Page>[_Page()];
     final List<PreparedImage> xobjects = <PreparedImage>[];
     double y = o.pageHeight - o.margin;
@@ -271,7 +303,7 @@ class WordPdfRenderer {
           y -= o.bodySize * 0.5;
       }
     }
-    return _write(pages, xobjects, o);
+    return _write(pages, xobjects, o, _uni, _usedGlyphs);
   }
 
   static String _fontKey(String base) => 'F${base.replaceAll('-', '')}';
@@ -287,18 +319,24 @@ class WordPdfRenderer {
       final PdfFontFamily fam = fontFamilyFor(r.font ?? o.defaultFont);
       final String font = baseFontName(fam, bold: run.bold, italic: run.italic);
       final double size = r.sizePt ?? base;
-      final List<String> hard =
-          r.text.replaceAll('\t', '    ').replaceAll('\r', '').split('\n').map(winAnsi).toList();
+      final List<String> hard = r.text.replaceAll('\t', '    ').replaceAll('\r', '').split('\n');
       for (int h = 0; h < hard.length; h++) {
         // Keep the trailing space with each word so runs join naturally.
         final RegExp tokens = RegExp(r'\S+\s*|\s+');
         for (final RegExpMatch m in tokens.allMatches(hard[h])) {
-          final String t = m.group(0)!;
-          words.add(_Word(t, run, font, size, textWidth(t, fam, size, bold: run.bold)));
+          final String raw = m.group(0)!;
+          final String t = winAnsi(raw);
+          final TrueTypeFont? uni = _uni;
+          if (t != raw && uni != null && raw.runes.any(uni.covers)) {
+            words.add(_Word(raw, run, unicodeFontName, size, uni.textWidth(raw, size), uni.textWidth(raw.trimRight(), size)));
+          } else {
+            words.add(_Word(t, run, font, size, textWidth(t, fam, size, bold: run.bold),
+                textWidth(t.trimRight(), fam, size, bold: run.bold)));
+          }
         }
         if (h < hard.length - 1) {
           if (words.isEmpty) {
-            words.add(_Word('', run, font, size, 0));
+            words.add(_Word('', run, font, size, 0, 0));
           }
           words.last.breakAfter = true;
         }
@@ -307,7 +345,7 @@ class WordPdfRenderer {
     final List<_Line> lines = <_Line>[_Line()..size = base];
     for (final _Word w in words) {
       _Line l = lines.last;
-      final double trimmed = textWidth(w.text.trimRight(), fontFamilyFor(w.run.font ?? o.defaultFont), w.size, bold: w.bold);
+      final double trimmed = w.trimmedWidth;
       if (l.words.isNotEmpty && l.width + trimmed > width) {
         l = _Line()..size = base;
         lines.add(l);
@@ -333,7 +371,7 @@ class WordPdfRenderer {
       return;
     }
     final _Word tail = l.words.last;
-    final double trailing = tail.width - textWidth(tail.text.trimRight(), fontFamilyFor(tail.run.font), tail.size, bold: tail.bold);
+    final double trailing = tail.width - tail.trimmedWidth;
     final double used = l.width - trailing;
     double x = x0;
     double extraPerSpace = 0;
@@ -382,10 +420,11 @@ class WordPdfRenderer {
         page.fonts.add(w.font);
         final String color = _rgb(w.run.color);
         final String tw = extraPerSpace > 0 ? '${_n(extraPerSpace)} Tw ' : '';
-        page.ops.write('BT $color /${_fontKey(w.font)} ${_n(w.size)} Tf $tw${_n(x)} ${_n(baseline)} Td (${_esc(text)}) Tj ET\n');
+        page.ops.write('BT $color /${_fontKey(w.font)} ${_n(w.size)} Tf $tw${_n(x)} ${_n(baseline)} Td ${_encode(w.font, text)} Tj ET\n');
         if (w.run.underline) {
           final String stroke = color.replaceFirst(' rg', ' RG');
-          final double end = x + drawn - (j < n && text.endsWith(' ') ? textWidth(' ', fontFamilyFor(w.run.font), w.size) + extraPerSpace : 0);
+          final _Word lastW = l.words[j - 1];
+          final double end = x + drawn - (j < n ? lastW.width - lastW.trimmedWidth + (lastW.text.endsWith(' ') ? extraPerSpace : 0) : 0);
           page.ops.write('$stroke ${_n(w.size / 18)} w ${_n(x)} ${_n(baseline - w.size * 0.12)} m '
               '${_n(end)} ${_n(baseline - w.size * 0.12)} l S\n');
         }
@@ -393,6 +432,21 @@ class WordPdfRenderer {
       x += drawn;
       i = j;
     }
+  }
+
+  static String _encode(String font, String text) {
+    final TrueTypeFont? uni = _uni;
+    if (font != unicodeFontName || uni == null) {
+      return '(${_esc(text)})';
+    }
+    final StringBuffer b = StringBuffer('<');
+    for (final int c in text.runes) {
+      final int g = uni.glyphFor(c);
+      _usedGlyphs[g] = c;
+      b.write(g.toRadixString(16).padLeft(4, '0'));
+    }
+    b.write('>');
+    return b.toString();
   }
 
   static String _rgb(String? hex) {
@@ -407,7 +461,8 @@ class WordPdfRenderer {
     return '${c(16).toStringAsFixed(3)} ${c(8).toStringAsFixed(3)} ${c(0).toStringAsFixed(3)} rg';
   }
 
-  static Uint8List _write(List<_Page> pages, List<PreparedImage> images, WordPdfOptions o) {
+  static Uint8List _write(List<_Page> pages, List<PreparedImage> images, WordPdfOptions o, TrueTypeFont? uni,
+      Map<int, int> used) {
     final BytesBuilder out = BytesBuilder(copy: false);
     final Map<int, int> offsets = <int, int>{};
     void add(String s) => out.add(latin1.encode(s));
@@ -418,7 +473,11 @@ class WordPdfRenderer {
       add('\nendobj\n');
     }
 
-    final List<String> fonts = <String>{for (final _Page p in pages) ...p.fonts}.toList()..sort();
+    final bool embed = uni != null && pages.any((_Page p) => p.fonts.contains(unicodeFontName));
+    final List<String> fonts = <String>{for (final _Page p in pages) ...p.fonts}
+        .where((String f) => f != unicodeFontName)
+        .toList()
+      ..sort();
     // 1 catalog, 2 pages, fonts, images, then page + contents per page.
     const int fontStart = 3;
     final int imageStart = fontStart + fonts.length;
@@ -445,7 +504,8 @@ class WordPdfRenderer {
       final _Page pg = pages[i];
       final int id = pageStart + i * 2;
       final String fontRes = <String>[
-        for (final String f in pg.fonts) '/${_fontKey(f)} ${fontStart + fonts.indexOf(f)} 0 R',
+        for (final String f in pg.fonts)
+          '/${_fontKey(f)} ${f == unicodeFontName ? pageStart + pages.length * 2 : fontStart + fonts.indexOf(f)} 0 R',
       ].join(' ');
       final String imgRes = <String>[
         for (final MapEntry<String, int> e in pg.images.entries) '/${e.key} ${imageStart + e.value} 0 R',
@@ -459,8 +519,46 @@ class WordPdfRenderer {
         add('\nendstream');
       });
     }
+    int size = pageStart + pages.length * 2;
+    if (embed && uni != null) {
+      final int t0 = size;
+      final List<int> glyphs = used.keys.toList()..sort();
+      final String widths = glyphs.map((int g) => '$g [${uni.advance1000(g)}]').join(' ');
+      obj(t0, () => add('<< /Type /Font /Subtype /Type0 /BaseFont /$unicodeFontName /Encoding /Identity-H '
+          '/DescendantFonts [${t0 + 1} 0 R] /ToUnicode ${t0 + 4} 0 R >>'));
+      obj(t0 + 1, () => add('<< /Type /Font /Subtype /CIDFontType2 /BaseFont /$unicodeFontName '
+          '/CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> '
+          '/FontDescriptor ${t0 + 2} 0 R /CIDToGIDMap /Identity /DW 600 /W [$widths] >>'));
+      obj(t0 + 2, () => add('<< /Type /FontDescriptor /FontName /$unicodeFontName /Flags 32 '
+          '/FontBBox [-1000 -300 2000 1000] /ItalicAngle 0 /Ascent 900 /Descent -250 /CapHeight 700 '
+          '/StemV 80 /FontFile2 ${t0 + 3} 0 R >>'));
+      final List<int> packed = zlib.encode(uni.bytes);
+      obj(t0 + 3, () {
+        add('<< /Length ${packed.length} /Length1 ${uni.bytes.length} /Filter /FlateDecode >>\nstream\n');
+        out.add(packed);
+        add('\nendstream');
+      });
+      final StringBuffer cmap = StringBuffer('/CIDInit /ProcSet findresource begin 12 dict begin begincmap '
+          '/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def /CMapName /Adobe-Identity-UCS def '
+          '/CMapType 2 def 1 begincodespacerange <0000> <FFFF> endcodespacerange\n');
+      for (int i = 0; i < glyphs.length; i += 100) {
+        final List<int> chunk = glyphs.sublist(i, i + 100 > glyphs.length ? glyphs.length : i + 100);
+        cmap.write('${chunk.length} beginbfchar\n');
+        for (final int g in chunk) {
+          cmap.write('<${g.toRadixString(16).padLeft(4, '0')}> <${_utf16Hex(used[g]!)}>\n');
+        }
+        cmap.write('endbfchar\n');
+      }
+      cmap.write('endcmap CMapName currentdict /CMap defineresource pop end end');
+      final List<int> cm = latin1.encode(cmap.toString());
+      obj(t0 + 4, () {
+        add('<< /Length ${cm.length} >>\nstream\n');
+        out.add(cm);
+        add('\nendstream');
+      });
+      size += 5;
+    }
     final int xref = out.length;
-    final int size = pageStart + pages.length * 2;
     final StringBuffer x = StringBuffer('xref\n0 $size\n0000000000 65535 f \n');
     for (int id = 1; id < size; id++) {
       x.write('${offsets[id]!.toString().padLeft(10, '0')} 00000 n \n');

@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'convert_registry.dart';
 import 'file_kind.dart';
 import 'pdf_to_word.dart';
+import 'truetype_font.dart';
 import 'word_document.dart';
 import 'word_pdf_renderer.dart';
 
@@ -8,9 +11,23 @@ import 'word_pdf_renderer.dart';
 /// and used by the Word to PDF tool.
 
 class DocxToPdfConverter extends Converter {
-  DocxToPdfConverter({WordPdfRenderer? renderer}) : _renderer = renderer ?? WordPdfRenderer();
+  DocxToPdfConverter({this.loadUnicodeFont});
 
-  final WordPdfRenderer _renderer;
+  /// Loads the bundled TrueType font used for non-Latin text; null skips it.
+  final Future<Uint8List> Function()? loadUnicodeFont;
+  TrueTypeFont? _font;
+
+  Future<TrueTypeFont?> _unicode() async {
+    final Future<Uint8List> Function()? load = loadUnicodeFont;
+    if (_font == null && load != null) {
+      try {
+        _font = TrueTypeFont.parse(await load());
+      } catch (_) {
+        _font = null;
+      }
+    }
+    return _font;
+  }
 
   @override
   String get id => 'docx-to-pdf';
@@ -24,7 +41,7 @@ class DocxToPdfConverter extends Converter {
   @override
   Future<ConvertOutput> convert(ConvertInput input, FileKind kind) async {
     final WordDocument doc = const DocxReader().read(input.bytes);
-    return output(input, await _renderer.render(doc));
+    return output(input, await WordPdfRenderer(unicodeFont: await _unicode()).render(doc));
   }
 }
 
@@ -74,9 +91,10 @@ class LegacyDocConverter extends Converter {
 }
 
 /// Adds the Word converters to [registry].
-void registerWordConverters(ConvertRegistry registry, PdfTextSource source) {
+void registerWordConverters(ConvertRegistry registry, PdfTextSource source,
+    {Future<Uint8List> Function()? loadUnicodeFont}) {
   registry
-    ..register(DocxToPdfConverter())
+    ..register(DocxToPdfConverter(loadUnicodeFont: loadUnicodeFont))
     ..register(PdfToDocxConverter(source))
     ..register(const LegacyDocConverter());
 }

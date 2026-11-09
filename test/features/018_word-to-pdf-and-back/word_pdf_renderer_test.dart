@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:family_utility_app/engines/convert/truetype_font.dart';
 import 'package:family_utility_app/engines/convert/word_document.dart';
 import 'package:family_utility_app/engines/convert/word_pdf_renderer.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -97,5 +99,30 @@ void main() {
     ];
     expect(ys.length, 2);
     expect(ys[0], greaterThan(ys[1]));
+  });
+
+  test('text the base fonts cannot draw is embedded with the bundled font', () async {
+    final TrueTypeFont inter = TrueTypeFont.parse(File('assets/fonts/Inter.ttf').readAsBytesSync());
+    expect(inter.covers('Ж'.runes.first), isTrue);
+    expect(inter.glyphFor('A'.runes.first), isNot(0));
+    expect(inter.textWidth('Hello', 10), inInclusiveRange(20, 40));
+
+    const WordDocument doc = WordDocument(<DocBlock>[
+      DocParagraph(<DocRun>[DocRun('Plain words and Привет мир')]),
+    ]);
+    final Uint8List pdf = await WordPdfRenderer(unicodeFont: inter).render(doc);
+    final String s = latin1.decode(pdf);
+    expect(s, contains('/Subtype /Type0'));
+    expect(s, contains('/CIDToGIDMap /Identity'));
+    expect(s, contains('/FontFile2'));
+    expect(s, contains('beginbfchar'));
+    expect(s, contains('<041f>'), reason: 'ToUnicode maps glyphs back to П');
+    expect(s, contains('(Plain words and ) Tj'));
+    expect(RegExp(r'Td <[0-9a-f]+> Tj').hasMatch(s), isTrue, reason: 'non-Latin text is drawn as glyph ids');
+
+    // Without the font, the same text degrades to question marks but still renders.
+    final String bare = latin1.decode(await WordPdfRenderer().render(doc));
+    expect(bare, contains('(??????'));
+    expect(bare, isNot(contains('/Type0')));
   });
 }
