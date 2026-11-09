@@ -196,7 +196,7 @@ void main() {
 
     final FileVersion original = r.versions.all.single;
     expect(find.text('Original before Compress PDF'), findsOneWidget);
-    expect(find.bySemanticsLabel('Roll back form-compressed.pdf to Original before Compress PDF'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('Roll back form-compressed.pdf to Original before Compress PDF')), findsOneWidget);
     final Finder roll = find.byKey(Key('rollback-${original.id}'));
     expect(tester.getSize(roll).height, greaterThanOrEqualTo(44));
 
