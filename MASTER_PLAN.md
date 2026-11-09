@@ -119,7 +119,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 124 | [Download audio from a link](features/124-download-audio-from-a-link.md) | 11. Links and WhatsApp essentials | 60 | not started |
 | 043 | [Passport photo maker](features/043-passport-photo-maker.md) | 4. Image basics | 50 | done d567b9f |
 | 044 | [ID card to A4](features/044-id-card-to-a4.md) | 4. Image basics | 50 | done ce3fade |
-| 022 | [PDF to images](features/022-pdf-to-images.md) | 2. Convert | 48 | not started |
+| 022 | [PDF to images](features/022-pdf-to-images.md) | 2. Convert | 48 | done 07812c7 |
 | 026 | [WebP to JPG or PNG and back](features/026-webp-to-jpg-or-png-and-back.md) | 2. Convert | 48 | not started |
 | 027 | [Raster any to any](features/027-raster-any-to-any.md) | 2. Convert | 48 | not started |
 | 031 | [Batch convert](features/031-batch-convert.md) | 2. Convert | 48 | not started |
