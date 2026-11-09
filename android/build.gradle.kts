@@ -25,7 +25,7 @@ tasks.register<Delete>("clean") {
 
 // family-utility-app: force plugin compileSdk
 subprojects {
-    afterEvaluate {
+    plugins.withId("com.android.library") {
         val androidExt = extensions.findByName("android")
         if (androidExt != null) {
             val setter = androidExt.javaClass.methods.firstOrNull {

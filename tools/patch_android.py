@@ -17,7 +17,7 @@ MARK = "// family-utility-app: force plugin compileSdk"
 KTS_BLOCK = f"""
 {MARK}
 subprojects {{
-    afterEvaluate {{
+    plugins.withId("com.android.library") {{
         val androidExt = extensions.findByName("android")
         if (androidExt != null) {{
             val setter = androidExt.javaClass.methods.firstOrNull {{
@@ -44,9 +44,10 @@ def patch_root():
         p = ROOT / name
         if p.exists():
             t = p.read_text()
-            if MARK not in t:
-                p.write_text(t.rstrip() + "\n" + block)
-                print(f"patched {name}")
+            if MARK in t:
+                t = t[: t.index(MARK)].rstrip() + "\n"   # drop an older version of the block
+            p.write_text(t.rstrip() + "\n" + block)
+            print(f"patched {name}")
             return
     print("root build.gradle not found")
 
