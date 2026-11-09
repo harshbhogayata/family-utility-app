@@ -1,12 +1,12 @@
 # Progress
 
-Done: 78 / 130  (60%)
+Done: 79 / 130  (60%)
 In progress: none
-Updated: 2026-11-09 16:32 UTC
+Updated: 2026-11-09 16:51 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 77 |
+| 1 — file chores and platform core | 86 | 78 |
 | 2 — family layer | 20 | 1 |
 | 3 — personal records | 24 | 0 |
 
@@ -68,6 +68,7 @@ Updated: 2026-11-09 16:32 UTC
 - 058 Encrypt any file — done d74c332
 - 059 On-device mode — done 5fbcce5
 - 060 Share to any app — done 9fcace7
+- 061 Nearby share — done 049dd84
 - 062 Phone to laptop — done ddae934
 - 063 Cloud import and save — done 1cf27d4
 - 064 Save anywhere — done a9a7f75
