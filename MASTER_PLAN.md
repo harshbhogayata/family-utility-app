@@ -154,7 +154,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 023 | [Web page to PDF](features/023-web-page-to-pdf.md) | 2. Convert | 18 | done f802eac |
 | 028 | [AVIF to JPG or PNG](features/028-avif-to-jpg-or-png.md) | 2. Convert | 18 | done 8db1c9d |
 | 020 | [PowerPoint to PDF and back](features/020-powerpoint-to-pdf-and-back.md) | 2. Convert | 16 | done cca7309 |
-| 014 | [Page numbers](features/014-page-numbers.md) | 1. PDF basics | 8 | not started |
+| 014 | [Page numbers](features/014-page-numbers.md) | 1. PDF basics | 8 | done e91dafa |
 
 ### Phase 2
 
