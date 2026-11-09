@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 056 Private vault: vault files stay out of cloud backup and device
+     transfer (API 31+) unless the person turns backups on (vault_backup/). -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="vault" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="vault" />
+    </device-transfer>
+</data-extraction-rules>

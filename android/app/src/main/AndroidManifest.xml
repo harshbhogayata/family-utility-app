@@ -16,7 +16,9 @@
     <application
         android:label="family_utility_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <!-- 067/113: job progress service and the Cancel / Share / Open buttons. -->
         <service
             android:name="com.dexterous.flutterlocalnotifications.ForegroundService"

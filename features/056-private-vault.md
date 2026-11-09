@@ -3,7 +3,7 @@
 **Section:** 6. Security
 **Phase:** 1
 **Priority score:** 60 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [055 App lock](./055-app-lock.md), [058 Encrypt any file](./058-encrypt-any-file.md)
 
 ## What the person gets

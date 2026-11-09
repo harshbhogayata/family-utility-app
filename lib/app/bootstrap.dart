@@ -12,12 +12,14 @@ import '../engines/platform/first_run.dart';
 import '../engines/platform/one_search.dart';
 import '../engines/privacy/on_device_mode.dart';
 import '../engines/security/app_lock.dart';
+import '../engines/security/private_vault.dart';
 import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/first_run_store.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
+import '../platform/vault_platform.dart';
 import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/archives/archives_screen.dart';
@@ -98,6 +100,7 @@ import '../platform/scan_name_prefs.dart';
 import '../tools/phone_to_laptop/phone_to_laptop_screen.dart';
 import '../tools/privacy/privacy_screen.dart';
 import '../tools/qr_scanner/qr_scanner_screen.dart';
+import '../tools/private_vault/private_vault_screen.dart';
 import '../tools/secure_notes/secure_notes_screen.dart';
 import '../tools/send_original/send_original_screen.dart';
 import '../tools/sign_pdf/sign_pdf_screen.dart';
@@ -351,6 +354,15 @@ void bootstrap() {
   clipboardLifecycleListener?.dispose();
   clipboardLifecycleListener = AppLifecycleListener(onResume: () => unawaited(offerCopiedLink()));
 
+  // 056: vault files encrypted with keys in Keystore / Keychain; the backup
+  // choice decides which private folder holds them.
+  PrivateVault.install(PrivateVault(
+    realKeys: const SecureVaultKeyStore('private_vault_key'),
+    decoyKeys: const SecureVaultKeyStore('private_vault_decoy_key'),
+    backend: FileVaultBackend(),
+    settingsStore: const SecureVaultSettingsStore(),
+  ));
+
   SecureNotes.install(SecureNotes(
     keyStore: const SecureKeyStore(),
     blobStore: const FileNoteBlobStore(),
@@ -559,6 +571,15 @@ void bootstrap() {
       featureNumber: 57,
       touches: const <DataTouch>{DataTouch.files, DataTouch.clipboard},
       builder: (BuildContext context) => const SecureNotesScreen(),
+    ),
+    ToolEntry(
+      id: LockableIds.vault,
+      name: 'Private vault',
+      section: ToolSection.security,
+      icon: Icons.shield_outlined,
+      featureNumber: 56,
+      touches: const <DataTouch>{DataTouch.files, DataTouch.photos},
+      builder: (BuildContext context) => const PrivateVaultScreen(),
     ),
     ToolEntry(
       id: 'encrypt-file',

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 056 Private vault: vault files stay out of Android backups (API 23-30)
+     unless the person turns backups on, which moves them to vault_backup/. -->
+<full-backup-content>
+    <exclude domain="file" path="vault" />
+</full-backup-content>
