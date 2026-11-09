@@ -127,6 +127,7 @@ import '../platform/job_host_platform.dart';
 import '../engines/platform/job_notifications.dart';
 import '../tools/background_jobs/background_jobs_screen.dart';
 import '../tools/compress_video/compress_video_screen.dart';
+import '../tools/video_player/video_player_screen.dart';
 import '../tools/shrink_to_send/shrink_to_send_screen.dart';
 import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
@@ -1062,6 +1063,15 @@ void bootstrap() {
       icon: Icons.history,
       featureNumber: 118,
       builder: (BuildContext context) => const HistoryScreen(),
+    ),
+    ToolEntry(
+      id: 'video-player',
+      name: 'Video player',
+      section: ToolSection.links,
+      icon: Icons.play_circle_outline,
+      featureNumber: 130,
+      touches: const <DataTouch>{DataTouch.files},
+      builder: (BuildContext context) => const VideoPlayerScreen(),
     ),
     ToolEntry(
       id: 'on-device-mode',

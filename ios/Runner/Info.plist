@@ -188,5 +188,10 @@
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Family space syncs with your family's phones on the same Wi-Fi. Nothing goes to the internet.</string>
+	<!-- 130 Video player: picture-in-picture keeps playing outside the app. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 </dict>
 </plist>

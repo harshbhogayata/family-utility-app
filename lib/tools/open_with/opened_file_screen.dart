@@ -12,6 +12,7 @@ import '../../engines/share/open_with.dart';
 import '../../engines/share/save_anywhere.dart';
 import '../../engines/share/share_engine.dart';
 import '../smart_suggestions/suggestions_bar.dart';
+import '../video_player/video_player_screen.dart';
 
 /// Feature 065 — where a file opened from another app lands.
 ///
@@ -176,6 +177,18 @@ class _OpenedFileScreenState extends State<OpenedFileScreen> {
             title: Text(_name(_path), maxLines: 2, overflow: TextOverflow.ellipsis),
             subtitle: Text(more > 0 ? 'and $more more · kept on this phone' : 'Kept on this phone'),
           ),
+          if (kind == SuggestKind.video)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: FilledButton.icon(
+                key: const Key('play-opened-video'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (BuildContext context) => VideoPlayerScreen(path: _path)),
+                ),
+                icon: const Icon(Icons.play_arrow),
+                label: const Text('Play'),
+              ),
+            ),
           const SizedBox(height: 8),
           SuggestionsBar(path: _path, limit: 8),
           ListenableBuilder(

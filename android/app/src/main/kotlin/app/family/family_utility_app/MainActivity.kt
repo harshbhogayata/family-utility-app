@@ -1,10 +1,15 @@
 package app.family.family_utility_app
 
+import android.app.PictureInPictureParams
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
 import android.provider.Settings
+import android.util.Rational
+import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -17,6 +22,7 @@ class MainActivity : FlutterActivity() {
     private var pendingFiles: List<String>? = null
     private var openChannel: MethodChannel? = null
     private var pendingOpened: List<String>? = null
+    private var playerChannel: MethodChannel? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -61,6 +67,49 @@ class MainActivity : FlutterActivity() {
         }
         openChannel = opened
 
+        // 130 Video player: this window's brightness and picture-in-picture.
+        val player = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/video_player")
+        player.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "getBrightness" -> {
+                    val b = window.attributes.screenBrightness
+                    if (b >= 0f) {
+                        result.success(b.toDouble())
+                    } else {
+                        val sys = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 128)
+                        result.success(sys / 255.0)
+                    }
+                }
+                "setBrightness" -> {
+                    val level = call.argument<Double>("level")
+                    val attrs = window.attributes
+                    attrs.screenBrightness = level?.toFloat()?.coerceIn(0.01f, 1f)
+                        ?: WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+                    window.attributes = attrs
+                    result.success(null)
+                }
+                "pipSupported" -> result.success(pipSupported())
+                "enterPip" -> {
+                    if (!pipSupported()) {
+                        result.success(false)
+                    } else {
+                        val aspect = call.argument<Double>("aspect") ?: (16.0 / 9.0)
+                        val wide = (aspect.coerceIn(0.42, 2.38) * 1000).toInt()
+                        try {
+                            val params = PictureInPictureParams.Builder()
+                                .setAspectRatio(Rational(wide, 1000))
+                                .build()
+                            result.success(enterPictureInPictureMode(params))
+                        } catch (e: Exception) {
+                            result.success(false)
+                        }
+                    }
+                }
+                else -> result.notImplemented()
+            }
+        }
+        playerChannel = player
+
         // 129 Recover deleted messages: is the notification listener allowed?
         val history = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.family/message_history")
         history.setMethodCallHandler { call, result ->
@@ -80,6 +129,14 @@ class MainActivity : FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+    }
+
+    private fun pipSupported(): Boolean =
+        packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        playerChannel?.invokeMethod("pipChanged", isInPictureInPictureMode)
     }
 
     override fun onNewIntent(intent: Intent) {
