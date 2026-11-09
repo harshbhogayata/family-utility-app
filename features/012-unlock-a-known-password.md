@@ -18,6 +18,7 @@ Remove a password the user knows (Aadhaar, bank statements).
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
 - Put the engine behind an interface in `lib/engines/` so the tool UI stays thin.
+- Scouting note (run of 2026-11-09): `PdfProtector.unlock` only handles R6/AES-256. Real Aadhaar/bank PDFs also use R2–R4 (RC4-40/128, AESV2), so add Algorithms 2/6/7 (MD5 + RC4) and per-object keys. `PdfDocumentModel.parse` inflates object streams during parsing and throws on encrypted ones, so it needs an optional hook that decrypts ObjStm data (keyed by the ObjStm's object number) before unpacking.
 - Add a golden test or integration test under `test/features/012_unlock-a-known-password/`.
 
 ## Done when
