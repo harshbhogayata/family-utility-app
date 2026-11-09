@@ -60,6 +60,9 @@ import '../tools/send_original/send_original_screen.dart';
 import '../tools/sign_pdf/sign_pdf_screen.dart';
 import '../engines/share/save_anywhere.dart';
 import '../platform/save_platform.dart';
+import '../engines/share/copy_result.dart';
+import '../platform/clipboard_platform.dart';
+import '../tools/copy_result/copy_result_screen.dart';
 import 'tool_registry.dart';
 
 /// Registers every tool with the registry and installs app-wide state.
@@ -90,6 +93,8 @@ void bootstrap() {
   );
   SaveAnywhere.install(saver);
   unawaited(saver.load());
+
+  CopyResult.install(CopyResult(const SystemClipboardBackend()));
 
   final AppLock lock = AppLock(store: const SecureLockStore(), biometrics: PlatformBiometrics());
   AppLock.install(lock);
@@ -331,6 +336,15 @@ void bootstrap() {
       icon: Icons.qr_code_2,
       featureNumber: 52,
       builder: (BuildContext context) => const QrGeneratorScreen(),
+    ),
+    ToolEntry(
+      id: 'copy-result',
+      name: 'Copy result',
+      section: ToolSection.share,
+      icon: Icons.copy_all_outlined,
+      featureNumber: 66,
+      touches: const <DataTouch>{DataTouch.clipboard, DataTouch.files},
+      builder: (BuildContext context) => const CopyResultScreen(),
     ),
     ToolEntry(
       id: 'phone-to-laptop',

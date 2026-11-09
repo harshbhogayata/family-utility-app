@@ -47,6 +47,8 @@ dependencies:
   google_mlkit_face_detection: ^0.13.1
   # 026 WebP: the phone's own codec writes WebP.
   flutter_image_compress: ^2.3.0
+  # 066 Copy result: images go on the clipboard as images.
+  pasteboard: ^0.3.0
 
 dev_dependencies:
   flutter_test:
