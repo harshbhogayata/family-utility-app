@@ -89,7 +89,7 @@ class MediaKitBackend implements VideoBackend {
   bool get isPlaying => _player.state.playing;
 
   @override
-  Widget view() => Video(controller: _controller, controls: NoVideoControls);
+  Widget view() => Video(controller: _controller, controls: (_) => const SizedBox.shrink());
 
   @override
   Future<void> dispose() => _player.dispose();
