@@ -88,6 +88,7 @@ abstract final class BatchPolicy {
     16: BatchSupport.single('One PDF at a time here; the All PDFs tab searches every saved PDF at once.'),
     18: BatchSupport.viaBatch('batch-convert'),
     19: BatchSupport.viaBatch('batch-convert'),
+    20: BatchSupport.viaBatch('batch-convert'),
     21: BatchSupport.multiPicker(),
     23: BatchSupport.noPicker(),
     24: BatchSupport.noPicker(),

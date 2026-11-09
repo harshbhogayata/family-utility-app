@@ -19,6 +19,8 @@ enum FileKind {
   doc('Word 97-2003 document', 'doc', 'application/msword'),
   xlsx('Excel workbook', 'xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
   xls('Excel 97-2003 workbook', 'xls', 'application/vnd.ms-excel'),
+  pptx('PowerPoint deck', 'pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+  ppt('PowerPoint 97-2003 deck', 'ppt', 'application/vnd.ms-powerpoint'),
   zip('ZIP', 'zip', 'application/zip'),
   rar('RAR', 'rar', 'application/vnd.rar'),
   sevenZip('7Z', '7z', 'application/x-7z-compressed'),
@@ -129,11 +131,18 @@ FileKind sniffFileKind(Uint8List b) {
     if (_contains(b, ascii.encode('word/document.xml'))) {
       return FileKind.docx;
     }
+    if (_contains(b, ascii.encode('ppt/presentation.xml'))) {
+      return FileKind.pptx;
+    }
     return _contains(b, ascii.encode('xl/workbook.xml')) ? FileKind.xlsx : FileKind.zip;
   }
   if (_at(b, 0, const <int>[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]) &&
       _contains(b, <int>[for (final int c in ascii.encode('WordDocument')) ...<int>[c, 0]])) {
     return FileKind.doc;
+  }
+  if (_at(b, 0, const <int>[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]) &&
+      _contains(b, <int>[for (final int c in ascii.encode('PowerPoint Document')) ...<int>[c, 0]])) {
+    return FileKind.ppt;
   }
   if (_at(b, 0, const <int>[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]) &&
       (_contains(b, <int>[for (final int c in ascii.encode('Workbook')) ...<int>[c, 0]]) ||

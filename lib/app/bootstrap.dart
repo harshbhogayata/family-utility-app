@@ -92,6 +92,8 @@ import '../tools/pdf_search/pdf_search_screen.dart';
 import '../tools/ocr_scan/ocr_scan_screen.dart';
 import '../tools/clean_scan/clean_scan_screen.dart';
 import '../tools/excel_pdf/excel_pdf_screen.dart';
+import '../tools/powerpoint_pdf/powerpoint_pdf_screen.dart';
+import '../engines/convert/slides.dart';
 import '../tools/rotate_flip/rotate_flip_screen.dart';
 import '../engines/convert/sheet_converters.dart';
 import '../tools/redact/redact_screen.dart';
@@ -142,6 +144,9 @@ void bootstrap() {
     const PdfrxTextSource(),
     loadUnicodeFont: () async => (await rootBundle.load('assets/fonts/Inter.ttf')).buffer.asUint8List(),
   );
+
+  // 020: PowerPoint decks to PDF (slide per page) and PDFs to decks.
+  registerSlideConverters(ConvertRegistry.instance, const PdfrxTextSource());
 
   // 025: HEIC through the phone's codec, also for Convert anything / Batch.
   registerHeicConverters(ConvertRegistry.instance, const PlatformHeicCodec());
@@ -860,6 +865,14 @@ void bootstrap() {
       icon: Icons.table_chart_outlined,
       featureNumber: 19,
       builder: (BuildContext context) => const ExcelPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'powerpoint-pdf',
+      name: 'PowerPoint to PDF and back',
+      section: ToolSection.convert,
+      icon: Icons.slideshow_outlined,
+      featureNumber: 20,
+      builder: (BuildContext context) => const PowerPointPdfScreen(),
     ),
     ToolEntry(
       id: 'archives',
