@@ -1,12 +1,12 @@
 # Progress
 
-Done: 52 / 130  (40%)
+Done: 53 / 130  (40%)
 In progress: none
-Updated: 2026-11-09 10:21 UTC
+Updated: 2026-11-09 10:31 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 52 |
+| 1 — file chores and platform core | 86 | 53 |
 | 2 — family layer | 20 | 0 |
 | 3 — personal records | 24 | 0 |
 
@@ -54,6 +54,7 @@ Updated: 2026-11-09 10:21 UTC
 - 107 Batch everywhere — done e56c777
 - 108 Versions — done d46302d
 - 111 No login — done 8507290
+- 113 Job notifications — done 28fc557
 - 114 One search — done 02b6068
 - 117 File manager — done 213b1d0
 - 118 Action history and trash — done bfeeaf5
