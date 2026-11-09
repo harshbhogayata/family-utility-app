@@ -3,17 +3,17 @@
 **Section:** 2. Convert
 **Phase:** 1
 **Priority score:** 80 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 068831f
 **Depends on:** [117 File manager](./117-file-manager.md)
 
 ## What the person gets
 Pick a file; the app lists every format it can become.
 
 ## Acceptance criteria
-- [ ] Format list is derived from the file's real type, not its extension
-- [ ] One conversion engine registry so new converters appear automatically
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Format list is derived from the file's real type, not its extension
+- [x] One conversion engine registry so new converters appear automatically
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
