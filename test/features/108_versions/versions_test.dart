@@ -166,9 +166,13 @@ void main() {
     });
 
     test('a failing hook never breaks history', () async {
-      final ActionHistory h = ActionHistory(store: MemoryHistoryStore(), bin: FakeBin(Disk()))
-        ..onRecorded = (HistoryEntry e) async => throw StateError('boom')
-        ..onTrashEmptied = () async => throw StateError('boom');
+      final ActionHistory h = ActionHistory(store: MemoryHistoryStore(), bin: FakeBin(Disk()));
+      h.onRecorded = (HistoryEntry e) async {
+        throw StateError('boom');
+      };
+      h.onTrashEmptied = () async {
+        throw StateError('boom');
+      };
       final HistoryEntry e =
           await h.record(toolId: 't', toolName: 'T', inputs: <String>['/a'], outputs: <String>['/b']);
       expect(h.entries.single.id, e.id);
