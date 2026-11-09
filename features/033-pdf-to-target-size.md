@@ -3,7 +3,7 @@
 **Section:** 3. Compress
 **Phase:** 1
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [032 Compress PDF](./032-compress-pdf.md)
 
 ## What the person gets

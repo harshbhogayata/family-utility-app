@@ -20,6 +20,7 @@ import '../platform/share_sheet.dart';
 import '../tools/app_lock/app_lock_settings_screen.dart';
 import '../tools/compress_images/compress_images_screen.dart';
 import '../tools/compress_pdf/compress_pdf_screen.dart';
+import '../tools/pdf_target_size/pdf_target_size_screen.dart';
 import '../tools/history/history_screen.dart';
 import '../tools/one_search/one_search_screen.dart';
 import '../tools/pdf_viewer/pdf_viewer_screen.dart';
@@ -148,6 +149,14 @@ void bootstrap() {
       icon: Icons.compress,
       featureNumber: 32,
       builder: (BuildContext context) => const CompressPdfScreen(),
+    ),
+    ToolEntry(
+      id: 'pdf-target-size',
+      name: 'PDF to target size',
+      section: ToolSection.compress,
+      icon: Icons.straighten,
+      featureNumber: 33,
+      builder: (BuildContext context) => const PdfTargetSizeScreen(),
     ),
     ToolEntry(
       id: 'compress-images',

@@ -31,6 +31,40 @@ enum PdfPreset {
   final double jpegFactor;
 }
 
+/// How hard the run squeezes photos.
+@immutable
+class PdfSettings {
+  const PdfSettings(this.maxSide, this.quality);
+
+  final int maxSide;
+  final int quality;
+
+  /// Mildest first. Feature 033 walks this ladder to hit a target size.
+  static const List<PdfSettings> ladder = <PdfSettings>[
+    PdfSettings(2600, 85),
+    PdfSettings(1800, 70),
+    PdfSettings(1400, 60),
+    PdfSettings(1200, 50),
+    PdfSettings(1000, 40),
+    PdfSettings(800, 35),
+    PdfSettings(600, 30),
+    PdfSettings(450, 25),
+    PdfSettings(300, 20),
+  ];
+}
+
+/// The answer for a target size: the mildest result that fits, or the
+/// smallest the app could make and why it is not enough.
+@immutable
+class PdfTargetResult {
+  const PdfTargetResult({required this.target, required this.result, required this.reached, required this.message});
+
+  final int target;
+  final PdfCompressResult result;
+  final bool reached;
+  final String message;
+}
+
 class PdfCompressError implements Exception {
   const PdfCompressError(this.message);
 
@@ -677,7 +711,60 @@ abstract final class PdfCompressor {
     return PdfAnalysis(size: input.length, pages: doc.pageCount(), images: images, plainStreamBytes: plain);
   }
 
-  static PdfCompressResult compress(Uint8List input, PdfPreset preset) {
+  static PdfCompressResult compress(Uint8List input, PdfPreset preset) =>
+      compressWith(input, PdfSettings(preset.maxSide, preset.quality));
+
+  /// Feature 033: tries the ladder until the file is under [target] bytes.
+  /// Checks the hardest setting first so an impossible target fails fast,
+  /// then searches for the mildest setting that still fits.
+  static PdfTargetResult toTarget(Uint8List input, int target, {String Function(int)? format}) {
+    final String Function(int) fmt = format ?? ((int n) => '${(n / 1024).round()} KB');
+    if (input.length <= target) {
+      final PdfCompressResult same =
+          PdfCompressResult(bytes: input, before: input.length, imagesChanged: 0, streamsChanged: 0);
+      return PdfTargetResult(
+        target: target,
+        result: same,
+        reached: true,
+        message: 'Already under ${fmt(target)}. Nothing to do.',
+      );
+    }
+    const List<PdfSettings> ladder = PdfSettings.ladder;
+    final PdfCompressResult hardest = compressWith(input, ladder.last);
+    if (hardest.after > target) {
+      final String why = hardest.imagesChanged == 0
+          ? 'Its text, fonts and drawings alone need about ${fmt(hardest.after)}, and they cannot be shrunk '
+              'without losing selectable text.'
+          : 'Even with photos at their smallest it needs about ${fmt(hardest.after)}.';
+      return PdfTargetResult(
+        target: target,
+        result: hardest,
+        reached: false,
+        message: 'Cannot get this PDF under ${fmt(target)}. $why Try a bigger limit or split the file.',
+      );
+    }
+    PdfCompressResult best = hardest;
+    int lo = 0;
+    int hi = ladder.length - 1;
+    while (lo < hi) {
+      final int mid = (lo + hi) >> 1;
+      final PdfCompressResult r = compressWith(input, ladder[mid]);
+      if (r.after <= target) {
+        best = r;
+        hi = mid;
+      } else {
+        lo = mid + 1;
+      }
+    }
+    return PdfTargetResult(
+      target: target,
+      result: best,
+      reached: true,
+      message: '${fmt(best.after)}, under the ${fmt(target)} limit.',
+    );
+  }
+
+  static PdfCompressResult compressWith(Uint8List input, PdfSettings settings) {
     final PdfDocumentModel doc = PdfDocumentModel.parse(input);
     final Set<int> live = doc.reachable();
     doc.objects.removeWhere((int n, PdfObject _) => !live.contains(n));
@@ -692,7 +779,7 @@ abstract final class PdfCompressor {
       final PdfDict d = o.value as PdfDict;
       final _ImageInfo? info = _imageInfo(doc, d, masks.contains(o.num));
       if (info != null) {
-        if (_recodeImage(o, d, data, info, preset)) {
+        if (_recodeImage(o, d, data, info, settings)) {
           images++;
         }
         continue;
@@ -778,7 +865,7 @@ abstract final class PdfCompressor {
     return _ImageInfo(f.first == 'DCTDecode', w, h, channels);
   }
 
-  static bool _recodeImage(PdfObject o, PdfDict d, Uint8List data, _ImageInfo info, PdfPreset preset) {
+  static bool _recodeImage(PdfObject o, PdfDict d, Uint8List data, _ImageInfo info, PdfSettings preset) {
     img.Image? image;
     try {
       if (info.jpeg) {
