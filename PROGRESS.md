@@ -1,12 +1,12 @@
 # Progress
 
-Done: 107 / 130  (82%)
+Done: 108 / 130  (83%)
 In progress: none
-Updated: 2026-11-09 22:51 UTC
+Updated: 2026-11-09 23:07 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 84 |
+| 1 — file chores and platform core | 86 | 85 |
 | 2 — family layer | 20 | 20 |
 | 3 — personal records | 24 | 3 |
 
@@ -19,6 +19,7 @@ Updated: 2026-11-09 22:51 UTC
 - 006 Reorder pages — done 3633a4f
 - 007 Rotate pages — done 7a0efef
 - 008 OCR a scan — done 2e732c5
+- 009 Fill forms — done 10b79fd
 - 010 Sign PDF — done 2fbb457
 - 011 Protect with password — done 75b311c
 - 012 Unlock a known password — done 2a524de

@@ -113,7 +113,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 054 | [One-tap searchable scan](features/054-one-tap-searchable-scan.md) | 5. Scan and QR | 64 | done 6232042 |
 | 063 | [Cloud import and save](features/063-cloud-import-and-save.md) | 7. Share and transfer | 64 | done 1cf27d4 |
 | 105 | [Paste anything](features/105-paste-anything.md) | 10. Platform | 64 | done 1516ef8 |
-| 009 | [Fill forms](features/009-fill-forms.md) | 1. PDF basics | 60 | not started |
+| 009 | [Fill forms](features/009-fill-forms.md) | 1. PDF basics | 60 | done 10b79fd |
 | 056 | [Private vault](features/056-private-vault.md) | 6. Security | 60 | done 3aa5d75 |
 | 061 | [Nearby share](features/061-nearby-share.md) | 7. Share and transfer | 60 | done 049dd84 |
 | 124 | [Download audio from a link](features/124-download-audio-from-a-link.md) | 11. Links and WhatsApp essentials | 60 | done 2be5196 |
