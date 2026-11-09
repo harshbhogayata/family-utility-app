@@ -193,9 +193,10 @@ void main() {
     expect(tester.getSize(use).height, greaterThanOrEqualTo(44));
     await tester.tap(use);
     await tester.pump();
-    expect(tester.widget<TextField>(find.byKey(const Key('unlock-password'))).controller!.text, 'SURE1990');
 
     await tester.scrollUntilVisible(run, -200, scrollable: list);
+    await tester.scrollUntilVisible(find.byKey(const Key('unlock-password')), -200, scrollable: list);
+    expect(tester.widget<TextField>(find.byKey(const Key('unlock-password'))).controller!.text, 'SURE1990');
     await tester.tap(run);
     await tester.pumpAndSettle();
     expect(files.written.keys.single, '/unlocked/statement unlocked.pdf');
