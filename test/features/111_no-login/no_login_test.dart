@@ -72,7 +72,8 @@ void main() {
 
     testWidgets('first run to first tool: no account screen, tool opens straight away',
         (WidgetTester tester) async {
-      tester.view.physicalSize = const Size(1200, 2400);
+      // Tall enough that the lazily built grid holds every tool tile.
+      tester.view.physicalSize = const Size(1200, 12000);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
       bootstrap();
