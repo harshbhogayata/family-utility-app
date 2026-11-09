@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 100 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [057 Secure notes](./057-secure-notes.md)
 
 ## What the person gets

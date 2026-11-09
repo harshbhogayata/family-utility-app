@@ -70,3 +70,28 @@ class SystemClipboard implements ClipboardSink {
   @override
   Future<void> clear() => Clipboard.setData(const ClipboardData(text: ''));
 }
+
+/// 096: the autofill profile's encrypted blob, beside the notes blob.
+class FileProfileBlobStore implements NoteBlobStore {
+  const FileProfileBlobStore();
+
+  Future<File> _file() async {
+    final Directory dir = await getApplicationSupportDirectory();
+    return File('${dir.path}${Platform.pathSeparator}autofill_profile.enc');
+  }
+
+  @override
+  Future<String?> read() async {
+    final File f = await _file();
+    if (!await f.exists()) {
+      return null;
+    }
+    return f.readAsString();
+  }
+
+  @override
+  Future<void> write(String blob) async {
+    final File f = await _file();
+    await f.writeAsString(blob, flush: true);
+  }
+}

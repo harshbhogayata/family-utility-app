@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'expenses/expense_screen.dart';
 import 'medicines/medicine_screen.dart';
+import 'profile/autofill_profile_screen.dart';
 import 'quick_add/quick_add_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
@@ -34,6 +35,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Type "paid 350 milk"'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const QuickAddScreen()),
+              ),
+            ),
+            // 096: name, DOB and saved addresses, copied in one tap.
+            ListTile(
+              key: const Key('records-my-details'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.badge_outlined),
+              title: const Text('My details'),
+              subtitle: const Text('Name, date of birth, saved addresses'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const AutofillProfileScreen()),
               ),
             ),
             const SizedBox(height: 8),

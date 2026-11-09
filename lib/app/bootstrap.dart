@@ -18,6 +18,7 @@ import '../engines/family/document_vault.dart';
 import '../engines/family/family_location.dart';
 import '../engines/security/private_vault.dart';
 import '../engines/security/secure_notes.dart';
+import '../engines/records/autofill_profile.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/first_run_store.dart';
 import '../platform/guest_mode_store.dart';
@@ -647,6 +648,15 @@ void bootstrap() {
     blobStore: const FileNoteBlobStore(),
     clipboard: const SystemClipboard(),
   ));
+
+  // 096: the autofill profile, encrypted with the notes key, never uploaded.
+  final AutofillProfileBook autofill = AutofillProfileBook(
+    keyStore: const SecureKeyStore(),
+    blobStore: const FileProfileBlobStore(),
+    clipboard: const SystemClipboard(),
+  );
+  AutofillProfileBook.install(autofill);
+  unawaited(autofill.load());
 
   final OcrTextStore ocr = OcrTextStore(FileOcrBackend(() => appFolder('search')));
   OcrTextStore.install(ocr);
