@@ -8,6 +8,8 @@ import 'app_lock/app_lock_settings_screen.dart';
 import 'app_lock/lock_screen.dart';
 import 'one_search/one_search_screen.dart';
 import 'privacy/privacy_screen.dart';
+import 'profiles/profiles_screen.dart';
+import '../engines/family/member_profiles.dart';
 
 /// Home / Tools: greeting, paste-or-pick box, tool grid.
 class ToolsHome extends StatelessWidget {
@@ -41,11 +43,7 @@ class ToolsHome extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 4),
-                  const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: AppColors.accentTint,
-                    child: Icon(Icons.person_outline, color: AppColors.accentDark),
-                  ),
+                  const ProfileChip(),
                 ],
               ),
             ),
@@ -75,6 +73,12 @@ class ToolsHome extends StatelessWidget {
           const SliverPadding(
             padding: EdgeInsets.fromLTRB(16, 10, 16, 0),
             sliver: SliverToBoxAdapter(child: WelcomeCard()),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: ProfileShortcuts(onOpen: (ToolEntry t) => openTool(context, t)),
+            ),
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
@@ -205,18 +209,26 @@ class OnDeviceChip extends StatelessWidget {
 
 /// A square tile in the tool grid. Stroke icon, name, optional network badge.
 /// A network tool is greyed out, with the reason, while on-device mode is on.
+/// Opens [tool] (unlocking it first when it is locked) and notes it in the
+/// active member's recents (feature 069).
+Future<void> openTool(BuildContext context, ToolEntry tool) async {
+  final bool ok = await ensureUnlockedFor(context, tool.id);
+  if (!ok || !context.mounted) {
+    return;
+  }
+  await MemberProfiles.instance.recordRecent(tool.id);
+  if (!context.mounted) {
+    return;
+  }
+  await Navigator.of(context).push<void>(MaterialPageRoute<void>(builder: tool.builder));
+}
+
 class ToolTile extends StatelessWidget {
   const ToolTile({super.key, required this.tool});
 
   final ToolEntry tool;
 
-  Future<void> _open(BuildContext context) async {
-    final bool ok = await ensureUnlockedFor(context, tool.id);
-    if (!ok || !context.mounted) {
-      return;
-    }
-    await Navigator.of(context).push<void>(MaterialPageRoute<void>(builder: tool.builder));
-  }
+  Future<void> _open(BuildContext context) => openTool(context, tool);
 
   Future<void> _explain(BuildContext context) {
     return showDialog<void>(
@@ -261,6 +273,7 @@ class ToolTile extends StatelessWidget {
         return Semantics(
           button: true,
           label: label,
+          onLongPressHint: 'Star for this profile',
           child: Card(
             clipBehavior: Clip.antiAlias,
             child: InkWell(
@@ -269,6 +282,17 @@ class ToolTile extends StatelessWidget {
                   _explain(context);
                 } else {
                   _open(context);
+                }
+              },
+              onLongPress: () async {
+                final MemberProfiles ps = MemberProfiles.instance;
+                await ps.toggleFavourite(tool.id);
+                if (context.mounted) {
+                  ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(
+                    content: Text(ps.isFavourite(tool.id)
+                        ? '${tool.name} starred for ${ps.active.name}'
+                        : '${tool.name} unstarred for ${ps.active.name}'),
+                  ));
                 }
               },
               child: Opacity(

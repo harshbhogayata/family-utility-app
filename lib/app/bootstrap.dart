@@ -16,6 +16,8 @@ import '../engines/security/private_vault.dart';
 import '../engines/security/secure_notes.dart';
 import '../engines/share/share_engine.dart';
 import '../platform/first_run_store.dart';
+import '../platform/profile_store.dart';
+import '../engines/family/member_profiles.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
@@ -225,6 +227,11 @@ void bootstrap() {
   final AppLock lock = AppLock(store: const SecureLockStore(), biometrics: PlatformBiometrics());
   AppLock.install(lock);
   unawaited(lock.load());
+
+  // 069: one profile per family member, kept on the phone.
+  final MemberProfiles profiles = MemberProfiles(const PrefsProfileStore());
+  MemberProfiles.install(profiles);
+  unawaited(profiles.load());
 
   final FirstRun firstRun = FirstRun(const PrefsFirstRunStore());
   FirstRun.install(firstRun);
