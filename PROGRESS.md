@@ -1,14 +1,14 @@
 # Progress
 
-Done: 126 / 130  (96%)
+Done: 127 / 130  (97%)
 In progress: none
-Updated: 2026-11-10 02:13 UTC
+Updated: 2026-11-10 02:23 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 86 |
 | 2 — family layer | 20 | 20 |
-| 3 — personal records | 24 | 20 |
+| 3 — personal records | 24 | 21 |
 
 ## Done
 - 001 PDF viewer — done 1555094
@@ -92,6 +92,7 @@ Updated: 2026-11-10 02:13 UTC
 - 079 Sync through your own Drive or home Wi-Fi — done 83d0f04
 - 080 Expense tracker — done 56d4674
 - 081 Shared expenses and settle-up — done ec554bd
+- 082 Lending ledger — done a7f3912
 - 083 Bill reminders — done 720ccf0
 - 084 Subscription tracker — done c4009a0
 - 085 Receipt vault — done dd8eb01

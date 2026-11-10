@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done a7f3912
 **Depends on:** [080 Expense tracker](./080-expense-tracker.md)
 
 ## What the person gets
 Money lent and borrowed, with reminders.
 
 ## Acceptance criteria
-- [ ] Who, amount, date, due date, status; reminder notifications
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Who, amount, date, due date, status; reminder notifications
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
