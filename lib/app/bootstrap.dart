@@ -171,6 +171,8 @@ import '../platform/subscription_platform.dart';
 import '../engines/records/warranties.dart';
 import '../engines/records/loyalty_cards.dart';
 import '../engines/records/where_is_it.dart';
+import '../engines/records/vaccinations.dart';
+import '../platform/vaccine_platform.dart';
 import '../platform/warranty_platform.dart';
 import '../engines/records/loans.dart';
 import '../platform/loan_platform.dart';
@@ -417,6 +419,10 @@ void bootstrap() {
   LoyaltyCards.install(LoyaltyCards(space: family, soloStore: medicineSolo));
   // 099: where things are kept; private to this phone unless shared.
   WhereIsIt.install(WhereIsIt(space: family, privateStore: medicineSolo));
+  // 092: vaccination record; reminders a week before each dose and on the day.
+  final Vaccinations vaccinations = Vaccinations(space: family, soloStore: medicineSolo, reminders: NotificationVaccineReminders());
+  Vaccinations.install(vaccinations);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => vaccinations.reschedule()));
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => warranties.reschedule()));
   // 087: loans; a reminder two days before each EMI and on the day.
   final Loans loans = Loans(space: family, soloStore: medicineSolo, reminders: NotificationLoanReminders());

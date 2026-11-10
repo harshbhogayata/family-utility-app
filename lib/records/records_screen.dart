@@ -18,6 +18,7 @@ import 'subscriptions/subscriptions_screen.dart';
 import 'warranties/warranties_screen.dart';
 import 'loyalty_cards/loyalty_cards_screen.dart';
 import 'where_is_it/where_is_it_screen.dart';
+import 'vaccinations/vaccinations_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
 /// Filled in by Phase 3 features (080 onwards).
@@ -209,6 +210,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Dose reminders, tablets left, refills'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const MedicineScreen()),
+              ),
+            ),
+            // 092: the Indian immunisation schedule per person, with due alerts.
+            ListTile(
+              key: const Key('records-vaccinations'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.vaccines_outlined),
+              title: const Text('Vaccinations'),
+              subtitle: const Text('Child and adult schedules, due alerts, certificates'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const VaccinationsScreen()),
               ),
             ),
             // 089: BP and sugar readings, trend chart, PDF for the doctor.
