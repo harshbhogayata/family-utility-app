@@ -1,14 +1,14 @@
 # Progress
 
-Done: 112 / 130  (86%)
+Done: 113 / 130  (86%)
 In progress: none
-Updated: 2026-11-09 23:53 UTC
+Updated: 2026-11-10 00:07 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 85 |
 | 2 — family layer | 20 | 20 |
-| 3 — personal records | 24 | 7 |
+| 3 — personal records | 24 | 8 |
 
 ## Done
 - 001 PDF viewer — done 1555094
@@ -96,6 +96,7 @@ Updated: 2026-11-09 23:53 UTC
 - 093 Elderly care log — done c625e85
 - 095 Birthdays and anniversaries — done 363b8f4
 - 096 Saved addresses and autofill profile — done 592f2a5
+- 102 WhatsApp direct — done 6846b78
 - 104 Offline first — done 12c34d3
 - 105 Paste anything — done 1516ef8
 - 106 Smart suggestions — done 196df57
