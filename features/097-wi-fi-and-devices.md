@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 40 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 70f39ff
 **Depends on:** [057 Secure notes](./057-secure-notes.md), [052 QR generator](./052-qr-generator.md)
 
 ## What the person gets
 Router passwords, what is connected, serial numbers.
 
 ## Acceptance criteria
-- [ ] Wi-Fi credentials as QR; device list with serials and purchase dates
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Wi-Fi credentials as QR; device list with serials and purchase dates
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
