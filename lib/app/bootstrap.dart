@@ -163,6 +163,7 @@ import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
+import '../engines/records/doctor_visits.dart';
 import '../engines/records/elderly_care.dart';
 import '../engines/records/expense_tracker.dart';
 import '../engines/records/health_readings.dart';
@@ -414,6 +415,8 @@ void bootstrap() {
   // 071: shared calendar on the family store; reminders while the app runs.
   final SharedCalendar calendar = SharedCalendar(space: family);
   SharedCalendar.install(calendar);
+  // 090: doctor visits; the next appointment goes on this calendar.
+  DoctorVisits.install(DoctorVisits(space: family, soloStore: medicineSolo, calendar: calendar));
   // 072: shared shopping list on the same store.
   SharedShoppingList.install(SharedShoppingList(space: family));
   CalendarReminderWatcher.instance = CalendarReminderWatcher(calendar: calendar, sink: NotificationCalendarReminders());

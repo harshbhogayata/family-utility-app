@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'doctor_visits/doctor_visits_screen.dart';
 import 'elderly_care/elderly_care_screen.dart';
 import 'expenses/expense_screen.dart';
 import 'health_log/health_log_screen.dart';
@@ -128,6 +129,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Readings, trend chart, PDF for the doctor'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const HealthLogScreen()),
+              ),
+            ),
+            // 090: doctor visits, scanned prescriptions, next appointment.
+            ListTile(
+              key: const Key('records-doctor-visits'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.medical_services_outlined),
+              title: const Text('Doctor visits'),
+              subtitle: const Text('Notes, scanned prescriptions, next appointment'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const DoctorVisitsScreen()),
               ),
             ),
             // 093: a care circle for a parent, shared with siblings.
