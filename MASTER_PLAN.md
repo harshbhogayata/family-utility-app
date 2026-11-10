@@ -200,7 +200,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 091 | [Reports vault](features/091-reports-vault.md) | 9. Personal records | 75 | done a62ca9d |
 | 084 | [Subscription tracker](features/084-subscription-tracker.md) | 9. Personal records | 64 | done c4009a0 |
 | 085 | [Receipt vault](features/085-receipt-vault.md) | 9. Personal records | 64 | done dd8eb01 |
-| 100 | [Loyalty cards](features/100-loyalty-cards.md) | 9. Personal records | 64 | not started |
+| 100 | [Loyalty cards](features/100-loyalty-cards.md) | 9. Personal records | 64 | done 4acc5df |
 | 099 | [Where-is-it notes](features/099-where-is-it-notes.md) | 9. Personal records | 60 | not started |
 | 092 | [Vaccination record](features/092-vaccination-record.md) | 9. Personal records | 50 | not started |
 | 094 | [Health summary PDF](features/094-health-summary-pdf.md) | 9. Personal records | 50 | not started |
