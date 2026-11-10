@@ -1,12 +1,12 @@
 # Progress
 
-Done: 116 / 130  (89%)
+Done: 117 / 130  (90%)
 In progress: none
-Updated: 2026-11-10 00:33 UTC
+Updated: 2026-11-10 00:40 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
-| 1 — file chores and platform core | 86 | 85 |
+| 1 — file chores and platform core | 86 | 86 |
 | 2 — family layer | 20 | 20 |
 | 3 — personal records | 24 | 11 |
 
@@ -60,6 +60,7 @@ Updated: 2026-11-10 00:33 UTC
 - 047 Document scanner — done d7ded95
 - 048 Scan filters — done cb126a8
 - 049 ID scan — done cedf8ab
+- 050 Receipt scan into the receipt vault — done c297f43
 - 051 QR scanner — done 012db23
 - 052 QR generator — done e0c8180
 - 053 Auto-name scans — done 32adde0
