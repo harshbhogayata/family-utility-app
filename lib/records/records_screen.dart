@@ -14,6 +14,7 @@ import 'receipts/receipt_vault_screen.dart';
 import 'reports/reports_vault_screen.dart';
 import 'whatsapp_direct/whatsapp_direct_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
+import 'warranties/warranties_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
 /// Filled in by Phase 3 features (080 onwards).
@@ -131,6 +132,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Search by shop or amount; link an expense or warranty'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const ReceiptVaultScreen()),
+              ),
+            ),
+            // 086: warranties with the bill linked and the service number one tap away.
+            ListTile(
+              key: const Key('records-warranties'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.verified_outlined),
+              title: const Text('Warranties'),
+              subtitle: const Text('Warranty end, linked bill, service number'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const WarrantiesScreen()),
               ),
             ),
             // 095: birthdays and anniversaries with gift ideas and a wish.

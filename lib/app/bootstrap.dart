@@ -166,6 +166,8 @@ import '../engines/family/family_sync.dart';
 import '../engines/records/bills.dart';
 import '../engines/records/doctor_visits.dart';
 import '../platform/bill_platform.dart';
+import '../engines/records/warranties.dart';
+import '../platform/warranty_platform.dart';
 import '../engines/records/loans.dart';
 import '../platform/loan_platform.dart';
 import '../engines/records/elderly_care.dart';
@@ -400,6 +402,10 @@ void bootstrap() {
   final Bills bills = Bills(space: family, soloStore: medicineSolo, reminders: NotificationBillReminders());
   Bills.install(bills);
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => bills.reschedule()));
+  // 086: warranties; reminders a month and a week before they end.
+  final Warranties warranties = Warranties(space: family, soloStore: medicineSolo, reminders: NotificationWarrantyReminders());
+  Warranties.install(warranties);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => warranties.reschedule()));
   // 087: loans; a reminder two days before each EMI and on the day.
   final Loans loans = Loans(space: family, soloStore: medicineSolo, reminders: NotificationLoanReminders());
   Loans.install(loans);
