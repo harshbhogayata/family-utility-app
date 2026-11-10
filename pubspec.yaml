@@ -67,6 +67,9 @@ dependencies:
   media_kit: ^1.1.11
   media_kit_video: ^1.2.5
   media_kit_libs_video: ^1.0.5
+  # 100 Loyalty cards: pure-Dart barcode drawing (EAN, UPC, Code 128, QR...).
+  barcode: ^2.2.9
+  barcode_widget: ^2.0.4
 
 dev_dependencies:
   flutter_test:

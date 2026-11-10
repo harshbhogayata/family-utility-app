@@ -16,6 +16,7 @@ import 'whatsapp_direct/whatsapp_direct_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
 import 'subscriptions/subscriptions_screen.dart';
 import 'warranties/warranties_screen.dart';
+import 'loyalty_cards/loyalty_cards_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
 /// Filled in by Phase 3 features (080 onwards).
@@ -157,6 +158,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Warranty end, linked bill, service number'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const WarrantiesScreen()),
+              ),
+            ),
+            // 100: store cards scanned once, shown at the till.
+            ListTile(
+              key: const Key('records-loyalty'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.loyalty_outlined),
+              title: const Text('Loyalty cards'),
+              subtitle: const Text('Scan once, show the barcode at the till'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const LoyaltyCardsScreen()),
               ),
             ),
             // 095: birthdays and anniversaries with gift ideas and a wish.
