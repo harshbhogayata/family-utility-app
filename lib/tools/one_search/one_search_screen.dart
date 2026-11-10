@@ -9,9 +9,11 @@ import '../../app/widgets/result_bar.dart';
 import '../../engines/platform/action_history.dart';
 import '../../engines/platform/file_manager.dart';
 import '../../engines/platform/one_search.dart';
+import '../../engines/records/where_is_it.dart';
 import '../../engines/security/app_lock.dart';
 import '../../engines/share/share_engine.dart';
 import '../app_lock/lock_screen.dart';
+import '../../records/where_is_it/where_is_it_screen.dart';
 import '../history/history_screen.dart';
 import '../secure_notes/secure_notes_screen.dart';
 
@@ -39,6 +41,13 @@ Future<void> openSearchHit(BuildContext context, SearchDoc doc) async {
         MaterialPageRoute<void>(builder: (BuildContext _) => const HistoryScreen()),
       );
     case SearchKind.record:
+      // 099: where-is-it notes open on their own screen, filtered to the hit.
+      if (doc.ref.startsWith(WhereIsIt.refPrefix)) {
+        await Navigator.of(context).push<void>(
+          MaterialPageRoute<void>(builder: (BuildContext _) => WhereIsItScreen(initialQuery: doc.title)),
+        );
+        return;
+      }
       final bool ok = await ensureUnlockedFor(context, LockableIds.secureNotes);
       if (!ok || !context.mounted) {
         return;
