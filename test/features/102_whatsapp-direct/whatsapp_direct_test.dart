@@ -79,7 +79,7 @@ void main() {
     await tester.tap(find.byKey(const Key('wa-open')));
     await tester.pumpAndSettle();
     expect(opener.opened.single.toString(), 'https://wa.me/919876543210?text=Hello');
-    expect(find.text('+91 98765 43210'), findsOneWidget);
+    expect(find.descendant(of: find.byKey(const Key('wa-recent-919876543210')), matching: find.text('+91 98765 43210')), findsOneWidget);
     expect(tester.getSize(find.byKey(const Key('wa-open'))).height, greaterThanOrEqualTo(44));
     expect(find.byTooltip('Forget this number'), findsOneWidget);
 
