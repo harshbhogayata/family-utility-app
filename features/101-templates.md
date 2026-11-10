@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 89581fe
 **Depends on:** [096 Saved addresses and autofill profile](./096-saved-addresses-and-autofill-profile.md), [024 Text to PDF](./024-text-to-pdf.md)
 
 ## What the person gets
 Resume, letters, rent receipt, invoice, NOC, filled and exported as PDF.
 
 ## Acceptance criteria
-- [ ] 10 templates in English and Hindi; fields prefilled from the autofill profile
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] 10 templates in English and Hindi; fields prefilled from the autofill profile
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
