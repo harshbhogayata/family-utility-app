@@ -241,6 +241,7 @@ class _WifiDevicesScreenState extends State<WifiDevicesScreen> {
                       child: Semantics(
                         label: 'QR code to join ${n.ssid}',
                         image: true,
+                        excludeSemantics: true,
                         child: Container(
                           key: Key('wifi-qr-${n.id}'),
                           color: Colors.white,
