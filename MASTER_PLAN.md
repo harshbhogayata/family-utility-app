@@ -197,7 +197,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 102 | [WhatsApp direct](features/102-whatsapp-direct.md) | 9. Personal records | 80 | done 6846b78 |
 | 086 | [Warranty tracker](features/086-warranty-tracker.md) | 9. Personal records | 75 | not started |
 | 090 | [Doctor visits and prescriptions](features/090-doctor-visits-and-prescriptions.md) | 9. Personal records | 75 | done 63ed1a9 |
-| 091 | [Reports vault](features/091-reports-vault.md) | 9. Personal records | 75 | not started |
+| 091 | [Reports vault](features/091-reports-vault.md) | 9. Personal records | 75 | done a62ca9d |
 | 084 | [Subscription tracker](features/084-subscription-tracker.md) | 9. Personal records | 64 | not started |
 | 085 | [Receipt vault](features/085-receipt-vault.md) | 9. Personal records | 64 | not started |
 | 100 | [Loyalty cards](features/100-loyalty-cards.md) | 9. Personal records | 64 | not started |
