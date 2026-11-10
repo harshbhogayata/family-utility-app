@@ -118,11 +118,10 @@ void main() {
     final LoyaltyCard dmart = c.all.single;
     expect(find.text('4006381333931 · EAN-13'), findsOneWidget);
 
-    // A typed number with a wrong check digit is refused.
+    // A typed card needs a store name.
     await tester.tap(find.byTooltip('Type a card number'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byKey(const Key('lc-store')), 'Bad');
-    await tester.enterText(find.byKey(const Key('lc-number-field')), '4006381333932');
+    await tester.enterText(find.byKey(const Key('lc-number-field')), 'DM-778812');
     await tester.tap(find.byKey(const Key('lc-save')));
     await tester.pumpAndSettle();
     expect(c.all.length, 1);
@@ -138,7 +137,7 @@ void main() {
     await tester.pageBack();
     await tester.pumpAndSettle();
     expect(light.sets, <double?>[1.0, 0.4]);
-    expect(c.byId(dmart.id)!.uses, greaterThan(0));
+    expect(c.byId(dmart.id)!.uses, 1);
 
     final Finder del = find.byKey(Key('lc-delete-${dmart.id}'));
     expect(tester.getSize(del).height, greaterThanOrEqualTo(44));
