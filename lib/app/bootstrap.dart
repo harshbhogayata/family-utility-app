@@ -164,8 +164,10 @@ import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
 import '../engines/records/bills.dart';
+import '../engines/records/lending_ledger.dart';
 import '../engines/records/doctor_visits.dart';
 import '../platform/bill_platform.dart';
+import '../platform/lending_platform.dart';
 import '../engines/records/subscriptions.dart';
 import '../platform/subscription_platform.dart';
 import '../engines/records/warranties.dart';
@@ -405,6 +407,10 @@ void bootstrap() {
   Occasions.install(occasions);
   unawaited(familyLoaded.then((_) => occasions.reschedule()));
 
+  // 082: lending ledger, private to this phone; reminders before the due date.
+  final LendingLedger lending = LendingLedger(store: medicineSolo, reminders: NotificationLendReminders());
+  LendingLedger.install(lending);
+  unawaited(medicineSolo.load().then((_) => lending.reschedule()));
   // 083: bills on the family store; reminders 3 days ahead and on the day.
   final Bills bills = Bills(space: family, soloStore: medicineSolo, reminders: NotificationBillReminders());
   Bills.install(bills);

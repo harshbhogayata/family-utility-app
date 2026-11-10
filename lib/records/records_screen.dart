@@ -5,6 +5,7 @@ import 'doctor_visits/doctor_visits_screen.dart';
 import 'elderly_care/elderly_care_screen.dart';
 import 'expenses/expense_screen.dart';
 import 'health_log/health_log_screen.dart';
+import 'lending/lending_screen.dart';
 import 'loans/loans_screen.dart';
 import 'medicines/medicine_screen.dart';
 import 'occasions/occasions_screen.dart';
@@ -114,6 +115,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Electricity, water, gas, internet, rent, society dues'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const BillsScreen()),
+              ),
+            ),
+            // 082: money lent and borrowed, due dates and reminders.
+            ListTile(
+              key: const Key('records-lending'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.handshake_outlined),
+              title: const Text('Lending ledger'),
+              subtitle: const Text('Money lent and borrowed, with reminders'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const LendingScreen()),
               ),
             ),
             // 087: loans with EMI schedule, prepayment what-if and reminders.
