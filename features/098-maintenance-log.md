@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 48 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done f1cd04c
 **Depends on:** [083 Bill reminders](./083-bill-reminders.md)
 
 ## What the person gets
 AC service, water filter, pest control, with next-due.
 
 ## Acceptance criteria
-- [ ] Recurring intervals per item; reminders; service contact
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Recurring intervals per item; reminders; service contact
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.

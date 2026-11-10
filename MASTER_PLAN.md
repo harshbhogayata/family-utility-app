@@ -206,6 +206,6 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 094 | [Health summary PDF](features/094-health-summary-pdf.md) | 9. Personal records | 50 | done 7bd4867 |
 | 103 | [Contacts backup](features/103-contacts-backup.md) | 9. Personal records | 50 | done d715a86 |
 | 082 | [Lending ledger](features/082-lending-ledger.md) | 9. Personal records | 48 | done a7f3912 |
-| 098 | [Maintenance log](features/098-maintenance-log.md) | 9. Personal records | 48 | not started |
+| 098 | [Maintenance log](features/098-maintenance-log.md) | 9. Personal records | 48 | done f1cd04c |
 | 101 | [Templates](features/101-templates.md) | 9. Personal records | 48 | not started |
 | 097 | [Wi-Fi and devices](features/097-wi-fi-and-devices.md) | 9. Personal records | 40 | not started |
