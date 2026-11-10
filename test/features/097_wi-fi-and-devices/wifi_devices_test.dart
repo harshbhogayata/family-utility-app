@@ -103,7 +103,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('WPA/WPA2 · secret123'), findsOneWidget);
     expect(find.byType(QrImageView), findsOneWidget);
-    expect(find.bySemanticsLabel('QR code to join Sharma Home'), findsOneWidget);
+    expect(find.byWidgetPredicate((Widget w) => w is Semantics && w.properties.label == 'QR code to join Sharma Home' && w.properties.image == true), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('tab-devices')));
     await tester.pumpAndSettle();
