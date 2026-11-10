@@ -1,0 +1,74 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag, e.g. v0.1.0"
+        required: true
+        default: "v0.1.0"
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: python3 tools/patch_android.py
+
+      - name: Resolve version
+        id: v
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build APK (retry on CDN hiccups)
+        run: |
+          for i in 1 2 3; do
+            flutter build apk --debug && exit 0
+            echo "build attempt $i failed; retrying in 60s"; sleep 60
+          done
+          exit 1
+
+      - name: Rename APK
+        run: cp build/app/outputs/flutter-apk/app-debug.apk "family-utility-app-${{ steps.v.outputs.tag }}.apk"
+
+      - name: Release notes
+        run: |
+          {
+            echo "Family Utility App ${{ steps.v.outputs.tag }}"
+            echo
+            echo "Debug build signed with the debug key: install directly on Android (allow installs from your browser when asked)."
+            echo "Offline-first, no accounts, no cloud AI. $(sed -n 's/^Done: //p' PROGRESS.md) features."
+            echo
+            echo "Built from commit ${GITHUB_SHA::7}."
+          } > notes.md
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ steps.v.outputs.tag }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "family-utility-app-$TAG.apk" --clobber
+          else
+            gh release create "$TAG" "family-utility-app-$TAG.apk" --title "Family Utility App $TAG" --notes-file notes.md --target "$GITHUB_SHA"
+          fi
