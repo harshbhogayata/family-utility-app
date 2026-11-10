@@ -165,9 +165,11 @@ import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
 import '../engines/records/bills.dart';
 import '../engines/records/lending_ledger.dart';
+import '../engines/records/maintenance_log.dart';
 import '../engines/records/doctor_visits.dart';
 import '../platform/bill_platform.dart';
 import '../platform/lending_platform.dart';
+import '../platform/maintenance_platform.dart';
 import '../engines/records/subscriptions.dart';
 import '../platform/subscription_platform.dart';
 import '../engines/records/warranties.dart';
@@ -415,6 +417,10 @@ void bootstrap() {
   final Bills bills = Bills(space: family, soloStore: medicineSolo, reminders: NotificationBillReminders());
   Bills.install(bills);
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => bills.reschedule()));
+  // 098: household upkeep on the family store; reminders 3 days ahead and on the day.
+  final MaintenanceLog maintenance = MaintenanceLog(space: family, soloStore: medicineSolo, reminders: NotificationUpkeepReminders());
+  MaintenanceLog.install(maintenance);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => maintenance.reschedule()));
   // 084: subscriptions; a reminder before each renewal and trial end.
   final Subscriptions subscriptions = Subscriptions(space: family, soloStore: medicineSolo, reminders: NotificationSubscriptionReminders());
   Subscriptions.install(subscriptions);

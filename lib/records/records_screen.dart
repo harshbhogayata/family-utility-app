@@ -7,6 +7,7 @@ import 'expenses/expense_screen.dart';
 import 'health_log/health_log_screen.dart';
 import 'lending/lending_screen.dart';
 import 'loans/loans_screen.dart';
+import 'maintenance/maintenance_screen.dart';
 import 'medicines/medicine_screen.dart';
 import 'occasions/occasions_screen.dart';
 import 'profile/autofill_profile_screen.dart';
@@ -175,6 +176,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Warranty end, linked bill, service number'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const WarrantiesScreen()),
+              ),
+            ),
+            // 098: AC service, water filter, pest control with next-due.
+            ListTile(
+              key: const Key('records-maintenance'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.home_repair_service_outlined),
+              title: const Text('Maintenance log'),
+              subtitle: const Text('AC service, water filter, pest control, next due'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const MaintenanceScreen()),
               ),
             ),
             // 099: where the spare key or the album is kept.
