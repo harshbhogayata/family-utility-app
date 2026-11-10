@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 60 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 9b96683
 **Depends on:** [114 One search](./114-one-search.md)
 
 ## What the person gets
 Where the spare key, warranty card or wedding album is kept.
 
 ## Acceptance criteria
-- [ ] Searchable notes with optional photo; shared with the family if chosen
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Searchable notes with optional photo; shared with the family if chosen
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
