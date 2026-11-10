@@ -28,6 +28,8 @@ import '../engines/family/member_profiles.dart';
 import '../platform/lock_platform.dart';
 import '../platform/on_device_mode_store.dart';
 import '../platform/secure_notes_platform.dart';
+import '../platform/wifi_devices_platform.dart';
+import '../engines/records/wifi_devices.dart';
 import '../platform/accessibility_store.dart';
 import '../platform/document_vault_platform.dart';
 import '../platform/location_platform.dart';
@@ -771,6 +773,10 @@ void bootstrap() {
   );
   AutofillProfileBook.install(autofill);
   unawaited(autofill.load());
+  // 097: Wi-Fi passwords and devices, encrypted with the notes key.
+  final WifiDevicesBook wifiDevices = WifiDevicesBook(keyStore: const SecureKeyStore(), blobStore: const FileWifiDevicesBlobStore());
+  WifiDevicesBook.install(wifiDevices);
+  unawaited(wifiDevices.load());
 
   final OcrTextStore ocr = OcrTextStore(FileOcrBackend(() => appFolder('search')));
   OcrTextStore.install(ocr);

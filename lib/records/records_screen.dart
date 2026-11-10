@@ -21,6 +21,7 @@ import 'templates/templates_screen.dart';
 import 'warranties/warranties_screen.dart';
 import 'loyalty_cards/loyalty_cards_screen.dart';
 import 'where_is_it/where_is_it_screen.dart';
+import 'wifi_devices/wifi_devices_screen.dart';
 import 'contacts_backup/contacts_backup_screen.dart';
 import 'vaccinations/vaccinations_screen.dart';
 import 'health_summary/health_summary_screen.dart';
@@ -201,6 +202,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('AC service, water filter, pest control, next due'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const MaintenanceScreen()),
+              ),
+            ),
+            // 097: router passwords as a Wi-Fi QR; devices with serials.
+            ListTile(
+              key: const Key('records-wifi-devices'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.router_outlined),
+              title: const Text('Wi-Fi and devices'),
+              subtitle: const Text('Wi-Fi QR for guests, serial numbers, purchase dates'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const WifiDevicesScreen()),
               ),
             ),
             // 099: where the spare key or the album is kept.
