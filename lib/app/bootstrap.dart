@@ -166,6 +166,8 @@ import '../engines/family/family_sync.dart';
 import '../engines/records/bills.dart';
 import '../engines/records/doctor_visits.dart';
 import '../platform/bill_platform.dart';
+import '../engines/records/subscriptions.dart';
+import '../platform/subscription_platform.dart';
 import '../engines/records/warranties.dart';
 import '../platform/warranty_platform.dart';
 import '../engines/records/loans.dart';
@@ -402,6 +404,10 @@ void bootstrap() {
   final Bills bills = Bills(space: family, soloStore: medicineSolo, reminders: NotificationBillReminders());
   Bills.install(bills);
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => bills.reschedule()));
+  // 084: subscriptions; a reminder before each renewal and trial end.
+  final Subscriptions subscriptions = Subscriptions(space: family, soloStore: medicineSolo, reminders: NotificationSubscriptionReminders());
+  Subscriptions.install(subscriptions);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => subscriptions.reschedule()));
   // 086: warranties; reminders a month and a week before they end.
   final Warranties warranties = Warranties(space: family, soloStore: medicineSolo, reminders: NotificationWarrantyReminders());
   Warranties.install(warranties);

@@ -14,6 +14,7 @@ import 'receipts/receipt_vault_screen.dart';
 import 'reports/reports_vault_screen.dart';
 import 'whatsapp_direct/whatsapp_direct_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
+import 'subscriptions/subscriptions_screen.dart';
 import 'warranties/warranties_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
@@ -120,6 +121,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('EMI dates, balance, what a prepayment saves'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const LoansScreen()),
+              ),
+            ),
+            // 084: subscriptions, trials ending and the yearly total.
+            ListTile(
+              key: const Key('records-subscriptions'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.subscriptions_outlined),
+              title: const Text('Subscriptions'),
+              subtitle: const Text('Renewals, free trials ending, cost per year'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const SubscriptionsScreen()),
               ),
             ),
             // 085: receipts searchable by shop, amount or text; expense and warranty links.
