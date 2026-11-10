@@ -169,7 +169,11 @@ class HealthSummary extends ChangeNotifier {
   bool get canUndo => _undo.isNotEmpty;
 
   Future<void> load() async {
-    _profile = await _store.load();
+    try {
+      _profile = await _store.load();
+    } catch (e) {
+      debugPrint('health summary load: $e');
+    }
     notifyListeners();
   }
 
