@@ -195,7 +195,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 | 093 | [Elderly care log](features/093-elderly-care-log.md) | 9. Personal records | 80 | done c625e85 |
 | 095 | [Birthdays and anniversaries](features/095-birthdays-and-anniversaries.md) | 9. Personal records | 80 | done 363b8f4 |
 | 102 | [WhatsApp direct](features/102-whatsapp-direct.md) | 9. Personal records | 80 | done 6846b78 |
-| 086 | [Warranty tracker](features/086-warranty-tracker.md) | 9. Personal records | 75 | not started |
+| 086 | [Warranty tracker](features/086-warranty-tracker.md) | 9. Personal records | 75 | done 7ba695d |
 | 090 | [Doctor visits and prescriptions](features/090-doctor-visits-and-prescriptions.md) | 9. Personal records | 75 | done 63ed1a9 |
 | 091 | [Reports vault](features/091-reports-vault.md) | 9. Personal records | 75 | done a62ca9d |
 | 084 | [Subscription tracker](features/084-subscription-tracker.md) | 9. Personal records | 64 | not started |
