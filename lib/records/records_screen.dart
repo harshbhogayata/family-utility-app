@@ -19,6 +19,7 @@ import 'warranties/warranties_screen.dart';
 import 'loyalty_cards/loyalty_cards_screen.dart';
 import 'where_is_it/where_is_it_screen.dart';
 import 'vaccinations/vaccinations_screen.dart';
+import 'health_summary/health_summary_screen.dart';
 
 /// Records tab: quick-add, due soon, Money / Health / Documents / Home.
 /// Filled in by Phase 3 features (080 onwards).
@@ -234,6 +235,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Readings, trend chart, PDF for the doctor'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const HealthLogScreen()),
+              ),
+            ),
+            // 094: one-page health summary PDF for a new doctor.
+            ListTile(
+              key: const Key('records-health-summary'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.summarize_outlined),
+              title: const Text('Health summary'),
+              subtitle: const Text('Conditions, medicines, recent readings as one PDF'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const HealthSummaryScreen()),
               ),
             ),
             // 090: doctor visits, scanned prescriptions, next appointment.

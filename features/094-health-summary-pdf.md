@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 50 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [088 Medicine reminders with pill stock](./088-medicine-reminders-with-pill-stock.md), [089 BP and sugar logs](./089-bp-and-sugar-logs.md), [091 Reports vault](./091-reports-vault.md)
 
 ## What the person gets

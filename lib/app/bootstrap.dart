@@ -172,6 +172,7 @@ import '../engines/records/warranties.dart';
 import '../engines/records/loyalty_cards.dart';
 import '../engines/records/where_is_it.dart';
 import '../engines/records/vaccinations.dart';
+import '../engines/records/health_summary.dart';
 import '../platform/vaccine_platform.dart';
 import '../platform/warranty_platform.dart';
 import '../engines/records/loans.dart';
@@ -453,6 +454,10 @@ void bootstrap() {
   // 089: BP and sugar readings in the app's own folder.
   final HealthReadings healthLog = HealthReadings(store: FileHealthReadingStore(() => appFolder('health')));
   HealthReadings.install(healthLog);
+  // 094: the health summary's own notes (name, conditions, allergies, sections).
+  final HealthSummary healthSummary = HealthSummary(store: FileHealthProfileStore(() => appFolder('health')));
+  HealthSummary.install(healthSummary);
+  unawaited(healthSummary.load());
   unawaited(healthLog.load());
 
   // 081: shared bills and settle-up, kept beside the ledger.
