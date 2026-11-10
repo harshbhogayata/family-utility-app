@@ -17,6 +17,7 @@ import 'reports/reports_vault_screen.dart';
 import 'whatsapp_direct/whatsapp_direct_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
 import 'subscriptions/subscriptions_screen.dart';
+import 'templates/templates_screen.dart';
 import 'warranties/warranties_screen.dart';
 import 'loyalty_cards/loyalty_cards_screen.dart';
 import 'where_is_it/where_is_it_screen.dart';
@@ -176,6 +177,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Warranty end, linked bill, service number'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const WarrantiesScreen()),
+              ),
+            ),
+            // 101: resume, letters, rent receipt, invoice, NOC as PDF.
+            ListTile(
+              key: const Key('records-templates'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.description_outlined),
+              title: const Text('Templates'),
+              subtitle: const Text('Resume, letters, rent receipt, invoice, NOC · English and Hindi'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const TemplatesScreen()),
               ),
             ),
             // 098: AC service, water filter, pest control with next-due.
