@@ -256,7 +256,7 @@ class _WhereIsItScreenState extends State<WhereIsItScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.file(
-                    File(photo!),
+                    File(photo),
                     height: 140,
                     fit: BoxFit.cover,
                     semanticLabel: 'Photo of where ${n.item} is kept',
