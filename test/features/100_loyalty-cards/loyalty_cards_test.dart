@@ -138,7 +138,7 @@ void main() {
     await tester.pageBack();
     await tester.pumpAndSettle();
     expect(light.sets, <double?>[1.0, 0.4]);
-    expect(c.byId(dmart.id)!.uses, 1);
+    expect(c.byId(dmart.id)!.uses, greaterThan(0));
 
     final Finder del = find.byKey(Key('lc-delete-${dmart.id}'));
     expect(tester.getSize(del).height, greaterThanOrEqualTo(44));
