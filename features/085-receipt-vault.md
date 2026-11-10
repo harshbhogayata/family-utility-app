@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 64 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [114 One search](./114-one-search.md)
 
 ## What the person gets

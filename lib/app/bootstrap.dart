@@ -165,6 +165,7 @@ import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
 import '../engines/records/doctor_visits.dart';
 import '../engines/records/elderly_care.dart';
+import '../engines/records/receipt_vault.dart';
 import '../engines/records/reports_vault.dart';
 import '../engines/records/expense_tracker.dart';
 import '../engines/records/health_readings.dart';
@@ -401,6 +402,14 @@ void bootstrap() {
   final ExpenseTracker expenses = ExpenseTracker(store: FileExpenseStore(() => appFolder('expenses')));
   ExpenseTracker.install(expenses);
   unawaited(expenses.load());
+  // 085: receipts with on-device OCR text, searchable; linked to expenses.
+  final ReceiptVault receipts = ReceiptVault(
+    store: FileReceiptStore(() => appFolder('receipts')),
+    reader: const OcrReportTextReader(MlKitTextRecognizer()),
+    expenses: expenses,
+  );
+  ReceiptVault.install(receipts);
+  unawaited(receipts.load());
 
   // 089: BP and sugar readings in the app's own folder.
   final HealthReadings healthLog = HealthReadings(store: FileHealthReadingStore(() => appFolder('health')));
@@ -726,6 +735,7 @@ void bootstrap() {
     pdfIndex,
     HistorySearchSource(history),
     RecordSearchSource(SecureNotes.instance),
+    receipts,
   ]));
 
   // 053: scans are named from their title and date, read on the phone.
