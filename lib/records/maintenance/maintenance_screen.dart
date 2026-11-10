@@ -16,7 +16,7 @@ import '../../engines/share/share_engine.dart';
 class MaintenanceScreen extends StatefulWidget {
   const MaintenanceScreen({super.key, this.log, this.call, this.share, this.save});
 
-  final MaintenanceLog? log;
+  final MaintenanceRecords? log;
 
   /// Opens the phone app; defaults to url_launcher.
   final Future<bool> Function(Uri uri)? call;
@@ -28,7 +28,7 @@ class MaintenanceScreen extends StatefulWidget {
 }
 
 class _MaintenanceScreenState extends State<MaintenanceScreen> {
-  MaintenanceLog get _m => widget.log ?? MaintenanceLog.instance;
+  MaintenanceRecords get _m => widget.log ?? MaintenanceRecords.instance;
 
   void _snack(String s) {
     if (mounted) {
@@ -120,7 +120,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   initialValue: every,
                   decoration: const InputDecoration(labelText: 'Repeats'),
                   items: <DropdownMenuItem<int>>[
-                    for (final int m in MaintenanceLog.periods) DropdownMenuItem<int>(value: m, child: Text(MaintenanceLog.periodLabel(m))),
+                    for (final int m in MaintenanceRecords.periods) DropdownMenuItem<int>(value: m, child: Text(MaintenanceRecords.periodLabel(m))),
                   ],
                   onChanged: (int? v) => set(() => every = v ?? every),
                 ),
@@ -154,7 +154,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     final UpkeepItem? i = last.text.trim().isNotEmpty && lastDone == null
         ? null
         : _m.add(name: name.text, kind: kind, everyMonths: every, lastDone: lastDone, contactName: contact.text, contactPhone: phone.text);
-    _snack(i == null ? 'Type the last service date like 05/12/2026, not in the future' : 'Added ${i.name}. Next due ${MaintenanceLog.dayLabel(i.nextDue)}');
+    _snack(i == null ? 'Type the last service date like 05/12/2026, not in the future' : 'Added ${i.name}. Next due ${MaintenanceRecords.dayLabel(i.nextDue)}');
   }
 
   Future<void> _done(UpkeepItem i) async {
@@ -187,7 +187,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     }
     final int? p = cost.text.trim().isEmpty ? null : parsePaise(cost.text);
     final bool logged = (cost.text.trim().isEmpty || p != null) && _m.markDone(i.id, paise: p, note: note.text);
-    _snack(logged ? 'Logged. Next due ${MaintenanceLog.dayLabel(_m.byId(i.id)!.nextDue)}' : 'Type the cost as a number');
+    _snack(logged ? 'Logged. Next due ${MaintenanceRecords.dayLabel(_m.byId(i.id)!.nextDue)}' : 'Type the cost as a number');
   }
 
   @override
@@ -233,7 +233,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         ? 'Overdue by ${-days} day${days == -1 ? '' : 's'}'
         : (days == 0 ? 'Due today' : (days == 1 ? 'Due tomorrow' : 'Due in $days days'));
     final String contact = <String>[i.contactName, i.contactPhone].where((String s) => s.isNotEmpty).join(' · ');
-    final int spent = MaintenanceLog.spent(i);
+    final int spent = MaintenanceRecords.spent(i);
     return Card(
       key: Key('upkeep-${i.id}'),
       margin: const EdgeInsets.symmetric(vertical: 6),
@@ -243,17 +243,17 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(i.name, style: text.titleMedium),
-            Text('${i.kind.label} · ${MaintenanceLog.periodLabel(i.everyMonths)} · next ${MaintenanceLog.dayLabel(i.nextDue)}', style: text.bodySmall),
+            Text('${i.kind.label} · ${MaintenanceRecords.periodLabel(i.everyMonths)} · next ${MaintenanceRecords.dayLabel(i.nextDue)}', style: text.bodySmall),
             Text(when, key: Key('upkeep-when-${i.id}'), style: text.bodyMedium?.copyWith(color: st == UpkeepState.overdue ? cs.error : null)),
             if (contact.isNotEmpty) Text('Service: $contact', style: text.bodySmall),
             if (i.visits.isNotEmpty) ...<Widget>[
               const SizedBox(height: 4),
               for (final ServiceVisit v in i.visits.reversed.take(3))
                 Text(
-                  'Done ${MaintenanceLog.dayLabel(v.on)}${v.paise == null ? '' : ' · ${MaintenanceLog.amountLabel(v.paise!)}'}${v.note.isEmpty ? '' : ' · ${v.note}'}',
+                  'Done ${MaintenanceRecords.dayLabel(v.on)}${v.paise == null ? '' : ' · ${MaintenanceRecords.amountLabel(v.paise!)}'}${v.note.isEmpty ? '' : ' · ${v.note}'}',
                   style: text.bodySmall,
                 ),
-              if (spent > 0) Text('Spent ${MaintenanceLog.amountLabel(spent)} in all', style: text.bodySmall),
+              if (spent > 0) Text('Spent ${MaintenanceRecords.amountLabel(spent)} in all', style: text.bodySmall),
             ],
             Wrap(
               spacing: 8,

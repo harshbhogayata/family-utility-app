@@ -19,7 +19,7 @@ class RecordingReminders implements UpkeepReminderScheduler {
   Future<void> replaceAll(List<UpkeepReminder> reminders) async => last = reminders;
 }
 
-MaintenanceLog make({UpkeepReminderScheduler? reminders}) => MaintenanceLog(
+MaintenanceRecords make({UpkeepReminderScheduler? reminders}) => MaintenanceRecords(
       space: newSpace(),
       soloStore: FamilyStore(deviceId: 'me'),
       reminders: reminders ?? const NoUpkeepReminders(),
@@ -30,7 +30,7 @@ void main() {
   group('engine', () {
     test('intervals, next due, reminders, service contact, history, undo', () async {
       final RecordingReminders rec = RecordingReminders();
-      final MaintenanceLog m = make(reminders: rec);
+      final MaintenanceRecords m = make(reminders: rec);
       expect(m.add(name: '', kind: UpkeepKind.ac, everyMonths: 5), isNull);
       expect(m.add(name: '', kind: UpkeepKind.ac, everyMonths: 3, lastDone: DateTime(2026, 2, 1)), isNull);
 
@@ -63,7 +63,7 @@ void main() {
         ('Bedroom AC is due today', DateTime(2026, 2, 1, 9)),
       ]);
       expect(rec.last[2].body, 'Due 1 Feb 2026 · call Raju. Tap to log the service.');
-      expect(rec.last.every((UpkeepReminder r) => r.payload.startsWith(MaintenanceLog.payloadPrefix)), isTrue);
+      expect(rec.last.every((UpkeepReminder r) => r.payload.startsWith(MaintenanceRecords.payloadPrefix)), isTrue);
 
       expect(m.markDone(filter.id, paise: 0), isFalse);
       expect(m.markDone(filter.id, on: DateTime(2026, 1, 25)), isFalse); // not in the future
@@ -71,7 +71,7 @@ void main() {
       final UpkeepItem f2 = m.byId(filter.id)!;
       expect(f2.nextDue, DateTime(2026, 7, 20));
       expect(f2.visits.last.note, 'new candle');
-      expect(MaintenanceLog.spent(f2), 45000);
+      expect(MaintenanceRecords.spent(f2), 45000);
       expect(m.state(f2), UpkeepState.later);
 
       // A late entry for a past service slots into the history in order.
@@ -98,11 +98,11 @@ void main() {
     test('the household sees the same list', () async {
       final FamilySpace a = newSpace();
       await a.create(familyName: 'Shahs', memberName: 'Asha');
-      MaintenanceLog(space: a, now: () => DateTime(2026, 1, 20)).add(name: 'RO', kind: UpkeepKind.waterFilter, everyMonths: 4);
+      MaintenanceRecords(space: a, now: () => DateTime(2026, 1, 20)).add(name: 'RO', kind: UpkeepKind.waterFilter, everyMonths: 4);
       final FamilySpace c = newSpace();
       await c.create(familyName: 'x', memberName: 'Ravi');
       c.store.mergeAll(a.store.allRecords);
-      final UpkeepItem i = MaintenanceLog(space: c, now: () => DateTime(2026, 1, 20)).all.single;
+      final UpkeepItem i = MaintenanceRecords(space: c, now: () => DateTime(2026, 1, 20)).all.single;
       expect((i.name, i.everyMonths, i.nextDue), ('RO', 4, DateTime(2026, 1, 20)));
     });
   });
@@ -112,7 +112,7 @@ void main() {
     tester.view.physicalSize = const Size(800, 2400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    final MaintenanceLog m = make();
+    final MaintenanceRecords m = make();
     final List<String> shared = <String>[];
     final List<Uri> calls = <Uri>[];
     await tester.pumpWidget(MaterialApp(

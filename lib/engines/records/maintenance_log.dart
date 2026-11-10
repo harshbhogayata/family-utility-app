@@ -144,8 +144,8 @@ class NoUpkeepReminders implements UpkeepReminderScheduler {
   Future<void> replaceAll(List<UpkeepReminder> reminders) async {}
 }
 
-class MaintenanceLog extends ChangeNotifier {
-  MaintenanceLog({
+class MaintenanceRecords extends ChangeNotifier {
+  MaintenanceRecords({
     FamilySpace? space,
     FamilyStore? soloStore,
     UpkeepReminderScheduler reminders = const NoUpkeepReminders(),
@@ -377,6 +377,6 @@ class MaintenanceLog extends ChangeNotifier {
     return b.toString();
   }
 
-  static MaintenanceLog instance = MaintenanceLog();
-  static void install(MaintenanceLog m) => instance = m;
+  static MaintenanceRecords instance = MaintenanceRecords();
+  static void install(MaintenanceRecords m) => instance = m;
 }

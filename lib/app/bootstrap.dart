@@ -418,8 +418,8 @@ void bootstrap() {
   Bills.install(bills);
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => bills.reschedule()));
   // 098: household upkeep on the family store; reminders 3 days ahead and on the day.
-  final MaintenanceLog maintenance = MaintenanceLog(space: family, soloStore: medicineSolo, reminders: NotificationUpkeepReminders());
-  MaintenanceLog.install(maintenance);
+  final MaintenanceRecords maintenance = MaintenanceRecords(space: family, soloStore: medicineSolo, reminders: NotificationUpkeepReminders());
+  MaintenanceRecords.install(maintenance);
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => maintenance.reschedule()));
   // 084: subscriptions; a reminder before each renewal and trial end.
   final Subscriptions subscriptions = Subscriptions(space: family, soloStore: medicineSolo, reminders: NotificationSubscriptionReminders());

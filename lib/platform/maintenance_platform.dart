@@ -37,7 +37,7 @@ class NotificationUpkeepReminders implements UpkeepReminderScheduler {
     }
     final List<PendingNotificationRequest> pending = await _plugin.pendingNotificationRequests();
     for (final PendingNotificationRequest p in pending) {
-      if (p.payload != null && p.payload!.startsWith(MaintenanceLog.payloadPrefix)) {
+      if (p.payload != null && p.payload!.startsWith(MaintenanceRecords.payloadPrefix)) {
         await _plugin.cancel(p.id);
       }
     }
