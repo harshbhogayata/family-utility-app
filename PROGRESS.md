@@ -1,14 +1,14 @@
 # Progress
 
-Done: 123 / 130  (94%)
+Done: 124 / 130  (95%)
 In progress: none
-Updated: 2026-11-10 01:42 UTC
+Updated: 2026-11-10 01:48 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 86 |
 | 2 — family layer | 20 | 20 |
-| 3 — personal records | 24 | 17 |
+| 3 — personal records | 24 | 18 |
 
 ## Done
 - 001 PDF viewer — done 1555094
@@ -101,6 +101,7 @@ Updated: 2026-11-10 01:42 UTC
 - 089 BP and sugar logs — done 63896c5
 - 090 Doctor visits and prescriptions — done 63ed1a9
 - 091 Reports vault — done a62ca9d
+- 092 Vaccination record — done a1b7f5f
 - 093 Elderly care log — done c625e85
 - 095 Birthdays and anniversaries — done 363b8f4
 - 096 Saved addresses and autofill profile — done 592f2a5

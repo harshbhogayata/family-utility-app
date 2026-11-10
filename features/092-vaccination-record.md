@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 50 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done a1b7f5f
 **Depends on:** [069 Profile per member](./069-profile-per-member.md)
 
 ## What the person gets
 Child and adult schedules with due alerts.
 
 ## Acceptance criteria
-- [ ] Preloaded Indian immunisation schedule; due reminders; certificate scans attached
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Preloaded Indian immunisation schedule; due reminders; certificate scans attached
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
