@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [085 Receipt vault](./085-receipt-vault.md)
 
 ## What the person gets

@@ -163,7 +163,9 @@ import '../engines/family/family_identity.dart';
 import '../engines/family/family_space.dart';
 import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
+import '../engines/records/bills.dart';
 import '../engines/records/doctor_visits.dart';
+import '../platform/bill_platform.dart';
 import '../engines/records/elderly_care.dart';
 import '../engines/records/receipt_vault.dart';
 import '../engines/records/reports_vault.dart';
@@ -391,6 +393,11 @@ void bootstrap() {
   );
   Occasions.install(occasions);
   unawaited(familyLoaded.then((_) => occasions.reschedule()));
+
+  // 083: bills on the family store; reminders 3 days ahead and on the day.
+  final Bills bills = Bills(space: family, soloStore: medicineSolo, reminders: NotificationBillReminders());
+  Bills.install(bills);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => bills.reschedule()));
 
   // 102: wa.me chats; recent numbers in the app's own folder.
   final WhatsAppDirect whatsapp =

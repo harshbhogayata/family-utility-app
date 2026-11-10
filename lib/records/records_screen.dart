@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'bills/bills_screen.dart';
 import 'doctor_visits/doctor_visits_screen.dart';
 import 'elderly_care/elderly_care_screen.dart';
 import 'expenses/expense_screen.dart';
@@ -93,6 +94,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Split bills, balances, settle-up reminders'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const SharedExpensesScreen()),
+              ),
+            ),
+            // 083: bills with due dates, reminders, amount history and receipts.
+            ListTile(
+              key: const Key('records-bills'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.request_quote_outlined),
+              title: const Text('Bill reminders'),
+              subtitle: const Text('Electricity, water, gas, internet, rent, society dues'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const BillsScreen()),
               ),
             ),
             // 085: receipts searchable by shop, amount or text; expense and warranty links.
