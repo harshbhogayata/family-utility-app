@@ -185,7 +185,7 @@ Work strictly in phases; inside a phase, highest score first, but never start a 
 
 | # | Feature | Section | Score | Status |
 | --- | --- | --- | --- | --- |
-| 083 | [Bill reminders](features/083-bill-reminders.md) | 9. Personal records | 125 | not started |
+| 083 | [Bill reminders](features/083-bill-reminders.md) | 9. Personal records | 125 | done 720ccf0 |
 | 088 | [Medicine reminders with pill stock](features/088-medicine-reminders-with-pill-stock.md) | 9. Personal records | 125 | done 61696fd |
 | 080 | [Expense tracker](features/080-expense-tracker.md) | 9. Personal records | 100 | done 56d4674 |
 | 096 | [Saved addresses and autofill profile](features/096-saved-addresses-and-autofill-profile.md) | 9. Personal records | 100 | done 592f2a5 |

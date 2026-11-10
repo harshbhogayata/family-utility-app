@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 125 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done 720ccf0
 **Depends on:** [085 Receipt vault](./085-receipt-vault.md)
 
 ## What the person gets
 Electricity, water, gas, internet, rent and society dues with due dates.
 
 ## Acceptance criteria
-- [ ] Recurring reminders with amount history; mark paid; attach the receipt
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Recurring reminders with amount history; mark paid; attach the receipt
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
