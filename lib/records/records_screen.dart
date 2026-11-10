@@ -18,6 +18,7 @@ import 'subscriptions/subscriptions_screen.dart';
 import 'warranties/warranties_screen.dart';
 import 'loyalty_cards/loyalty_cards_screen.dart';
 import 'where_is_it/where_is_it_screen.dart';
+import 'contacts_backup/contacts_backup_screen.dart';
 import 'vaccinations/vaccinations_screen.dart';
 import 'health_summary/health_summary_screen.dart';
 
@@ -197,6 +198,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Reminders a week ahead, gift ideas, wishes'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const OccasionsScreen()),
+              ),
+            ),
+            // 103: every contact to one .vcf with photos; restore merges.
+            ListTile(
+              key: const Key('records-contacts-backup'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.contacts_outlined),
+              title: const Text('Contacts backup'),
+              subtitle: const Text('Export a .vcf with photos, restore without duplicates'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const ContactsBackupScreen()),
               ),
             ),
             const SizedBox(height: 8),

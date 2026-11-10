@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 50 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [120 Backup and export](./120-backup-and-export.md)
 
 ## What the person gets
