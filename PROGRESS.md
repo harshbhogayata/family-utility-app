@@ -1,14 +1,14 @@
 # Progress
 
-Done: 125 / 130  (96%)
+Done: 126 / 130  (96%)
 In progress: none
-Updated: 2026-11-10 02:04 UTC
+Updated: 2026-11-10 02:13 UTC
 
 | Phase | Features | Done |
 | --- | --- | --- |
 | 1 — file chores and platform core | 86 | 86 |
 | 2 — family layer | 20 | 20 |
-| 3 — personal records | 24 | 19 |
+| 3 — personal records | 24 | 20 |
 
 ## Done
 - 001 PDF viewer — done 1555094
@@ -109,6 +109,7 @@ Updated: 2026-11-10 02:04 UTC
 - 099 Where-is-it notes — done 9b96683
 - 100 Loyalty cards — done 4acc5df
 - 102 WhatsApp direct — done 6846b78
+- 103 Contacts backup — done d715a86
 - 104 Offline first — done 12c34d3
 - 105 Paste anything — done 1516ef8
 - 106 Smart suggestions — done 196df57
