@@ -3,16 +3,16 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 64 / 125 (often × matters × reach)
-**Status:** in progress
+**Status:** done dd8eb01
 **Depends on:** [114 One search](./114-one-search.md)
 
 ## What the person gets
 Scanned receipts tagged and searchable by shop or amount.
 
 ## Acceptance criteria
-- [ ] Full-text search over OCR; link to an expense and a warranty
-- [ ] Works fully offline unless the spec says otherwise, and never uploads the user's file
-- [ ] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
+- [x] Full-text search over OCR; link to an expense and a warranty
+- [x] Works fully offline unless the spec says otherwise, and never uploads the user's file
+- [x] Passes on Android 10+ and iOS 15+; touch targets ≥ 44 px; labelled for screen readers
 
 ## Implementation notes
 - Flutter; platform channels only where Dart packages fall short.
