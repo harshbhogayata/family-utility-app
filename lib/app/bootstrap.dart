@@ -407,6 +407,8 @@ void bootstrap() {
     store: FileReceiptStore(() => appFolder('receipts')),
     reader: const OcrReportTextReader(MlKitTextRecognizer()),
     expenses: expenses,
+    // 050: a searchable scan already carries its text.
+    pdfText: (String path) => PdfLibraryIndex.instance[path]?.pages.join('\n') ?? '',
   );
   ReceiptVault.install(receipts);
   unawaited(receipts.load());

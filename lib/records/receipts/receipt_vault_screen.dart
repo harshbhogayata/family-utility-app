@@ -10,6 +10,7 @@ import '../../app/widgets/result_bar.dart';
 import '../../engines/records/expense_tracker.dart';
 import '../../engines/records/receipt_vault.dart';
 import '../../engines/share/share_engine.dart';
+import '../../tools/document_scanner/document_scanner_screen.dart';
 
 /// A receipt photo kept in the app's folder, and its bytes for OCR.
 typedef CapturedReceipt = ({String path, Uint8List bytes});
@@ -17,12 +18,15 @@ typedef CapturedReceipt = ({String path, Uint8List bytes});
 /// Feature 085 — receipts searchable by shop, amount or any word on them,
 /// linked to an expense and a warranty.
 class ReceiptVaultScreen extends StatefulWidget {
-  const ReceiptVaultScreen({super.key, this.vault, this.capture, this.share, this.save});
+  const ReceiptVaultScreen({super.key, this.vault, this.capture, this.scan, this.share, this.save});
 
   final ReceiptVault? vault;
 
   /// Takes a receipt photo; defaults to the camera.
   final Future<CapturedReceipt?> Function()? capture;
+
+  /// 050: opens the document scanner and returns the saved pages.
+  final Future<List<String>> Function()? scan;
   final Future<void> Function(String text)? share;
   final Future<String?> Function(String text, String name)? save;
 
@@ -107,7 +111,36 @@ class _ReceiptVaultScreenState extends State<ReceiptVaultScreen> {
     if (shot == null || !mounted) {
       return;
     }
-    final (String, ReceiptGuess) read = await _v.read(shot.bytes);
+    await _confirm(shot.path, await _v.read(shot.bytes));
+  }
+
+  Future<List<String>> _scanner() async {
+    final Future<List<String>> Function()? s = widget.scan;
+    if (s != null) {
+      return s();
+    }
+    final List<String>? saved = await Navigator.of(context).push<List<String>>(
+      MaterialPageRoute<List<String>>(builder: (BuildContext context) => const DocumentScannerScreen(returnResult: true)),
+    );
+    return saved ?? <String>[];
+  }
+
+  /// 050: scan with the document scanner, read amount and date on the
+  /// phone, then file it in the vault.
+  Future<void> _scanReceipt() async {
+    List<String> pages = <String>[];
+    try {
+      pages = await _scanner();
+    } catch (_) {
+      pages = <String>[];
+    }
+    if (pages.isEmpty || !mounted) {
+      return;
+    }
+    await _confirm(pages.first, await _v.readScan(pages.first));
+  }
+
+  Future<void> _confirm(String photo, (String, ReceiptGuess) read) async {
     if (!mounted) {
       return;
     }
@@ -150,7 +183,7 @@ class _ReceiptVaultScreenState extends State<ReceiptVaultScreen> {
       shop: shop.text,
       paise: amount.text.trim().isEmpty ? null : parsePaise(amount.text),
       date: parseDay(date.text),
-      photo: shot.path,
+      photo: photo,
       text: read.$1,
       tags: tags.text.split(','),
     );
@@ -192,7 +225,17 @@ class _ReceiptVaultScreenState extends State<ReceiptVaultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Receipts')),
+      appBar: AppBar(
+        title: const Text('Receipts'),
+        actions: <Widget>[
+          IconButton(
+            key: const Key('rc-scan'),
+            tooltip: 'Scan receipt',
+            onPressed: () => unawaited(_scanReceipt()),
+            icon: const Icon(Icons.document_scanner_outlined),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton.extended(
         key: const Key('rc-add'),
         onPressed: () => unawaited(_add()),

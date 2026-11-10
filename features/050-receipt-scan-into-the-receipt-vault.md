@@ -3,7 +3,7 @@
 **Section:** 5. Scan and QR
 **Phase:** 1
 **Priority score:** 36 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [047 Document scanner](./047-document-scanner.md), [008 OCR a scan](./008-ocr-a-scan.md), [085 Receipt vault](./085-receipt-vault.md)
 
 ## What the person gets

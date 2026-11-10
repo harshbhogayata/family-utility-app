@@ -150,11 +150,25 @@ class ReceiptGuess {
 }
 
 class ReceiptVault extends ChangeNotifier implements SearchSource {
-  ReceiptVault({ReceiptStore? store, ReportTextReader reader = const NoReportText(), ExpenseTracker? expenses, DateTime Function()? now})
-      : _store = store ?? MemoryReceiptStore(),
+  ReceiptVault({
+    ReceiptStore? store,
+    ReportTextReader reader = const NoReportText(),
+    ExpenseTracker? expenses,
+    DateTime Function()? now,
+    Future<Uint8List> Function(String path)? loadFile,
+    String Function(String path)? pdfText,
+  })  : _store = store ?? MemoryReceiptStore(),
         _reader = reader,
         _expenses = expenses,
-        _now = now ?? DateTime.now;
+        _now = now ?? DateTime.now,
+        _loadFile = loadFile ?? _readFile,
+        _pdfText = pdfText ?? _noText;
+
+  static Future<Uint8List> _readFile(String path) => File(path).readAsBytes();
+  static String _noText(String path) => '';
+
+  final Future<Uint8List> Function(String path) _loadFile;
+  final String Function(String path) _pdfText;
 
   final ReceiptStore _store;
   final ReportTextReader _reader;
@@ -211,6 +225,28 @@ class ReceiptVault extends ChangeNotifier implements SearchSource {
       debugPrint('receipt OCR: $e');
     }
     return (text, guess(text));
+  }
+
+  /// 050: reads a page saved by the document scanner (047). Photos go
+  /// through on-device OCR; a searchable PDF gives its own text.
+  Future<(String, ReceiptGuess)> readScan(String path) async {
+    if (path.toLowerCase().endsWith('.pdf')) {
+      String text = '';
+      try {
+        text = _pdfText(path);
+      } catch (e) {
+        debugPrint('receipt pdf text: $e');
+      }
+      return (text, guess(text));
+    }
+    final Uint8List bytes;
+    try {
+      bytes = await _loadFile(path);
+    } catch (e) {
+      debugPrint('receipt scan: $e');
+      return ('', const ReceiptGuess());
+    }
+    return read(bytes);
   }
 
   static final RegExp _money = RegExp(r'(?:₹|rs\.?|inr)?\s*(\d{1,3}(?:,\d{2,3})+(?:\.\d{1,2})?|\d+\.\d{1,2}|\d+)', caseSensitive: false);
