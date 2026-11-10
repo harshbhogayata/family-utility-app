@@ -98,7 +98,7 @@ void main() {
     await tester.enterText(find.byKey(const Key('loan-first')), '05/01/2026');
     await tester.tap(find.byKey(const Key('loan-save')));
     await tester.pumpAndSettle();
-    expect(find.text('EMI ₹12,667.58'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('loan-emi'))).data, 'EMI ₹12,667.58');
     expect(find.text('Balance today ₹984,380.70'), findsOneWidget);
     expect(find.text('Next EMI 5 Apr 2026'), findsOneWidget);
     expect(find.byKey(const Key('loan-row-1')), findsOneWidget);
