@@ -5,6 +5,7 @@ import 'doctor_visits/doctor_visits_screen.dart';
 import 'elderly_care/elderly_care_screen.dart';
 import 'expenses/expense_screen.dart';
 import 'health_log/health_log_screen.dart';
+import 'loans/loans_screen.dart';
 import 'medicines/medicine_screen.dart';
 import 'occasions/occasions_screen.dart';
 import 'profile/autofill_profile_screen.dart';
@@ -106,6 +107,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Electricity, water, gas, internet, rent, society dues'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const BillsScreen()),
+              ),
+            ),
+            // 087: loans with EMI schedule, prepayment what-if and reminders.
+            ListTile(
+              key: const Key('records-loans'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.account_balance_outlined),
+              title: const Text('Loans'),
+              subtitle: const Text('EMI dates, balance, what a prepayment saves'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const LoansScreen()),
               ),
             ),
             // 085: receipts searchable by shop, amount or text; expense and warranty links.

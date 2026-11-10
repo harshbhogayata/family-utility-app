@@ -166,6 +166,8 @@ import '../engines/family/family_sync.dart';
 import '../engines/records/bills.dart';
 import '../engines/records/doctor_visits.dart';
 import '../platform/bill_platform.dart';
+import '../engines/records/loans.dart';
+import '../platform/loan_platform.dart';
 import '../engines/records/elderly_care.dart';
 import '../engines/records/receipt_vault.dart';
 import '../engines/records/reports_vault.dart';
@@ -398,6 +400,10 @@ void bootstrap() {
   final Bills bills = Bills(space: family, soloStore: medicineSolo, reminders: NotificationBillReminders());
   Bills.install(bills);
   unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => bills.reschedule()));
+  // 087: loans; a reminder two days before each EMI and on the day.
+  final Loans loans = Loans(space: family, soloStore: medicineSolo, reminders: NotificationLoanReminders());
+  Loans.install(loans);
+  unawaited(Future.wait(<Future<void>>[medicineSolo.load(), familyLoaded]).then((_) => loans.reschedule()));
 
   // 102: wa.me chats; recent numbers in the app's own folder.
   final WhatsAppDirect whatsapp =
