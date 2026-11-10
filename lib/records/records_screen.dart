@@ -8,6 +8,7 @@ import 'medicines/medicine_screen.dart';
 import 'occasions/occasions_screen.dart';
 import 'profile/autofill_profile_screen.dart';
 import 'quick_add/quick_add_screen.dart';
+import 'reports/reports_vault_screen.dart';
 import 'whatsapp_direct/whatsapp_direct_screen.dart';
 import 'shared_expenses/shared_expenses_screen.dart';
 
@@ -141,6 +142,18 @@ class RecordsScreen extends StatelessWidget {
               subtitle: const Text('Notes, scanned prescriptions, next appointment'),
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(builder: (BuildContext context) => const DoctorVisitsScreen()),
+              ),
+            ),
+            // 091: lab reports encrypted, one value charted over time.
+            ListTile(
+              key: const Key('records-reports'),
+              contentPadding: EdgeInsets.zero,
+              minTileHeight: 56,
+              leading: const Icon(Icons.biotech_outlined),
+              title: const Text('Lab reports'),
+              subtitle: const Text('Encrypted, one value charted across reports'),
+              onTap: () => Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(builder: (BuildContext context) => const ReportsVaultScreen()),
               ),
             ),
             // 093: a care circle for a parent, shared with siblings.

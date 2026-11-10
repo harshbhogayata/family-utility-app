@@ -165,6 +165,7 @@ import '../engines/family/family_store.dart';
 import '../engines/family/family_sync.dart';
 import '../engines/records/doctor_visits.dart';
 import '../engines/records/elderly_care.dart';
+import '../engines/records/reports_vault.dart';
 import '../engines/records/expense_tracker.dart';
 import '../engines/records/health_readings.dart';
 import '../engines/records/occasions.dart';
@@ -428,6 +429,14 @@ void bootstrap() {
     space: family,
   );
   DocumentVault.install(documents);
+  // 091: lab reports encrypted on this phone; values read by on-device OCR.
+  final ReportsVault reports = ReportsVault(
+    cipher: VaultCipher(const SecureVaultKeyStore('lab_reports_key')),
+    blobs: FileDocumentBlobStore(() => appFolder('lab_reports')),
+    reader: const OcrReportTextReader(MlKitTextRecognizer()),
+  );
+  ReportsVault.install(reports);
+  unawaited(reports.load());
   // 076: live location on the family store; the 7-day trail stays here.
   final FamilyLocation location = FamilyLocation(
     space: family,

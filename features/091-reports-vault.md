@@ -3,7 +3,7 @@
 **Section:** 9. Personal records
 **Phase:** 3
 **Priority score:** 75 / 125 (often × matters × reach)
-**Status:** not started
+**Status:** in progress
 **Depends on:** [056 Private vault](./056-private-vault.md), [008 OCR a scan](./008-ocr-a-scan.md)
 
 ## What the person gets
